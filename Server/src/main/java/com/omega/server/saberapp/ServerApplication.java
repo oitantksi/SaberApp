@@ -1,4 +1,4 @@
-package com.omega.server;
+package com.omega.server.saberapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.omega.server;
+package com.omega.server.saberapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
