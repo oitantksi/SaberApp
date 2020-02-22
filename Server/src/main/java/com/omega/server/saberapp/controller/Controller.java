@@ -3,12 +3,15 @@ package com.omega.server.saberapp.controller;
 
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.omega.server.saberapp.entity.User;
 import com.omega.server.saberapp.service.SaberAppService;
 
 @RestController
@@ -24,16 +27,20 @@ public class Controller {
 	}
 	
 	@GetMapping("/user/{user}")
-	public String getUser(@PathVariable("user") String user) {
+	public User getUser(@PathVariable("user") String user) {
 		
-		return service.getUser(user).toString();
+		User userObject=service.getUser(user);
+		return userObject;
 		
 	}
 	
 	@GetMapping("/user/id/{id}")
-	public String getUserBy(@PathVariable("id") Long id) {
+	public User getUserBy(@PathVariable("id") Long id) {
 		
-		return service.getUserById(id).toString();
+		Optional<User> user=service.getUserById(id);
+		
+		
+		return user.get();
 		
 	}
 }
