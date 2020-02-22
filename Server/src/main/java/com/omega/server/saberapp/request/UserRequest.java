@@ -1,44 +1,21 @@
-package com.omega.server.consumer.dto;
+package com.omega.server.saberapp.request;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+public class UserRequest {
 
-public class UserDto {
-
-
-	Long id;
-	
-	@NotEmpty(message = "Name must not be empty")
 	String name;
-	
-	@NotEmpty(message = "Cognom must not be empty")
 	String cognom;
-	
-//	@NotEmpty(message = "{email.notempty}")
-//    @Email(message = "Email must be a valid email address")
 	String email;
-	
-	@NotEmpty(message = "Nickname must not be empty")
 	String nickname;
-	
-	@NotEmpty(message = "Password must not be empty")
 	String password;
-	
-	@NotEmpty(message = "Center must not be empty")
 	String center;
-	
-//	@NotNull(message = "Rol must not be empty")
 	Character rol;
 
-	public UserDto() {
-		
+	public UserRequest() {
 	}
 
-	public UserDto(Long id, String name, String cognom, String email, String nickname, String password, String center,
+	public UserRequest(String name, String cognom, String email, String nickname, String password, String center,
 			Character rol) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.cognom = cognom;
 		this.email = email;
@@ -88,14 +65,6 @@ public class UserDto {
 		this.rol = rol;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -114,8 +83,9 @@ public class UserDto {
 
 	@Override
 	public String toString() {
-		return "UserDto [id=" + id + ", name=" + name +", cognom=" + cognom + ", email=" + email + ", nickname=" + nickname+
+		return "User [name=" + name +", cognom=" + cognom + ", email=" + email + ", nickname=" + nickname+
 				", password=" + password + ", center=" + center+", rol=" + rol  +"]";
 	}
 
 }
+
