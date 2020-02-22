@@ -15,11 +15,11 @@ public class UserDto {
 	@NotEmpty(message = "Cognom must not be empty")
 	String cognom;
 	
-//	@NotEmpty(message = "{email.notempty}")
-//    @Email(message = "Email must be a valid email address")
+	@NotEmpty(message = "{email.notempty}")
+    @Email(message = "{email.notvalid}")
 	String email;
 	
-	@NotEmpty(message = "Nickname must not be empty")
+	@NotEmpty(message = "{email.notempty}")
 	String nickname;
 	
 	@NotEmpty(message = "Password must not be empty")

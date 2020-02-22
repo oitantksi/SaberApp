@@ -50,7 +50,7 @@ public class Controller {
 	}
 	
 	@PostMapping(path = "/user", consumes = "application/json", produces = "application/json")
-	public User postUser( @RequestBody UserDto request) {
+	public User postUser( @Valid @RequestBody UserDto request) {
 		
 		
 		User user=new User(request.getName(), 
