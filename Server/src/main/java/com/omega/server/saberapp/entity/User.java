@@ -13,7 +13,11 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="users")
-
+/**
+ * 
+ * @author Ramon
+ *Clase que mapea la tabla de usuarios de base de datos
+ */
 public class User implements Serializable{
 
 	/**

@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.omega.server.consumer.dto.UserDto;
 import com.omega.server.saberapp.entity.User;
 import com.omega.server.saberapp.service.SaberAppServiceI;
-
+/**
+ * 
+ * @author Ramon
+ *Controlador, recibe las peticiones que llegan, llama a un service para resoverla y la devuelve.
+ */
 @RestController
 public class Controller {
 	

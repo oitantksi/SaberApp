@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 import com.omega.server.saberapp.entity.User;
 import com.omega.server.saberapp.persistence.repository.UserRepository;
 import com.omega.server.saberapp.service.SaberAppServiceI;
-
+/**
+ * 
+ * @author Ramon
+ *Lleva a cabo las acciones que se dan en la base de datos de la aplicación
+ */
 @Service
 public class SaberAppServiceImpl implements SaberAppServiceI{
 

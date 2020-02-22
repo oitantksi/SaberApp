@@ -1,5 +1,5 @@
 package com.omega.server.saberapp.request;
-
+//TO-DO no es necesaria, hay que ver como generar response entities
 public class UserRequest {
 
 	String name;
