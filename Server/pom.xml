@@ -17,6 +17,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<jwt.version>0.7.0</jwt.version>
 	</properties>
 
 	<dependencies>
@@ -29,6 +30,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -63,6 +68,13 @@
 			<groupId>com.omega.server</groupId>
 			<artifactId>consumer</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- JWT -->
+		<!-- Se usa para obtener el bearer token que da acceso a los recursos tras hacer login -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${jwt.version}</version>
 		</dependency>
 	</dependencies>
 

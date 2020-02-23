@@ -18,5 +18,5 @@ public interface UserRepository extends CrudRepository<User, Long>//
 
 	User findByName(String name);
 	List<User> findAll();
-
+	User findByNickname(String nickname);
 }

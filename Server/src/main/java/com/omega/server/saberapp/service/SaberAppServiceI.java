@@ -16,5 +16,7 @@ public interface SaberAppServiceI {
 	public User getUser(String name);
 	public Optional<User> getUserById(Long id);
 	public User createUser(User user);
+	public String login(String nickname, String password);
+	
 
 }
