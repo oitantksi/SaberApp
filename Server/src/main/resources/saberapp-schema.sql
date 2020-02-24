@@ -6,8 +6,22 @@ CREATE TABLE users (
   cognom VARCHAR(50),
   nickname VARCHAR UNIQUE,
   password VARCHAR,
-  email  VARCHAR(50),
+  email  VARCHAR(50)UNIQUE,
   center VARCHAR,
   rol CHAR
   
 );
+
+CREATE TABLE centres (
+	id INTEGER auto_increment  PRIMARY KEY,
+	name VARCHAR(50)
+);
+
+CREATE TABLE curses (
+	 curso INTEGER PRIMARY KEY
+);
+
+CREATE TABLE materies (
+	id INTEGER auto_increment  PRIMARY KEY,
+	materia VARCHAR(50)
+)

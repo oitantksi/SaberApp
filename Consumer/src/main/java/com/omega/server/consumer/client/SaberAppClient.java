@@ -3,6 +3,12 @@ package com.omega.server.consumer.client;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -14,59 +20,138 @@ public class SaberAppClient {
 	public static void main(String[]args) {
 		SaberAppClient saberAppClient=new SaberAppClient();
 		
+		System.out.println("Calling get for login...");
+		String token=saberAppClient.login("server", "omega");
+		System.out.println(saberAppClient.login("server", "omega"));
+		
 		System.out.println("Calling get for helloworld...");
-		System.out.println(saberAppClient.helloworl("Omega"));
+		System.out.println(saberAppClient.helloworld("Omega",token).toString());
 		
 		System.out.println("Calling get for user...by id");
-		UserDto user=saberAppClient.getUserById(Long.parseLong("1"));
+		UserDto user=saberAppClient.getUserById(Long.parseLong("1"), token);
 		System.out.println(user.toString());
-		
+	
 		System.out.println("Calling get for user...by name");
-		user=saberAppClient.getUserByName("montse");
+		user=saberAppClient.getUserByName("montse", token);
 		System.out.println(user.toString());
 		
 		
 		
 	}
-	public SaberAppClient(){
+
+
+
+	public String login(String usuario, String password) {
 		
-		
+		 final String uri = "http://localhost:8080/login";
+		    RestTemplate restTemplate = new RestTemplate();
+		    // Add the Jackson message converter
+		    restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+		    // create request body
+		    
+		    String input = "{\"nickname\":\""+usuario+ "\",\"password\":\""+password+"\"}";
+
+
+		    // set headers
+		    HttpHeaders headers = new HttpHeaders();
+		    headers.setContentType(MediaType.APPLICATION_JSON);
+		    headers.set("Authorization", "Basic " + "xxxxxxxxxxxx");
+		    HttpEntity<String> entity = new HttpEntity<String>(input, headers);
+
+		    // send request and parse result
+		    ResponseEntity<String> response = restTemplate
+		            .exchange(uri, HttpMethod.POST, entity, String.class);
+		    
+		    return response.getHeaders().getFirst("Authorization");
 	}
-	public String helloworl(String name) {
+	
+	
+	public ResponseEntity<String> helloworld(String name, String token) {
 		String uri="http://localhost:8080/helloworld";
 		UriComponentsBuilder uriComp=UriComponentsBuilder.fromHttpUrl(uri).queryParam("name", name);
 		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    headers.set("Authorization", token);
+	   
+	    HttpEntity<String> entity = new HttpEntity<String>(headers);
+	    ResponseEntity<String> response = restTemplate
+	            .exchange(uriComp.toUriString(), HttpMethod.GET, entity, String.class);
 		
-		return restTemplate.getForObject(uriComp.toUriString(),String.class);
-		
-		
-		
-		
+		return response;
+
 	}
 	
-	public UserDto getUserById(Long id) {
+	public UserDto getUserById(Long id, String token) {
 		String uri="http://localhost:8080/user/id/{id}";
 
 	    RestTemplate restTemplate = new RestTemplate();
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    headers.set("Authorization", token);
+	    
 		Map<String, Long> params = new HashMap<String, Long>();
 	    params.put("id", id);
-		UserDto userDto = restTemplate.getForObject(uri, UserDto.class, params);
+		HttpEntity<UserDto> entity = new HttpEntity<UserDto>(headers);
+		ResponseEntity<UserDto> response = restTemplate
+		            .exchange(uri, HttpMethod.GET, entity, UserDto.class,params);
+			
+			
+		return response.getBody();
 		
-		return userDto;
 		
 		
 	}
-	public UserDto getUserByName(String name) {
+	public UserDto getUserByName(String name, String token) {
 		String uri="http://localhost:8080/user/{user}";
 	    RestTemplate restTemplate = new RestTemplate();
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    headers.set("Authorization", token);
 		Map<String, String> params = new HashMap<String, String>();
 	    params.put("user", name);
-		UserDto userDto = restTemplate.getForObject(uri,UserDto.class, params);
 		
-		return userDto;
+	    HttpEntity<UserDto> entity = new HttpEntity<UserDto>(headers);
+		ResponseEntity<UserDto> response = restTemplate
+		            .exchange(uri, HttpMethod.GET, entity, UserDto.class,params);
+			
+			
+		return response.getBody();
 		
 		
 		
 		
 	}
+	public class Login {
+	    String password;
+	    String nickname;
+	    
+	    public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+		public String getNickname() {
+			return nickname;
+		}
+
+		public void setNickname(String nickname) {
+			this.nickname = nickname;
+		}
+
+		public Login(String password, String nickname ) {
+	    	this.password=password;
+	    	this.nickname=nickname;
+	    	
+	    }
+	    @Override
+	    public String toString() {
+	    	return "{\"nickname\":\""+nickname+"\",\"password\":\""+password+"\"}";
+	    }
+	    
+	  }
+	
 }
