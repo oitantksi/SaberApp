@@ -13,8 +13,7 @@ import com.omega.server.saberapp.entity.User;
  * @author Ramon
  *Repositorio de usuarios.
  */
-public interface UserRepository extends CrudRepository<User, Long>//
-{
+public interface UserRepository extends CrudRepository<User, Long>{
 
 	User findByName(String name);
 	List<User> findAll();

@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * 
  * @author Ramon
- *Arranca la aplicación, levanta una base de datos embebida que no será persistente si no se 
- *configura adecuadamente.
+ *Arranca la aplicación, levanta una base de datos embebida que <br>no será persistente si no se 
+ *configura adecuadamente</br>.
  */
 
 @SpringBootApplication
