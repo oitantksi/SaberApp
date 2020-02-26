@@ -43,9 +43,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.cors().and()
 			.csrf().disable()
 			.authorizeRequests().antMatchers(HttpMethod.POST, Constants.LOGIN_URL).permitAll()
+			.antMatchers("/h2-console/**").permitAll()
 			.anyRequest().authenticated().and()
 				.addFilter(new JWTAuthenticationFilter(authenticationManager()))
 				.addFilter(new JWTAuthorizationFilter(authenticationManager()));
+		httpSecurity.headers().frameOptions().disable();
 	}
 
 	@Override

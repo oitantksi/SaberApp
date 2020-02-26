@@ -24,7 +24,6 @@ public class Materia implements Serializable {
 	private static final long serialVersionUID = -3685040136903431502L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	
 	Long id;
 	@NotEmpty(message="La materia tiene que tener un  nombre")
 	@Column(name="materia")

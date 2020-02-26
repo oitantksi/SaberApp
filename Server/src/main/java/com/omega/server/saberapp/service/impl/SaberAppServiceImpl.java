@@ -24,7 +24,7 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 
 	 @Autowired
 	 private UserRepository userRepository;
-	 
+	 @Autowired
 	 private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Override
@@ -55,13 +55,12 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		com.omega.server.saberapp.entity.User usuarioEntity = userRepository.findByNickname(nickname);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		com.omega.server.saberapp.entity.User usuarioEntity = userRepository.findByEmail(email);
 		if (usuarioEntity == null) {
-			throw new UsernameNotFoundException(nickname);
+			throw new UsernameNotFoundException(email);
 		}
-		return new org.springframework.security.core.userdetails.User(usuarioEntity.getNickname(), usuarioEntity.getPassword(), emptyList());
+		return new org.springframework.security.core.userdetails.User(usuarioEntity.getEmail(), usuarioEntity.getPassword(), emptyList());
 	}
 	
 	

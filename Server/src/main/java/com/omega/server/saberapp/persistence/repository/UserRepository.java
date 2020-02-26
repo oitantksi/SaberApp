@@ -16,6 +16,7 @@ import com.omega.server.saberapp.entity.User;
 public interface UserRepository extends CrudRepository<User, Long>{
 
 	User findByName(String name);
+	User findByEmail(String mail);
 	List<User> findAll();
 	User findByNickname(String nickname);
 }

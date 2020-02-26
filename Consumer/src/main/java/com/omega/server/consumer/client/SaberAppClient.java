@@ -11,9 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import com.omega.server.consumer.dto.UserDto;
-
+/**
+ * 
+ * @author Ramon
+ *Se utilizó para pruebas iniciales de comunicación 
+ *ahora sustituida por interfaces GestionAlumnos, GestionProfesores y LoginRegistro
+ */
+@Deprecated 
 public class SaberAppClient {
 
 	
@@ -21,8 +26,8 @@ public class SaberAppClient {
 		SaberAppClient saberAppClient=new SaberAppClient();
 		
 		System.out.println("Calling get for login...");
-		String token=saberAppClient.login("server", "omega");
-		System.out.println(saberAppClient.login("server", "omega"));
+		String token=saberAppClient.login("ramon@omega.com", "omega");
+		System.out.println(saberAppClient.login("ramon@omega.com", "omega"));
 		
 		System.out.println("Calling get for helloworld...");
 		System.out.println(saberAppClient.helloworld("Omega",token).toString());
@@ -49,7 +54,7 @@ public class SaberAppClient {
 		    restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 		    // create request body
 		    
-		    String input = "{\"nickname\":\""+usuario+ "\",\"password\":\""+password+"\"}";
+		    String input = "{\"email\":\""+usuario+ "\",\"password\":\""+password+"\"}";
 
 
 		    // set headers
@@ -116,42 +121,8 @@ public class SaberAppClient {
 		            .exchange(uri, HttpMethod.GET, entity, UserDto.class,params);
 			
 			
-		return response.getBody();
-		
-		
-		
-		
+		return response.getBody();	
 	}
-	public class Login {
-	    String password;
-	    String nickname;
-	    
-	    public String getPassword() {
-			return password;
-		}
 
-		public void setPassword(String password) {
-			this.password = password;
-		}
-
-		public String getNickname() {
-			return nickname;
-		}
-
-		public void setNickname(String nickname) {
-			this.nickname = nickname;
-		}
-
-		public Login(String password, String nickname ) {
-	    	this.password=password;
-	    	this.nickname=nickname;
-	    	
-	    }
-	    @Override
-	    public String toString() {
-	    	return "{\"nickname\":\""+nickname+"\",\"password\":\""+password+"\"}";
-	    }
-	    
-	  }
 	
 }

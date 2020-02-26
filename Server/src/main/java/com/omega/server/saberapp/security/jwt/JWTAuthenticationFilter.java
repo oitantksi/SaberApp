@@ -41,7 +41,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			com.omega.server.saberapp.entity.User credenciales = new ObjectMapper().readValue(request.getInputStream(), com.omega.server.saberapp.entity.User.class);
 			
 			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-					credenciales.getNickname(), credenciales.getPassword(), new ArrayList<>()));
+					credenciales.getEmail(), credenciales.getPassword(), new ArrayList<>()));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
