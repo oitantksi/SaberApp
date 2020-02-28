@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="omega.isaacbenito.saberapp.authentication.RegisterViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/register_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/user_name_hint"
+            android:inputType="text"
+            android:padding="@dimen/editText_padding"
+            app:layout_constraintBottom_toTopOf="@id/surname"
+            app:layout_constraintTop_toTopOf="@id/register_layout"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:layout_editor_absoluteX="17dp" />
+
+        <EditText
+            android:id="@+id/surname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:hint="@string/user_surname_hint"
+            android:inputType="text"
+            android:padding="@dimen/editText_padding"
+            app:layout_constraintBottom_toTopOf="@id/accountMail"
+            app:layout_constraintTop_toBottomOf="@id/name" />
+
+        <EditText
+            android:id="@+id/accountMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:hint="@string/user_email_hint"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/editText_padding"
+            app:layout_constraintBottom_toTopOf="@id/accountPassword"
+            app:layout_constraintTop_toBottomOf="@id/surname" />
+
+        <EditText
+            android:id="@+id/accountPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:hint="@string/user_password_hint"
+            android:inputType="textPassword"
+            android:padding="@dimen/editText_padding"
+            app:layout_constraintBottom_toTopOf="@id/accountPassword_repeat"
+            app:layout_constraintTop_toBottomOf="@id/accountMail" />
+
+        <EditText
+            android:id="@+id/accountPassword_repeat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:hint="@string/user_password_repeat_hint"
+            android:inputType="textPassword"
+            android:padding="@dimen/editText_padding"
+            app:layout_constraintBottom_toTopOf="@id/submit"
+            app:layout_constraintTop_toBottomOf="@id/accountPassword" />
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:padding="@dimen/editText_padding"
+            android:text="@string/user_signUp"
+            app:layout_constraintBottom_toTopOf="@id/alreadyMember"
+            app:layout_constraintTop_toBottomOf="@id/accountPassword_repeat" />
+
+        <TextView
+            android:id="@+id/alreadyMember"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:gravity="center"
+            android:text="@string/already_member"
+            app:layout_constraintBottom_toBottomOf="@id/register_layout"
+            app:layout_constraintTop_toBottomOf="@id/submit"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

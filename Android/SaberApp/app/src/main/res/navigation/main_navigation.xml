@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_root"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/tittleFragment"
+        android:name="omega.isaacbenito.saberapp.TittleFragment"
+        android:label="TittleFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="omega.isaacbenito.saberapp.authentication.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="omega.isaacbenito.saberapp.authentication.RegisterFragment"
+        android:label="RegisterFragment" >
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+</navigation>

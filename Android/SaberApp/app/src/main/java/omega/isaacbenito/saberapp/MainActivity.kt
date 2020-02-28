@@ -11,7 +11,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import omega.isaacbenito.saberapp.authentication.AuthenticatorActivity
 import omega.isaacbenito.saberapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -28,16 +27,11 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "launched")
 
-        val intent = Intent(this, AuthenticatorActivity::class.java)
-        startActivity(intent)
-
-        Log.d(TAG, "started intent")
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         drawerLayout = binding.drawerLayout
 
-        val navController = this.findNavController(R.id.myNavHostFragment)
+        val navController = this.findNavController(R.id.mainNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
 
@@ -57,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = this.findNavController(R.id.myNavHostFragment)
+        val navController = this.findNavController(R.id.mainNavHostFragment)
         return NavigationUI.navigateUp(navController, appBarConfiguration)
     }
 }
