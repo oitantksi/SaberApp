@@ -14,7 +14,7 @@ class TittleFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_tittle, container)
+        return inflater.inflate(R.layout.fragment_tittle, container, false)
 
     }
 }

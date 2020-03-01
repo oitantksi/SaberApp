@@ -12,6 +12,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import com.omega.server.consumer.dto.UserDto;
+import com.sun.tools.sjavac.Log;
 /**
  * 
  * @author Ramon
@@ -66,6 +67,8 @@ public class SaberAppClient {
 		    // send request and parse result
 		    ResponseEntity<String> response = restTemplate
 		            .exchange(uri, HttpMethod.POST, entity, String.class);
+                    
+                    System.out.println("\nRESPONSE:\n" + response);
 		    
 		    return response.getHeaders().getFirst("Authorization");
 	}
