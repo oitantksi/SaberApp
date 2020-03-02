@@ -4,12 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_root"
-    app:startDestination="@id/tittleFragment">
+    app:startDestination="@id/loginFragment">
 
-    <fragment
-        android:id="@+id/tittleFragment"
-        android:name="omega.isaacbenito.saberapp.TittleFragment"
-        android:label="TittleFragment" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="omega.isaacbenito.saberapp.authentication.LoginFragment"
