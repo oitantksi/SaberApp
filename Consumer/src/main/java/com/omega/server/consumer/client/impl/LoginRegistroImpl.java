@@ -6,12 +6,14 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.omega.server.consumer.client.LoginRegistroI;
 import com.omega.server.consumer.dto.UserDto;
 
+@Service
 public class LoginRegistroImpl implements LoginRegistroI{
 
 	public LoginRegistroImpl() {
@@ -49,8 +51,8 @@ public class LoginRegistroImpl implements LoginRegistroI{
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    HttpEntity<UserDto> entity = new HttpEntity<UserDto>(datosUsuario, headers);
-	    String token=login("master@omega.com", "omega");
-	    headers.set("Authorization", token);
+//	    String token=login("master@omega.com", "omega");
+//	    headers.set("Authorization", token);
 	    // send request and parse result
 	    ResponseEntity<UserDto> response = restTemplate
 	            .exchange(uri, HttpMethod.POST, entity, UserDto.class);
