@@ -1,4 +1,4 @@
-package omega.isaacbenito.saberapp.authentication
+package omega.isaacbenito.saberapp.authentication.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import kotlinx.android.synthetic.main.fragment_login.*
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.databinding.FragmentLoginBinding
 
