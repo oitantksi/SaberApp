@@ -1,16 +1,18 @@
-package omega.isaacbenito.saberapp.authentication
+package omega.isaacbenito.saberapp.authentication.login
 
 import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import omega.isaacbenito.saberapp.authentication.AuthenticatorActivity
 
 class LoginViewModel : ViewModel() {
 
     val TAG = this.javaClass.name
 
-    val authenticator = AuthenticatorActivity()
+    val authenticator =
+        AuthenticatorActivity()
 
     private val _newUser = MutableLiveData<Boolean>()
     val newUser : LiveData<Boolean>

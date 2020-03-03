@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="omega.isaacbenito.saberapp.authentication.RegisterViewModel" />
+            type="omega.isaacbenito.saberapp.authentication.registration.RegDataViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
