@@ -1,5 +1,9 @@
 package com.omega.server.consumer.client;
 
-public interface GestionAlumnosI {
+import com.omega.server.consumer.dto.UserDto;
 
+public interface GestionAlumnosI {
+	public UserDto findAlumnoByEmail(String email, String token);
+	
+	
 }

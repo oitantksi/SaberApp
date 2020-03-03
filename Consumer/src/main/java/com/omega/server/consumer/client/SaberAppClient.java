@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import com.omega.server.consumer.dto.UserDto;
-import com.sun.tools.sjavac.Log;
 /**
  * 
  * @author Ramon

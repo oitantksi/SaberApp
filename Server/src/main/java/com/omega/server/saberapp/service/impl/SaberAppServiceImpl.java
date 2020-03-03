@@ -32,6 +32,11 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 		
 		return userRepository.findByName(name);
 	}
+	@Override
+	public User getUserByEmail(String email) {
+		return userRepository.findByEmail(email);
+		
+	}
 	
 	@Override
 	public Optional<User> getUserById(Long id) {
@@ -54,6 +59,8 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 		return null;
 	}
 
+	
+	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		com.omega.server.saberapp.entity.User usuarioEntity = userRepository.findByEmail(email);

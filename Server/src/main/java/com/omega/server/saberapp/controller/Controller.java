@@ -53,6 +53,15 @@ public class Controller {
 		
 	}
 	
+	@GetMapping("/user/email/{email}")        
+	public User getUserBy(@PathVariable("email") String email) {
+		
+		User user=service.getUserByEmail(email);
+		
+		return user;
+		
+	}
+	
 	@PostMapping(path = "/user", consumes = "application/json", produces = "application/json")
 	public User postUser( @Valid @RequestBody UserDto request) {
 		
