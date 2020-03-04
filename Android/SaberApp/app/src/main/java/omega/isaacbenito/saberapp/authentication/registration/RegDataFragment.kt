@@ -1,5 +1,6 @@
 package omega.isaacbenito.saberapp.authentication.registration
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.databinding.FragmentRegisterBinding
+import javax.inject.Inject
 
 class RegDataFragment : Fragment() {
 
@@ -18,14 +20,11 @@ class RegDataFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
 
-    private lateinit var regDataViewModel: RegDataViewModel
-    private lateinit var registrationViewModel: RegistrationViewModel
+    @Inject lateinit var regDataViewModel: RegDataViewModel
+    @Inject lateinit var registrationViewModel: RegistrationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        regDataViewModel = ViewModelProviders.of(this).get(RegDataViewModel::class.java)
-        registrationViewModel = ViewModelProviders.of(this).get(RegistrationViewModel::class.java)
 
         regDataViewModel.alreadyMember.observe(this, Observer { if(it) navigateToLogin() })
 
@@ -73,6 +72,12 @@ class RegDataFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (activity as RegistrationActivity).registrationComponent.inject(this)
     }
 
     fun navigateToLogin() {

@@ -3,6 +3,7 @@
     package="omega.isaacbenito.saberapp">
 
     <application
+        android:name=".SaberApp"
         android:allowBackup="true"
         android:icon="@drawable/applogo"
         android:label="@string/app_name"

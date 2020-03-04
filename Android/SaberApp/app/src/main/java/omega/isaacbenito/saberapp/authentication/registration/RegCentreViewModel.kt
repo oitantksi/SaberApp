@@ -1,4 +1,6 @@
 package omega.isaacbenito.saberapp.authentication.registration
 
-class RegCentreViewModel {
+import javax.inject.Inject
+
+class RegCentreViewModel @Inject constructor() {
 }

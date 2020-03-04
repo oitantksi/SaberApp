@@ -1,52 +1,42 @@
 package omega.isaacbenito.saberapp.authentication.login
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import omega.isaacbenito.saberapp.R
+import omega.isaacbenito.saberapp.SaberApp
 import omega.isaacbenito.saberapp.databinding.FragmentLoginBinding
+import javax.inject.Inject
 
-class LoginFragment() : Fragment() {
+class LoginActivity() : AppCompatActivity() {
 
     val TAG = this.javaClass.name.toString()
 
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var viewModel: LoginViewModel
+
+    @Inject lateinit var viewModel: LoginViewModel
 
     private lateinit var user: TextView
     private lateinit var password: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as SaberApp).appComponent.loginComponent().create().inject(this)
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-
-        viewModel.newUser.observe(this, Observer { if(it) navigateToRegister() })
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        binding = DataBindingUtil.setContentView(this, R.layout.fragment_login)
 
         user = binding.accountMail
         password = binding.accountPassword
 
         binding.submit.setOnClickListener { login() }
 
-        binding.newUser.setOnClickListener { navigateToRegister() }
+        binding.newUser.setOnClickListener { viewModel.newUser }
 
-        return binding.root
+        viewModel.newUser.observe(this, Observer { if(it) navigateToRegister() })
     }
 
     private fun navigateToRegister() {
@@ -55,5 +45,15 @@ class LoginFragment() : Fragment() {
 
     private fun login() {
         viewModel.login(user.text.toString(), password.text.toString())
+            .observe(this, Observer {  loginState ->
+                when(loginState) {
+//                    LoginSuccess -> navigate to user screen
+//                    LoginError -> show error
+                }
+            })
     }
 }
+
+sealed class LoginState
+object LoginSuccess : LoginState()
+object LoginError : LoginState()

@@ -7,20 +7,27 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import omega.isaacbenito.saberapp.R
+import omega.isaacbenito.saberapp.SaberApp
 import omega.isaacbenito.saberapp.databinding.ActivityRegistrationBinding
+import omega.isaacbenito.saberapp.di.RegistrationComponent
+import javax.inject.Inject
 
 class RegistrationActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityRegistrationBinding
 
-    lateinit var registrationViewModel: RegistrationViewModel
+    @Inject lateinit var registrationViewModel: RegistrationViewModel
+
+    lateinit var registrationComponent: RegistrationComponent
 
     lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        registrationComponent = (application as SaberApp).appComponent
+            .registrationComponent().create()
+        registrationComponent.inject(this)
 
-        registrationViewModel = RegistrationViewModel()
+        super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_registration)
 

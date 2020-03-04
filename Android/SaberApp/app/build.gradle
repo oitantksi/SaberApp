@@ -53,35 +53,26 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    // AppCompat
     implementation 'androidx.appcompat:appcompat:1.1.0'
-
-
-    // Core
     implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
 
     // Constraint Layout
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
-    // JUnit
+    // Tests
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0'
-
-    implementation 'androidx.annotation:annotation:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    /*
-        ViewModel & LiveData
-     */
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    /*
-        ROOM DATABASE
-     */
+    // ViewModel & LiveData
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    // ROOM DATABASE
+    def room_version = "2.2.4"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     // RoomDatabase - Kotlin Extensions and Coroutines support for Room
@@ -89,23 +80,22 @@ dependencies {
     // RoomDatabase - Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
 
-    /*
-        NAVIGATION
-     */
-    // Kotlin implementation
+    // NAVIGATION
+    def navigation_version = "2.2.1"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
-    /*
-        RETROFIT 2
-     */
+    // RETROFIT 2
+    def retrofit_version = "2.6.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    // Gson converter
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    // Loggin interceptor
+    implementation "com.squareup.okhttp3:logging-interceptor:3.14.0"
 
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
+    // DAGGER 2
+    def dagger_version = "2.25.2"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
-    /*
-        Rx Android
-     */
-    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
 }

@@ -1,12 +1,12 @@
-package omega.isaacbenito.saberapp.database
+package omega.isaacbenito.saberapp.storage.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import omega.isaacbenito.saberapp.database.dao.UserDao
-import omega.isaacbenito.saberapp.database.entities.User
+import omega.isaacbenito.saberapp.storage.database.dao.UserDao
+import omega.isaacbenito.saberapp.storage.database.entities.User
 
 @Database(entities = [User::class], version = 1)
 abstract class SaberAppDatabase : RoomDatabase() {

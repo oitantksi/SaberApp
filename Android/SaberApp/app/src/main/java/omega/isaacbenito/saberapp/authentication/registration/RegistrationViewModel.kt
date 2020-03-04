@@ -1,8 +1,9 @@
 package omega.isaacbenito.saberapp.authentication.registration
 
 import androidx.lifecycle.ViewModel
+import javax.inject.Inject
 
-class RegistrationViewModel : ViewModel() {
+class RegistrationViewModel @Inject constructor() : ViewModel() {
 
     private var user_name: String? = null
     private var user_surname: String? = null

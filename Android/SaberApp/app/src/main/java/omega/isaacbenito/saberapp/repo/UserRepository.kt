@@ -1,6 +1,6 @@
 package omega.isaacbenito.saberapp.repo
 
-import omega.isaacbenito.saberapp.database.dao.UserDao
+import omega.isaacbenito.saberapp.storage.database.dao.UserDao
 import java.util.concurrent.Executor
 
 class UserRepository (

@@ -8,6 +8,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import omega.isaacbenito.saberapp.authentication.login.LoginActivity
+import javax.inject.Inject
 
 
 class AccountAuthenticator(context: Context) : AbstractAccountAuthenticator(context) {
@@ -16,7 +18,7 @@ class AccountAuthenticator(context: Context) : AbstractAccountAuthenticator(cont
 
     val context = context
 
-    private lateinit var server: ServerAuthenticate
+    @Inject lateinit var server: ServerAuthenticate
 
     /**
      * Es crida quan l'usuari vol afegir un nou compte al dispositiu ja sigui des de la
@@ -39,10 +41,10 @@ class AccountAuthenticator(context: Context) : AbstractAccountAuthenticator(cont
 
         Log.d(TAG, "addAccount")
 
-        val intent = Intent(context, AccountAuthenticator::class.java)
-        intent.putExtra(AuthenticatorActivity.ARG_ACCOUNT_TYPE, accountType);
-        intent.putExtra(AuthenticatorActivity.ARG_AUTH_TYPE, authTokenType);
-        intent.putExtra(AuthenticatorActivity.ARG_IS_ADDING_NEW_ACCOUNT, true);
+        val intent = Intent(context, LoginActivity::class.java)
+        intent.putExtra(AuthenticationManager.ARG_ACCOUNT_TYPE, accountType);
+        intent.putExtra(AuthenticationManager.ARG_AUTH_TYPE, authTokenType);
+        intent.putExtra(AuthenticationManager.ARG_IS_ADDING_NEW_ACCOUNT, true);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
         val bundle = Bundle()
         bundle.putParcelable(AccountManager.KEY_INTENT, intent)
@@ -72,9 +74,10 @@ class AccountAuthenticator(context: Context) : AbstractAccountAuthenticator(cont
 
         val accountManager = AccountManager.get(context)
 
+        val accountMail = account?.name
         val password = accountManager.getPassword(account)
         //TODO LogIn Parameters
-        val authToken = server.logInUser()
+        val authToken = server.logInUser(accountMail!!, password)
 
         if (!authToken.isEmpty()) {
             val result = Bundle()
@@ -84,11 +87,11 @@ class AccountAuthenticator(context: Context) : AbstractAccountAuthenticator(cont
             return result;
         }
 
-        val intent = Intent(context, AuthenticatorActivity.javaClass)
+        val intent = Intent(context, AuthenticationManager.javaClass)
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response)
-        intent.putExtra(AuthenticatorActivity.ARG_ACCOUNT_TYPE, account!!.type)
-        intent.putExtra(AuthenticatorActivity.ARG_AUTH_TYPE, authTokenType)
-        intent.putExtra(AuthenticatorActivity.ARG_ACCOUNT_NAME, account.name)
+        intent.putExtra(AuthenticationManager.ARG_ACCOUNT_TYPE, account!!.type)
+        intent.putExtra(AuthenticationManager.ARG_AUTH_TYPE, authTokenType)
+        intent.putExtra(AuthenticationManager.ARG_ACCOUNT_NAME, account.name)
         val bundle = Bundle()
         bundle.putParcelable(AccountManager.KEY_INTENT, intent)
         return bundle

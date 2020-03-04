@@ -1,4 +1,4 @@
-package omega.isaacbenito.saberapp.database
+package omega.isaacbenito.saberapp.storage.database
 
 import java.util.concurrent.Executors
 

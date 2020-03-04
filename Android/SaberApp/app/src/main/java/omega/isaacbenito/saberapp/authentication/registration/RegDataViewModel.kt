@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import omega.isaacbenito.saberapp.R
+import javax.inject.Inject
 
 private const val MIN_PASSWORD_LENGTH = 5
 
-class RegDataViewModel : ViewModel() {
+class RegDataViewModel @Inject constructor() : ViewModel() {
 
     val TAG = this.javaClass.name.toString()
 
