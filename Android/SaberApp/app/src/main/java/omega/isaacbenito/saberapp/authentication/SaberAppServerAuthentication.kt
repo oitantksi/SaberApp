@@ -35,10 +35,6 @@ class SaberAppServerAuthentication @Inject constructor(): ServerAuthenticate {
         return authenticatorService.loginUser(userCredentials)
     }
 
-
-
-
-
     override fun registerUser(
         user_name: String,
         user_surname: String,
@@ -46,9 +42,7 @@ class SaberAppServerAuthentication @Inject constructor(): ServerAuthenticate {
         email: String,
         password: String,
         centre: String,
-        curs: String,
-        aula: String
-    ): String {
+        rol:Char) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

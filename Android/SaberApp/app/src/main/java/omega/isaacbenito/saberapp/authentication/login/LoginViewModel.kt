@@ -27,35 +27,11 @@ class LoginViewModel @Inject constructor() : ViewModel() {
         get() = _loginState
 
     fun login(userMail: String, password: String) : LiveData<LoginState> {
-        assert(userMail != null)
-        assert(password != null)
-
         return authenticationManager.loginUser(userMail, password)
+
     }
 
-    /**
-     * Comprova si el email proporcionat per l'usuari és una cadena de text amb format email correcta
-     *
-     * @param userMail email proporcionat per l'usuari
-     * @return Boolean
-     */
-    private fun isUserMailValid(userMail: String): Boolean {
-        return if (userMail.contains('@')) {
-            Patterns.EMAIL_ADDRESS.matcher(userMail).matches()
-        } else {
-            userMail.isNotBlank()
-        }
-    }
 
-    /**
-     * Comprova si la contrassenya proporcionada per l'usuari compleix les característiques necessàries
-     *
-     * @param password
-     * @return
-     */
-    private fun isPasswordValid(password: String): Boolean {
-        return password.length > 5
-    }
 
 
 }

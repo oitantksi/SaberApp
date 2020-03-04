@@ -8,17 +8,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import omega.isaacbenito.saberapp.R
-import omega.isaacbenito.saberapp.databinding.FragmentRegisterBinding
+import omega.isaacbenito.saberapp.databinding.FragmentRegDataBinding
+import omega.isaacbenito.saberapp.databinding.FragmentRegDataBindingImpl
 import javax.inject.Inject
 
 class RegDataFragment : Fragment() {
 
     val TAG = this.javaClass.name.toString()
 
-    private lateinit var binding: FragmentRegisterBinding
+    private lateinit var binding: FragmentRegDataBinding
 
     @Inject lateinit var regDataViewModel: RegDataViewModel
     @Inject lateinit var registrationViewModel: RegistrationViewModel
@@ -55,7 +55,7 @@ class RegDataFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_reg_data, container, false)
 
         binding.alreadyMember.setOnClickListener { navigateToLogin() }
 

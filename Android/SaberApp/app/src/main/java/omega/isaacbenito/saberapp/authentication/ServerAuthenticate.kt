@@ -17,6 +17,5 @@ interface ServerAuthenticate {
         email: String,
         password: String,
         centre: String,
-        curs: String,
-        aula: String)
+        rol: Char)
 }

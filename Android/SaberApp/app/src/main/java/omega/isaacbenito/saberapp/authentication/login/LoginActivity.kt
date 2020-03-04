@@ -3,6 +3,7 @@ package omega.isaacbenito.saberapp.authentication.login
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -34,7 +35,7 @@ class LoginActivity() : AppCompatActivity() {
 
         binding.submit.setOnClickListener { login() }
 
-        binding.newUser.setOnClickListener { viewModel.newUser }
+        binding.newUser.setOnClickListener { viewModel.newUser() }
 
         viewModel.newUser.observe(this, Observer { if(it) navigateToRegister() })
     }
@@ -47,8 +48,8 @@ class LoginActivity() : AppCompatActivity() {
         viewModel.login(user.text.toString(), password.text.toString())
             .observe(this, Observer {  loginState ->
                 when(loginState) {
-//                    LoginSuccess -> navigate to user screen
-//                    LoginError -> show error
+                    is LoginSuccess -> Toast.makeText(this, "Login succesful", Toast.LENGTH_LONG).show()
+                    is LoginError -> Toast.makeText(this, loginState.message, Toast.LENGTH_LONG).show()
                 }
             })
     }
@@ -56,4 +57,4 @@ class LoginActivity() : AppCompatActivity() {
 
 sealed class LoginState
 object LoginSuccess : LoginState()
-object LoginError : LoginState()
+data class LoginError(val message: String) : LoginState()

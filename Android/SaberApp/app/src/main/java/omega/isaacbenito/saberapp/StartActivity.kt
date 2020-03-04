@@ -9,7 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_register.*
+import kotlinx.android.synthetic.main.fragment_reg_data.*
+import omega.isaacbenito.saberapp.authentication.login.LoginActivity
 import java.util.zip.Inflater
 
 class StartActivity : AppCompatActivity() {
@@ -24,7 +25,7 @@ class StartActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         Handler().postDelayed(Runnable {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         }, 2000L)
     }
 }

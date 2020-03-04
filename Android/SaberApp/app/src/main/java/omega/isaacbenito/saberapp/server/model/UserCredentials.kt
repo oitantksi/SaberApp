@@ -1,6 +1,5 @@
 package omega.isaacbenito.saberapp.server.model
 
-class UserCredentials(email: String, password: String) {
-    var email: String = email
-    var password: String = password
-}
+class UserCredentials(
+    var email: String,
+    var password: String) {}

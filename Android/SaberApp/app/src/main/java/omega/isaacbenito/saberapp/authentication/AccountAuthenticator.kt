@@ -77,8 +77,8 @@ class AccountAuthenticator(context: Context) : AbstractAccountAuthenticator(cont
         val accountMail = account?.name
         val password = accountManager.getPassword(account)
         //TODO LogIn Parameters
-        val authToken = server.logInUser(accountMail!!, password)
-
+//        val authToken = server.logInUser(accountMail!!, password)
+        val authToken = ""
         if (!authToken.isEmpty()) {
             val result = Bundle()
             result.putString(AccountManager.KEY_ACCOUNT_NAME, account?.name);
