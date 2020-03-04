@@ -25,3 +25,8 @@ CREATE TABLE materies (
 	id INTEGER auto_increment  PRIMARY KEY,
 	materia VARCHAR(50)
 )
+
+CREATE TABLE aules (
+    id INTEGER PRIMARY KEY
+    aula CHAR
+)

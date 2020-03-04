@@ -6,7 +6,7 @@ INSERT INTO users VALUES (3, 'isaac', 'omega','android','master','isaac@omega.co
 
 INSERT INTO centres VALUES (1,'IOC');
 INSERT INTO centres VALUES(2,'IES JOAN MARAGALL');
-INSERT INTO centres VALUES (3,'IES JAUMA BALMES');
+INSERT INTO centres VALUES (3,'IES JAUME BALMES');
 
 INSERT INTO curses VALUES ('1');
 INSERT INTO curses VALUES ('2');
@@ -17,3 +17,8 @@ INSERT INTO materies VALUES (1,'Geografia');
 INSERT INTO materies VALUES (2,'Historia');
 INSERT INTO materies VALUES (3,'Arte');
 INSERT INTO materies VALUES (4,'Matemáticas');
+
+INSERT INTO aules VALUES ('A')
+INSERT INTO aules VALUES ('B')
+INSERT INTO aules VALUES ('C')
+INSERT INTO aules VALUES ('D')
