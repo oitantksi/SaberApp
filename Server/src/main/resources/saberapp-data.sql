@@ -18,7 +18,7 @@ INSERT INTO materies VALUES (2,'Historia');
 INSERT INTO materies VALUES (3,'Arte');
 INSERT INTO materies VALUES (4,'Matemáticas');
 
-INSERT INTO aules VALUES ('A')
-INSERT INTO aules VALUES ('B')
-INSERT INTO aules VALUES ('C')
-INSERT INTO aules VALUES ('D')
+INSERT INTO aules VALUES (1, 'A');
+INSERT INTO aules VALUES (2, 'B');
+INSERT INTO aules VALUES (3, 'C');
+INSERT INTO aules VALUES (4, 'D');
