@@ -44,3 +44,7 @@ class RegistrationActivity : AppCompatActivity() {
         finish()
     }
 }
+
+sealed class RegistrationState
+object RegistrationSuccesful : RegistrationState()
+data class RegistrationError (val error: String) : RegistrationState()

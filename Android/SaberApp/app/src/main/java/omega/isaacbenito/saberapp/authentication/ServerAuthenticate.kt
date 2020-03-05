@@ -1,21 +1,12 @@
 package omega.isaacbenito.saberapp.authentication
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import omega.isaacbenito.saberapp.server.model.UserCredentials
-import retrofit2.Call
-import java.util.concurrent.Future
+import omega.isaacbenito.saberapp.server.model.UserDto
+import retrofit2.Response
 
 interface ServerAuthenticate {
 
-    fun logInUser(userCredentials: UserCredentials) : Call<Unit>
+    suspend fun logInUser(userCredentials: UserCredentials) : Response<Unit>
 
-    fun registerUser(
-        user_name: String,
-        user_surname: String,
-        user_nickname: String,
-        email: String,
-        password: String,
-        centre: String,
-        rol: Char)
+    suspend fun registerUser(userDto: UserDto) : Response<Unit>
 }

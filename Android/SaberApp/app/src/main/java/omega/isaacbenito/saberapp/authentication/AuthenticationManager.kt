@@ -1,20 +1,21 @@
 package omega.isaacbenito.saberapp.authentication
 
-import android.util.Log
 import android.util.Patterns
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import omega.isaacbenito.saberapp.authentication.login.LoginError
 import omega.isaacbenito.saberapp.authentication.login.LoginState
 import omega.isaacbenito.saberapp.authentication.login.LoginSuccess
+import omega.isaacbenito.saberapp.authentication.registration.RegistrationError
+import omega.isaacbenito.saberapp.authentication.registration.RegistrationState
+import omega.isaacbenito.saberapp.authentication.registration.RegistrationSuccesful
 import omega.isaacbenito.saberapp.server.model.UserCredentials
-import retrofit2.Call
-import retrofit2.Callback
+import omega.isaacbenito.saberapp.server.model.UserDto
 import retrofit2.Response
-import java.util.*
 import javax.inject.Inject
 
 class AuthenticationManager @Inject constructor()  {
@@ -28,37 +29,35 @@ class AuthenticationManager @Inject constructor()  {
 
     @Inject lateinit var serverAuthenticate : ServerAuthenticate
 
+    var authJob = Job()
+    val authScope = CoroutineScope(authJob + Dispatchers.Main )
+
     fun isUserLoggedIn() : Boolean {return false}
 
-    private lateinit var authToken: String
+    private var authToken: String? = null
+        get() = authToken
 
     private val _loginState = MutableLiveData<LoginState>()
     val loginState : LiveData<LoginState>
         get() = _loginState
 
     fun loginUser(userMail: String, password: String) : LiveData<LoginState>  {
-        serverAuthenticate.logInUser(UserCredentials(userMail, password)).enqueue(
-            object : Callback<Unit> {
-                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                    if(response.isSuccessful) {
-                        authToken = response.headers().get("Authorization").toString()
-                        _loginState.value = LoginSuccess
-                    } else {
-                        _loginState.value = LoginError("Unable to log in")
-                    }
-                }
+       authScope.launch {
+           val response = serverAuthenticate.logInUser(UserCredentials(userMail, password))
+           if (response.isSuccessful) {
+               authToken = response.headers().get("Authorization").toString()
+               _loginState.value = LoginSuccess
+           } else {
+               _loginState.value = LoginError("Unable to log in")
+           }
+       }
 
-                override fun onFailure(call: Call<Unit>, t: Throwable) {
-                    _loginState.value = LoginError("Unable to log in")
-                }
-            }
-        )
         return loginState
     }
 
-    fun setUserToken(authToken: String) {}
-
-    fun getAuthToken(): String {return ""}
+    private val _registrationState = MutableLiveData<RegistrationState>()
+    val registrationState : LiveData<RegistrationState>
+        get() = _registrationState
 
     fun registerUser(user_name: String,
                      user_surname: String,
@@ -67,7 +66,31 @@ class AuthenticationManager @Inject constructor()  {
                      password: String,
                      centre: String,
                      curs: String,
-                     aula: String) {}
+                     aula: String) : LiveData<RegistrationState> {
+        if (!isUserMailValid(email)) {
+            _registrationState.value = RegistrationError("email not valid")
+            return registrationState
+        }
+
+        if (!isPasswordValid(password)) {
+            _registrationState.value = RegistrationError("password not valid")
+            return registrationState
+        }
+
+        authScope.launch {
+            val response = serverAuthenticate.registerUser(UserDto(user_name, user_surname, user_nickname,
+                email, password, centre, 'A'))
+
+            if (response.isSuccessful) {
+                loginUser(email, password)
+                _registrationState.value = RegistrationSuccesful
+            } else {
+                _registrationState.value = RegistrationError("")
+            }
+        }
+
+        return registrationState
+    }
 
     fun logoutUser() {}
 

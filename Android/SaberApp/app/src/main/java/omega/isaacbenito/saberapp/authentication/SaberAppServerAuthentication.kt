@@ -31,11 +31,11 @@ class SaberAppServerAuthentication @Inject constructor(): ServerAuthenticate {
 
     var token : String? = null
 
-    override fun logInUser(userCredentials: UserCredentials) : Call<Unit> {
+    override suspend fun logInUser(userCredentials: UserCredentials) : Response<Unit> {
         return authenticatorService.loginUser(userCredentials)
     }
 
-    override fun registerUser(
+    override suspend fun registerUser(
         user_name: String,
         user_surname: String,
         user_nickname: String,
