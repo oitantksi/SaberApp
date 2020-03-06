@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import omega.isaacbenito.saberapp.server.ServerService
 import omega.isaacbenito.saberapp.server.model.UserCredentials
+import omega.isaacbenito.saberapp.server.model.UserDto
 import omega.isaacbenito.saberapp.storage.database.entities.User
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,15 +36,8 @@ class SaberAppServerAuthentication @Inject constructor(): ServerAuthenticate {
         return authenticatorService.loginUser(userCredentials)
     }
 
-    override suspend fun registerUser(
-        user_name: String,
-        user_surname: String,
-        user_nickname: String,
-        email: String,
-        password: String,
-        centre: String,
-        rol:Char) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun registerUser(userDto: UserDto) : Response<Unit> {
+        return authenticatorService.registerUser(userDto)
     }
 }
 

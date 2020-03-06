@@ -26,14 +26,14 @@ open class SaberApp : Application() {
         get() = _hasInternetconnection
 
     init {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            networkStatus = NetworkStatus(_hasInternetconnection)
-            val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            cm.requestNetwork(
-                NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build(),
-                networkStatus)
-
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            networkStatus = NetworkStatus(_hasInternetconnection)
+//            val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+//            cm.requestNetwork(
+//                NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build(),
+//                networkStatus)
+//
+//        }
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
