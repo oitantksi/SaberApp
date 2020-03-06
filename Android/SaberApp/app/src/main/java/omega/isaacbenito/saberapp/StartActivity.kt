@@ -15,7 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import omega.isaacbenito.saberapp.authentication.login.LoginActivity
+import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
 import omega.isaacbenito.saberapp.server.ServerService
 import omega.isaacbenito.saberapp.server.model.UserCredentials
 import omega.isaacbenito.saberapp.server.model.UserDto
@@ -38,22 +38,20 @@ class StartActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        testRetrofit()
-
         Handler().postDelayed(Runnable {
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, AuthActivity::class.java))
         }, 2000L)
     }
 
-    fun isConnected(): Boolean {
-        if (Build.VERSION.SDK_INT >= 29) {
-            return (application as SaberApp).hasInternetConnection.value!!
-        } else {
-            val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
-            return activeNetwork?.isConnected == true
-        }
-    }
+//    fun isConnected(): Boolean {
+//        if (Build.VERSION.SDK_INT >= 29) {
+//            return (application as SaberApp).hasInternetConnection.value!!
+//        } else {
+//            val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+//            val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+//            return activeNetwork?.isConnected == true
+//        }
+//    }
 
     fun testRetrofit() {
 
@@ -98,16 +96,16 @@ class StartActivity : AppCompatActivity() {
         val not_registered_user = UserCredentials("pepito@omega.com", "omega")
         val new_user = UserCredentials("isaac.benito@papa.com", "password")
 
-        if (isConnected()) {
-            try {
-                var response = server.loginUser(registered_user)
-                Log.d(TAG, response.headers().get("Authorization").toString())
-            } catch (e: SocketTimeoutException) {
-                Log.d(TAG, "Socket Timeout")
-            }
-        } else {
-            Log.d(TAG, "No internet connection")
-        }
+//        if (isConnected()) {
+//            try {
+//                var response = server.loginUser(registered_user)
+//                Log.d(TAG, response.headers().get("Authorization").toString())
+//            } catch (e: SocketTimeoutException) {
+//                Log.d(TAG, "Socket Timeout")
+//            }
+//        } else {
+//            Log.d(TAG, "No internet connection")
+//        }
 
     }
 }

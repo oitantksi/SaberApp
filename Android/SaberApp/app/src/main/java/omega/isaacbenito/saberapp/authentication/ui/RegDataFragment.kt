@@ -1,4 +1,4 @@
-package omega.isaacbenito.saberapp.authentication.registration
+package omega.isaacbenito.saberapp.authentication.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -9,9 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import omega.isaacbenito.saberapp.R
+import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
+import omega.isaacbenito.saberapp.authentication.model.RegDataViewModel
 import omega.isaacbenito.saberapp.databinding.FragmentRegDataBinding
-import omega.isaacbenito.saberapp.databinding.FragmentRegDataBindingImpl
 import javax.inject.Inject
 
 class RegDataFragment : Fragment() {
@@ -21,12 +23,10 @@ class RegDataFragment : Fragment() {
     private lateinit var binding: FragmentRegDataBinding
 
     @Inject lateinit var regDataViewModel: RegDataViewModel
-    @Inject lateinit var registrationViewModel: RegistrationViewModel
+    @Inject lateinit var registrationViewModel: RegisterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        regDataViewModel.alreadyMember.observe(this, Observer { if(it) navigateToLogin() })
 
         regDataViewModel.enterDetailsState.observe(this, Observer { state ->
             when (state) {
@@ -41,7 +41,7 @@ class RegDataFragment : Fragment() {
                         user_name, user_surname, user_nickname, email, password
                     )
 
-                    (activity as RegistrationActivity).onDataEntered()
+                    (activity as AuthActivity).onDataEntered()
                 }
                 is EnterDataError -> {
                     //TODO Display user registration data error
@@ -57,7 +57,9 @@ class RegDataFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_reg_data, container, false)
 
-        binding.alreadyMember.setOnClickListener { navigateToLogin() }
+        binding.alreadyMember.setOnClickListener {
+            this.findNavController().navigate(R.id.action_regDataFragment_to_loginFragment)
+        }
 
         binding.submit.setOnClickListener {
             val user_name = binding.name.text.toString()
@@ -77,11 +79,7 @@ class RegDataFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        (activity as RegistrationActivity).registrationComponent.inject(this)
-    }
-
-    fun navigateToLogin() {
-        binding.root.findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        (activity as AuthActivity).authComponent.inject(this)
     }
 
 }

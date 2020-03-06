@@ -1,9 +1,15 @@
-package omega.isaacbenito.saberapp.authentication.registration
+package omega.isaacbenito.saberapp.authentication.model
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import omega.isaacbenito.saberapp.authentication.AuthenticationManager
+import omega.isaacbenito.saberapp.authentication.ui.LoginState
 import javax.inject.Inject
 
-class RegistrationViewModel @Inject constructor() : ViewModel() {
+class RegisterViewModel @Inject constructor() : ViewModel() {
+
+    @Inject lateinit var authenticationManager: AuthenticationManager
 
     private var user_name: String? = null
     private var user_surname: String? = null

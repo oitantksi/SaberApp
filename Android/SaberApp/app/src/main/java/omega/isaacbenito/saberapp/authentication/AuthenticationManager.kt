@@ -1,26 +1,23 @@
 package omega.isaacbenito.saberapp.authentication
 
+import android.accounts.Account
+import android.accounts.AccountManager
+import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import omega.isaacbenito.saberapp.authentication.login.LoginError
-import omega.isaacbenito.saberapp.authentication.login.LoginState
-import omega.isaacbenito.saberapp.authentication.login.LoginSuccess
-import omega.isaacbenito.saberapp.authentication.registration.RegistrationError
-import omega.isaacbenito.saberapp.authentication.registration.RegistrationState
-import omega.isaacbenito.saberapp.authentication.registration.RegistrationSuccesful
+import kotlinx.coroutines.*
+import omega.isaacbenito.saberapp.NetworkUtils
+import omega.isaacbenito.saberapp.authentication.ui.*
 import omega.isaacbenito.saberapp.server.model.UserCredentials
 import omega.isaacbenito.saberapp.server.model.UserDto
-import retrofit2.Response
+import java.net.ConnectException
 import javax.inject.Inject
 
-class AuthenticationManager @Inject constructor()  {
+class AuthenticationManager @Inject constructor(context: Context)  {
 
     companion object {
+        const val ACCOUNT_TYPE = "omega.saberapp"
         const val ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE"
         const val ARG_AUTH_TYPE = "AUTH_TYPE"
         const val ARG_ACCOUNT_NAME = "ACCOUNT_NAME"
@@ -29,8 +26,12 @@ class AuthenticationManager @Inject constructor()  {
 
     @Inject lateinit var serverAuthenticate : ServerAuthenticate
 
-    var authJob = Job()
-    val authScope = CoroutineScope(authJob + Dispatchers.Main )
+    @Inject lateinit var networkUtils: NetworkUtils
+
+    private val accountManager = AccountManager.get(context)
+
+    private var authJob = Job()
+    private val authScope = CoroutineScope(authJob + Dispatchers.Main )
 
     fun isUserLoggedIn() : Boolean {return false}
 
@@ -41,19 +42,36 @@ class AuthenticationManager @Inject constructor()  {
     val loginState : LiveData<LoginState>
         get() = _loginState
 
-    fun loginUser(userMail: String, password: String) : LiveData<LoginState>  {
-       authScope.launch {
-           val response = serverAuthenticate.logInUser(UserCredentials(userMail, password))
-           if (response.isSuccessful) {
-               authToken = response.headers().get("Authorization").toString()
-               _loginState.value = LoginSuccess
-           } else {
-               _loginState.value = LoginError("Unable to log in")
-           }
-       }
+    fun addUser(userMail: String, password: String) : MutableLiveData<LoginState> {
+        authScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                return@withContext login(UserCredentials(userMail, password))}
+            if (result is LoginSuccess) {
+                val account = Account(userMail, ACCOUNT_TYPE )
+                accountManager.addAccountExplicitly(account, password, null);
+            }
+            _loginState.postValue(result)
+        }
 
-        return loginState
+        return _loginState
     }
+
+    suspend fun login(userCredentials: UserCredentials) : LoginState {
+        try {
+            val response = serverAuthenticate.logInUser(userCredentials)
+            if (response.isSuccessful) {
+                authToken = response.headers().get("Authorization").toString()
+                return LoginSuccess
+            } else {
+                return WrongCredentials
+            }
+        } catch (e: ConnectException) {
+            return ServerUnreachable
+        }
+    }
+
+
+
 
     private val _registrationState = MutableLiveData<RegistrationState>()
     val registrationState : LiveData<RegistrationState>
@@ -68,12 +86,14 @@ class AuthenticationManager @Inject constructor()  {
                      curs: String,
                      aula: String) : LiveData<RegistrationState> {
         if (!isUserMailValid(email)) {
-            _registrationState.value = RegistrationError("email not valid")
+            _registrationState.value =
+                RegistrationError("email not valid")
             return registrationState
         }
 
         if (!isPasswordValid(password)) {
-            _registrationState.value = RegistrationError("password not valid")
+            _registrationState.value =
+                RegistrationError("password not valid")
             return registrationState
         }
 
@@ -82,10 +102,14 @@ class AuthenticationManager @Inject constructor()  {
                 email, password, centre, 'A'))
 
             if (response.isSuccessful) {
-                loginUser(email, password)
-                _registrationState.value = RegistrationSuccesful
+                addUser(email, password)
+                _registrationState.value =
+                    RegistrationSuccesful
             } else {
-                _registrationState.value = RegistrationError("")
+                _registrationState.value =
+                    RegistrationError(
+                        ""
+                    )
             }
         }
 

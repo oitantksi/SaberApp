@@ -8,7 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import omega.isaacbenito.saberapp.authentication.login.LoginActivity
+import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
 import javax.inject.Inject
 
 
@@ -41,7 +41,7 @@ class AccountAuthenticator(context: Context) : AbstractAccountAuthenticator(cont
 
         Log.d(TAG, "addAccount")
 
-        val intent = Intent(context, LoginActivity::class.java)
+        val intent = Intent(context, AuthActivity::class.java)
         intent.putExtra(AuthenticationManager.ARG_ACCOUNT_TYPE, accountType);
         intent.putExtra(AuthenticationManager.ARG_AUTH_TYPE, authTokenType);
         intent.putExtra(AuthenticationManager.ARG_IS_ADDING_NEW_ACCOUNT, true);

@@ -1,9 +1,12 @@
-package omega.isaacbenito.saberapp.authentication.registration
+package omega.isaacbenito.saberapp.authentication.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import omega.isaacbenito.saberapp.R
+import omega.isaacbenito.saberapp.authentication.AccountGlobals
+import omega.isaacbenito.saberapp.authentication.ui.EnterDataError
+import omega.isaacbenito.saberapp.authentication.ui.EnterDataState
+import omega.isaacbenito.saberapp.authentication.ui.EnterDataSuccess
 import javax.inject.Inject
 
 private const val MIN_PASSWORD_LENGTH = 5
@@ -37,8 +40,10 @@ class RegDataViewModel @Inject constructor() : ViewModel() {
     ) {
         when {
             //TODO User registration input validation rules
-            password.length < MIN_PASSWORD_LENGTH -> _enterDataState.value = EnterDataError(1)
-            else -> _enterDataState.value = EnterDataSuccess
+            password.length < AccountGlobals.MIN_PASSWORD_LENGTH -> _enterDataState.value =
+                EnterDataError(1)
+            else -> _enterDataState.value =
+                EnterDataSuccess
         }
     }
 }

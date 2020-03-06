@@ -14,8 +14,8 @@
     <string name="user_surname_hint">Surname</string>
     <string name="user_password_hint">Password</string>
     <string name="user_password_repeat_hint">Repeat password</string>
-    <string name="user_signIn">Sign In</string>
-    <string name="user_signUp">Sign Up</string>
+    <string name="user_signIn">Log In</string>
+    <string name="user_signUp">Register</string>
     <string name="new_user">New user?</string>
     <string name="already_member">Already a member?</string>
 
@@ -40,4 +40,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="password_too_short">Password has to be longer than ${viewModel.MIN_PASSWORD_LENGTH} characters</string>
+    <string name="server_unreachable">Server Unreachable</string>
+    <string name="wrong_credentials">Wrong credentials</string>
+    <string name="no_network">No network connection</string>
 </resources>

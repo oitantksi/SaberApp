@@ -1,4 +1,4 @@
-package omega.isaacbenito.saberapp.authentication.registration
+package omega.isaacbenito.saberapp.authentication.model
 
 import javax.inject.Inject
 

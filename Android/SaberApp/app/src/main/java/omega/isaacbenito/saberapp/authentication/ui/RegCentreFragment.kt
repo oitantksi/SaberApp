@@ -1,7 +1,8 @@
-package omega.isaacbenito.saberapp.authentication.registration
+package omega.isaacbenito.saberapp.authentication.ui
 
 import android.content.Context
 import androidx.fragment.app.Fragment
+import omega.isaacbenito.saberapp.authentication.model.RegCentreViewModel
 import javax.inject.Inject
 
 class RegCentreFragment : Fragment() {
@@ -11,6 +12,6 @@ class RegCentreFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        (activity as RegistrationActivity).registrationComponent.inject(this)
+        (activity as AuthActivity).authComponent.inject(this)
     }
 }

@@ -3,7 +3,6 @@ package omega.isaacbenito.saberapp.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import omega.isaacbenito.saberapp.authentication.registration.RegistrationActivity
 import javax.inject.Singleton
 
 @Singleton
@@ -18,6 +17,5 @@ interface AppComponent {
     }
 
     // Expose SubComponents
-    fun registrationComponent(): RegistrationComponent.Factory
-    fun loginComponent(): LoginComponent.Factory
+    fun authComponent() : AuthComponent.Factory
 }

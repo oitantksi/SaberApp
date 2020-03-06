@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="omega.isaacbenito.saberapp.authentication.login.LoginFragment"
+        android:name="omega.isaacbenito.saberapp.authentication.ui.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="omega.isaacbenito.saberapp.authentication.registration.RegDataFragment"
+        android:name="omega.isaacbenito.saberapp.authentication.ui.RegDataFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"

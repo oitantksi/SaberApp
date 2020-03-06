@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/registration_flow"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/regDataFragment"
+        android:name="omega.isaacbenito.saberapp.authentication.ui.RegDataFragment"
+        android:label="RegDataFragment" >
+        <action
+            android:id="@+id/action_regDataFragment_to_regCentreFragment"
+            app:destination="@id/regCentreFragment" />
+        <action
+            android:id="@+id/action_regDataFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/regCentreFragment"
+        android:name="omega.isaacbenito.saberapp.authentication.ui.RegCentreFragment"
+        android:label="RegCentreFragment" >
+        <action
+            android:id="@+id/action_regCentreFragment_to_navigation_root"
+            app:destination="@id/navigation_root" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="omega.isaacbenito.saberapp.authentication.ui.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_regDataFragment"
+            app:destination="@id/regDataFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_navigation_root"
+            app:destination="@id/navigation_root" />
+    </fragment>
+    <include app:graph="@navigation/main_navigation" />
+
+</navigation>
