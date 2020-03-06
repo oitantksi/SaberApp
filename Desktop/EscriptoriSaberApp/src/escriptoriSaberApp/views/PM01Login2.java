@@ -2,35 +2,41 @@ package escriptoriSaberApp.views;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
-*
-* @author Montse
-*/
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
-public class PM01Login extends JFrame {
+import com.omega.server.consumer.client.impl.LoginRegistroImpl;
+
+public class PM01Login2 extends JFrame {
 
 	private String contrasenya;
-	public String nick;
+	public String email;
 	private int intents = 0;
+	private String token;
 	
 	private JPanel ctpLogin;
-	private JTextField tfUser;
+	private JTextField tfMail;
 	private JPasswordField pfPassword;
 	private JButton btnLogin;
 	private JLabel lblRegister;
 	private JLabel lblExit;
+	
+	private LoginRegistroImpl lg; 
 
 	/**
 	 * Launch the application.
@@ -44,7 +50,7 @@ public class PM01Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PM01Login frame = new PM01Login();
+					PM01Login2 frame = new PM01Login2();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +62,7 @@ public class PM01Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PM01Login() {
+	public PM01Login2() {
 		
 		initComponents();
 		setSize(500, 300);
@@ -94,11 +100,11 @@ public class PM01Login extends JFrame {
 		lblPassword.setBounds(165, 114, 85, 16);
 		ctpLogin.add(lblPassword);
 		
-		tfUser = new JTextField();
-		tfUser.setToolTipText("Nickname");
-		tfUser.setBounds(155, 87, 180, 26);
-		ctpLogin.add(tfUser);
-		tfUser.setColumns(10);
+		tfMail = new JTextField();
+		tfMail.setToolTipText("Email");
+		tfMail.setBounds(155, 87, 180, 26);
+		ctpLogin.add(tfMail);
+		tfMail.setColumns(10);
 		
 		btnLogin = new JButton("Entra");
 		btnLogin.setBackground(Utils.colorVerd);
@@ -111,16 +117,16 @@ public class PM01Login extends JFrame {
 		lblIconaEsq.setBackground(Utils.colorLilaFosc);
 		lblIconaEsq.setOpaque(true);
 		lblIconaEsq.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconaEsq.setIcon(new ImageIcon(PM01Login.class.getResource("/escriptoriSaberApp/resources/icon_account_login_enter_door.png")));
+		lblIconaEsq.setIcon(new ImageIcon(PM01Login2.class.getResource("/escriptoriSaberApp/resources/icon_account_login_enter_door.png")));
 		lblIconaEsq.setBounds(0, 0, 95, 285);
 		ctpLogin.add(lblIconaEsq);
 		
-		JLabel lblUser = new JLabel("Usuari");
-		lblUser.setBounds(165, 69, 61, 16);
-		ctpLogin.add(lblUser);
+		JLabel lblMail = new JLabel("Correu electrònic");
+		lblMail.setBounds(165, 69, 108, 16);
+		ctpLogin.add(lblMail);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(PM01Login.class.getResource("/escriptoriSaberApp/resources/logo_SaberApp_60.png")));
+		lblNewLabel.setIcon(new ImageIcon(PM01Login2.class.getResource("/escriptoriSaberApp/resources/logo_SaberApp_60.png")));
 		lblNewLabel.setBounds(355, 20, 61, 60);
 		ctpLogin.add(lblNewLabel);
 		
@@ -142,22 +148,18 @@ public class PM01Login extends JFrame {
 		btnLogin.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
 				int res =1;
+				
+				lg = new LoginRegistroImpl();
 		        
-
 		        contrasenya = new String(pfPassword.getPassword());
-				nick = tfUser.getText().trim();
+				email = tfMail.getText().trim();
 				
-				//TODO prova de connectar:
-				
-				//res = ges.login(nick, contrasenya);
+				token = lg.login(email, contrasenya);
 
-				//System.out.println("La resposta del servidor és " + res);
-
-				//if (res == 1) {
-				if (contrasenya.equals("123") && nick.equals("mon")) {
+				if (token!=null) {
 
 				    dispose();
-				    JOptionPane.showMessageDialog(null, "Benvingut " + nick + "!!\n"
+				    JOptionPane.showMessageDialog(null, "Benvingut!!\n"
 				            + "Acabes d'entrar al sistema correctament", "Missatge de benvinguda",
 				            JOptionPane.INFORMATION_MESSAGE);
 				    intents = 4;
@@ -166,8 +168,9 @@ public class PM01Login extends JFrame {
 				    f2.setVisible(true);
 				    f2.setLocationRelativeTo(null);
 				    f2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				    f2.nick=nick;
-				    //TODO REVISAR, em podria endur l'objecte professor a la següent pantalla o crido des d'allà qui està connectat?
+				    //informacio necessaria a la següent pantalla 
+				    f2.token=token;
+				    
 				    dispose();
 
 				} else if (intents == 3) {
@@ -175,14 +178,14 @@ public class PM01Login extends JFrame {
 				    System.exit(0);
 				    
 				} else if (res == 3) {
-				    tfUser.setText("");
+				    tfMail.setText("");
 				    pfPassword.setText("");
 				    intents++;
 				    JOptionPane.showMessageDialog(null, "S'ha produit un error en la lectura de dades",
 				            "Error", JOptionPane.ERROR_MESSAGE);
 
 				} else {
-				    tfUser.setText("");
+				    tfMail.setText("");
 				    pfPassword.setText("");
 				    intents++;
 				    JOptionPane.showMessageDialog(null, "Usuari o contrasenya incorrecta\n"

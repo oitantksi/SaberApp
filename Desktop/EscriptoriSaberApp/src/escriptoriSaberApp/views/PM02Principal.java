@@ -21,7 +21,7 @@ public class PM02Principal extends JFrame {
 	private PanelBarraEsq panelEsq;
 	private PanelBarraTop panelTop;
 	private PanelInici panelMain;
-	protected String nick;
+	protected String token;
 	
 
 	/**

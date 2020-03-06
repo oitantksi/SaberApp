@@ -4,7 +4,7 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.io.IOException;
 
-import escriptoriSaberApp.views.PM01Login;
+import escriptoriSaberApp.views.PM01Login2;
 
 public class PM01LoginTest {
 	
