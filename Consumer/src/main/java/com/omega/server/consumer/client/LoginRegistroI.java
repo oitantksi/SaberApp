@@ -20,14 +20,14 @@ public interface LoginRegistroI {
 	 * @return los mismos datos si fue correcta el alta
 	 * @exception excepción con mensaje de error
 	 */
-	public UserDto registraAlumno(UserDto datosUsuario) throws Exception;
+	public UserDto registraUsuario(UserDto datosUsuario);
 	/**
 	 * 
-	 * @param datosUsuario
-	 * @return los mismos datos si fue correcta el alta
-	 * @exception excepción con mensaje de error
+	 * @param email
+	 * @param token
+	 * @return recupera usuario de base de datos
 	 */
-	public UserDto registraProfesor(UserDto datosUsuario) throws Exception;
+	public UserDto findUsuarioByEmail(String email, String token);
 	/**
 	 * Clásico donde los haya para hacer pruebas
 	 * @param Hola!!!!!

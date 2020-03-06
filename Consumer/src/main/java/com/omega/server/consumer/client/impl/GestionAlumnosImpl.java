@@ -17,23 +17,7 @@ import com.omega.server.consumer.dto.UserDto;
 @Service
 public class GestionAlumnosImpl implements GestionAlumnosI {
 
-	@Override
-	public UserDto findAlumnoByEmail(String email, String token) {
-		String uri="http://localhost:8080/user/email/{email}";
 
-	    RestTemplate restTemplate = new RestTemplate();
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-	    headers.set("Authorization", token);
-	    
-		Map<String, String> params = new HashMap<String, String>();
-	    params.put("email", email);
-		HttpEntity<UserDto> entity = new HttpEntity<UserDto>(headers);
-		ResponseEntity<UserDto> response = restTemplate
-		            .exchange(uri, HttpMethod.GET, entity, UserDto.class,params);
-					
-		return response.getBody();
-	}
 	
 	
 

@@ -1,5 +1,8 @@
 package com.omega.server.consumer.client.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -41,7 +44,7 @@ public class LoginRegistroImpl implements LoginRegistroI{
 	}
 
 	@Override
-	public UserDto registraAlumno(UserDto datosUsuario) throws Exception {
+	public UserDto registraUsuario(UserDto datosUsuario){
 		final String uri = "http://localhost:8080/user";
 	    RestTemplate restTemplate = new RestTemplate();
 	    // Add the Jackson message converter
@@ -60,12 +63,24 @@ public class LoginRegistroImpl implements LoginRegistroI{
 	    return response.getBody();
 	}
 
-	@Override
-	public UserDto registraProfesor(UserDto datosUsuario) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
+	@Override
+	public UserDto findUsuarioByEmail(String email, String token) {
+		String uri="http://localhost:8080/user/email/{email}";
+
+	    RestTemplate restTemplate = new RestTemplate();
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    headers.set("Authorization", token);
+	    
+		Map<String, String> params = new HashMap<String, String>();
+	    params.put("email", email);
+		HttpEntity<UserDto> entity = new HttpEntity<UserDto>(headers);
+		ResponseEntity<UserDto> response = restTemplate
+		            .exchange(uri, HttpMethod.GET, entity, UserDto.class,params);
+					
+		return response.getBody();
+	}
 	@Override
 	public ResponseEntity<String> helloworld(String name, String token) {
 		String uri="http://localhost:8080/helloworld";
