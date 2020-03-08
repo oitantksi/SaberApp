@@ -34,28 +34,15 @@ class AuthActivity : AppCompatActivity() {
 
         navController = this.findNavController(R.id.authNavHostFragment)
     }
-
-    fun isNewUser() {
-        navController.navigate(R.id.action_loginFragment_to_regDataFragment)
-    }
-
-    fun alreadyMember() {
-        navController.navigate(R.id.action_regDataFragment_to_loginFragment)
-    }
-
-    fun onDataEntered() {
-        navController.navigate(R.id.action_regDataFragment_to_regCentreFragment)
-    }
-
-    fun onCentreEntered() {
-        authViewModel.registerUser()
-        //TODO Navigate to user screen
-        finish()
-    }
 }
 
-sealed class RegistrationState
-object RegistrationSuccesful : RegistrationState()
-data class RegistrationError (val error: String) : RegistrationState()
+sealed class AuthState()
+object AuthSuccess : AuthState()
+data class AuthError(val error: Int) : AuthState() {
+    companion object {
+        val SERVER_UNREACHABLE_ERROR = 0
+        val WRONG_CREDENTIALS_ERROR = 1
+    }
+}
 
 

@@ -8,6 +8,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import omega.isaacbenito.saberapp.di.AppComponent
@@ -18,5 +19,4 @@ open class SaberApp : Application() {
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory().create(applicationContext)
     }
-
 }

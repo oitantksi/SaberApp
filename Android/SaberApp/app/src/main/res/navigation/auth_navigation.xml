@@ -19,11 +19,7 @@
     <fragment
         android:id="@+id/regCentreFragment"
         android:name="omega.isaacbenito.saberapp.authentication.ui.RegCentreFragment"
-        android:label="RegCentreFragment" >
-        <action
-            android:id="@+id/action_regCentreFragment_to_navigation_root"
-            app:destination="@id/navigation_root" />
-    </fragment>
+        android:label="RegCentreFragment" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="omega.isaacbenito.saberapp.authentication.ui.LoginFragment"
@@ -31,10 +27,6 @@
         <action
             android:id="@+id/action_loginFragment_to_regDataFragment"
             app:destination="@id/regDataFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_navigation_root"
-            app:destination="@id/navigation_root" />
     </fragment>
-    <include app:graph="@navigation/main_navigation" />
 
 </navigation>

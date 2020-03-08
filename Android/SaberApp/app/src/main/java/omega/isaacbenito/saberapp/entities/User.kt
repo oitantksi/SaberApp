@@ -1,4 +1,4 @@
-package omega.isaacbenito.saberapp.storage.database.entities
+package omega.isaacbenito.saberapp.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

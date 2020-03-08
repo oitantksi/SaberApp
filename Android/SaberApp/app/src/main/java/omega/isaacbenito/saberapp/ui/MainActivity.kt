@@ -1,4 +1,4 @@
-package omega.isaacbenito.saberapp
+package omega.isaacbenito.saberapp.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +10,11 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import omega.isaacbenito.saberapp.R
+import omega.isaacbenito.saberapp.SaberApp
+import omega.isaacbenito.saberapp.authentication.AuthenticationManager
 import omega.isaacbenito.saberapp.databinding.ActivityMainBinding
+import omega.isaacbenito.saberapp.di.UserComponent
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,14 +23,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var appBarConfiguration : AppBarConfiguration
 
+    lateinit var authManager: AuthenticationManager
+
     private val TAG = this.javaClass.name.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        authManager = (application as SaberApp).appComponent.authManager()
+
         super.onCreate(savedInstanceState)
 
         Log.d(TAG, "launched")
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this,
+            R.layout.activity_main
+        )
 
         drawerLayout = binding.drawerLayout
 

@@ -3,5 +3,6 @@ package omega.isaacbenito.saberapp.di
 import dagger.Module
 
 @Module(subcomponents = [
-    AuthComponent::class])
+    AuthComponent::class,
+    UserComponent::class])
 class AppSubComponents

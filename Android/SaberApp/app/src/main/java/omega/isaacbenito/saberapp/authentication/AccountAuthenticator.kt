@@ -18,7 +18,7 @@ class AccountAuthenticator(context: Context) : AbstractAccountAuthenticator(cont
 
     val context = context
 
-    @Inject lateinit var server: ServerAuthenticate
+    @Inject lateinit var authManager: AuthenticationManager
 
     /**
      * Es crida quan l'usuari vol afegir un nou compte al dispositiu ja sigui des de la
@@ -76,9 +76,9 @@ class AccountAuthenticator(context: Context) : AbstractAccountAuthenticator(cont
 
         val accountMail = account?.name
         val password = accountManager.getPassword(account)
-        //TODO LogIn Parameters
-//        val authToken = server.logInUser(accountMail!!, password)
-        val authToken = ""
+
+        val authToken = authManager.getAuthToken()
+
         if (!authToken.isEmpty()) {
             val result = Bundle()
             result.putString(AccountManager.KEY_ACCOUNT_NAME, account?.name);

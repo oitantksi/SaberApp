@@ -1,7 +1,7 @@
 package omega.isaacbenito.saberapp.authentication
 
-import omega.isaacbenito.saberapp.server.model.UserCredentials
-import omega.isaacbenito.saberapp.server.model.UserDto
+import omega.isaacbenito.saberapp.entities.UserCredentials
+import omega.isaacbenito.saberapp.entities.UserDto
 import retrofit2.Response
 
 interface ServerAuthenticate {

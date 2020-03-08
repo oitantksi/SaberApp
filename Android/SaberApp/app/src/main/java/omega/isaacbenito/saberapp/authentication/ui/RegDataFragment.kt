@@ -41,7 +41,7 @@ class RegDataFragment : Fragment() {
                         user_name, user_surname, user_nickname, email, password
                     )
 
-                    (activity as AuthActivity).onDataEntered()
+                    this.findNavController().navigate(R.id.action_regDataFragment_to_regCentreFragment)
                 }
                 is EnterDataError -> {
                     //TODO Display user registration data error
@@ -49,6 +49,8 @@ class RegDataFragment : Fragment() {
             }
         })
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,10 +63,11 @@ class RegDataFragment : Fragment() {
             this.findNavController().navigate(R.id.action_regDataFragment_to_loginFragment)
         }
 
+
         binding.submit.setOnClickListener {
             val user_name = binding.name.text.toString()
             val user_surname = binding.surname.text.toString()
-            val user_nickname = ""
+            val user_nickname = binding.nickname.text.toString()
             val email = binding.accountMail.text.toString()
             val password = binding.accountPassword.text.toString()
 
@@ -86,4 +89,7 @@ class RegDataFragment : Fragment() {
 
 sealed class EnterDataState
 object EnterDataSuccess : EnterDataState()
-data class EnterDataError(val error: Int) : EnterDataState()
+sealed class EnterDataError : EnterDataState()
+object InvalidEmail : EnterDataError()
+object InvalidPassword : EnterDataError()
+

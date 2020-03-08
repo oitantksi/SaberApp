@@ -1,4 +1,4 @@
-package omega.isaacbenito.saberapp.server.model
+package omega.isaacbenito.saberapp.entities
 
 class UserCredentials(
     var email: String,

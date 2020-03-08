@@ -1,6 +1,6 @@
-package omega.isaacbenito.saberapp.server.model
+package omega.isaacbenito.saberapp.entities
 
-class UserDto (
+data class UserDto (
     val name: String,
     val cognom: String,
     val email: String,
