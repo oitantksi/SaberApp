@@ -17,6 +17,10 @@ import omega.isaacbenito.saberapp.di.DaggerAppComponent
 open class SaberApp : Application() {
 
     val appComponent: AppComponent by lazy {
-        DaggerAppComponent.factory().create(applicationContext)
+        initializeComponent()
+    }
+
+    open fun initializeComponent(): AppComponent {
+        return DaggerAppComponent.factory().create(applicationContext)
     }
 }

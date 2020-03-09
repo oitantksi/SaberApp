@@ -64,7 +64,7 @@ class RegDataFragment : Fragment() {
         }
 
 
-        binding.submit.setOnClickListener {
+        binding.submitData.setOnClickListener {
             val user_name = binding.name.text.toString()
             val user_surname = binding.surname.text.toString()
             val user_nickname = binding.nickname.text.toString()

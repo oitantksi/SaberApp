@@ -64,7 +64,7 @@ class LoginFragment() : Fragment() {
 
         password = binding.accountPassword
 
-        binding.submit.setOnClickListener { login() }
+        binding.submitLogin.setOnClickListener { login() }
 
         binding.newUser.setOnClickListener {
             this.findNavController().navigate(R.id.action_loginFragment_to_regDataFragment)
