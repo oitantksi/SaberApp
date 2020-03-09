@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 
 public class PanelBarraTop extends JPanel {
 	
-	private String nick;
+	String nick = PM02Principal.nick;
 	/**
 	 * Create the panel.
 	 */
@@ -23,6 +23,8 @@ public class PanelBarraTop extends JPanel {
 		btnMenu.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnMenu.setIcon(new ImageIcon(PanelBarraTop.class.getResource("/escriptoriSaberApp/resources/icon_menu_64.png")));
 		add(btnMenu, BorderLayout.WEST);
+		
+		System.out.println("Aquest és el nick: "+ nick);
 		
 		JLabel lblSalutacio = new JLabel("Hola, " + nick);
 		lblSalutacio.setIcon(new ImageIcon(PanelBarraTop.class.getResource("/escriptoriSaberApp/resources/icon_rounded_user_login.png")));

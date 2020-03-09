@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="omega.isaacbenito.saberapp.authentication.registration.RegDataViewModel" />
+            type="omega.isaacbenito.saberapp.authentication.model.RegDataViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,8 +35,19 @@
             android:hint="@string/user_surname_hint"
             android:inputType="text"
             android:padding="@dimen/editText_padding"
-            app:layout_constraintBottom_toTopOf="@id/accountMail"
+            app:layout_constraintBottom_toTopOf="@id/nickname"
             app:layout_constraintTop_toBottomOf="@id/name" />
+
+        <EditText
+            android:id="@+id/nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:hint="@string/user_nickname_hint"
+            android:inputType="text"
+            android:padding="@dimen/editText_padding"
+            app:layout_constraintBottom_toTopOf="@id/accountMail"
+            app:layout_constraintTop_toBottomOf="@id/surname" />
 
         <EditText
             android:id="@+id/accountMail"
@@ -47,7 +58,7 @@
             android:inputType="textEmailAddress"
             android:padding="@dimen/editText_padding"
             app:layout_constraintBottom_toTopOf="@id/accountPassword"
-            app:layout_constraintTop_toBottomOf="@id/surname" />
+            app:layout_constraintTop_toBottomOf="@id/nickname" />
 
         <EditText
             android:id="@+id/accountPassword"
@@ -68,11 +79,11 @@
             android:hint="@string/user_password_repeat_hint"
             android:inputType="textPassword"
             android:padding="@dimen/editText_padding"
-            app:layout_constraintBottom_toTopOf="@id/submit"
+            app:layout_constraintBottom_toTopOf="@id/submitData"
             app:layout_constraintTop_toBottomOf="@id/accountPassword" />
 
         <Button
-            android:id="@+id/submit"
+            android:id="@+id/submitData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/login_chain_margin"
@@ -89,7 +100,7 @@
             android:gravity="center"
             android:text="@string/already_member"
             app:layout_constraintBottom_toBottomOf="@id/register_layout"
-            app:layout_constraintTop_toBottomOf="@id/submit"
+            app:layout_constraintTop_toBottomOf="@id/submitData"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package escriptoriSaberApp.views;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -22,12 +23,13 @@ import javax.swing.border.EmptyBorder;
 
 import com.omega.server.consumer.client.impl.LoginRegistroImpl;
 
+
 public class PM01Login2 extends JFrame {
 
 	private String contrasenya;
-	public String email;
-	private int intents = 0;
-	private String token;
+	public static String email;
+	private int intents = 1;
+	public static String token;
 	
 	private JPanel ctpLogin;
 	private JTextField tfMail;
@@ -64,10 +66,7 @@ public class PM01Login2 extends JFrame {
 	 */
 	public PM01Login2() {
 		
-		initComponents();
-		setSize(500, 300);
-        setResizable(false);
-        setLocationRelativeTo(null);
+		initComponents();		
 		createEvents();
 				
 	}
@@ -77,8 +76,13 @@ public class PM01Login2 extends JFrame {
 	//////////////////////////////////////////////////////////////
 	private void initComponents() {
 		setTitle("Login");
+		setSize(500,300);
+		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setMinimumSize(new Dimension(500,300));
+		setBounds(100, 100, 500, 300);
+		setLocationRelativeTo(null);
+        
 		ctpLogin = new JPanel();
 		ctpLogin.setBackground(Utils.colorLila);
 		ctpLogin.setSize(500,300);
@@ -125,10 +129,10 @@ public class PM01Login2 extends JFrame {
 		lblMail.setBounds(165, 69, 108, 16);
 		ctpLogin.add(lblMail);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(PM01Login2.class.getResource("/escriptoriSaberApp/resources/logo_SaberApp_60.png")));
-		lblNewLabel.setBounds(355, 20, 61, 60);
-		ctpLogin.add(lblNewLabel);
+		JLabel lblLogo = new JLabel("");
+		lblLogo.setIcon(new ImageIcon(PM01Login2.class.getResource("/escriptoriSaberApp/resources/logo_SaberApp_60.png")));
+		lblLogo.setBounds(355, 20, 61, 60);
+		ctpLogin.add(lblLogo);
 		
 		lblExit = new JLabel("X");
 		lblExit.setBounds(483, 6, 11, 16);
@@ -147,51 +151,61 @@ public class PM01Login2 extends JFrame {
 	private void createEvents() {
 		btnLogin.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
-				int res =1;
-				
+								
 				lg = new LoginRegistroImpl();
-		        
-		        contrasenya = new String(pfPassword.getPassword());
-				email = tfMail.getText().trim();
 				
-				token = lg.login(email, contrasenya);
-
-				if (token!=null) {
-
-				    dispose();
-				    JOptionPane.showMessageDialog(null, "Benvingut!!\n"
-				            + "Acabes d'entrar al sistema correctament", "Missatge de benvinguda",
-				            JOptionPane.INFORMATION_MESSAGE);
-				    intents = 4;
-				    PM02Principal f2 = new PM02Principal();
-				    f2.pack();
-				    f2.setVisible(true);
-				    f2.setLocationRelativeTo(null);
-				    f2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				    //informacio necessaria a la següent pantalla 
-				    f2.token=token;
-				    
-				    dispose();
-
-				} else if (intents == 3) {
-				    JOptionPane.showMessageDialog(null, "Accés bloquejat\n Ha superat el màxim d'intents erronis!!");
-				    System.exit(0);
-				    
-				} else if (res == 3) {
-				    tfMail.setText("");
-				    pfPassword.setText("");
-				    intents++;
-				    JOptionPane.showMessageDialog(null, "S'ha produit un error en la lectura de dades",
-				            "Error", JOptionPane.ERROR_MESSAGE);
-
+				contrasenya = new String(pfPassword.getPassword());
+				email = tfMail.getText().trim();
+				if (contrasenya.length()!=0 && email.length()!=0) {	
+					try{
+												
+						token = lg.login(email, contrasenya);
+						String nick= (lg.findUsuarioByEmail(email, token)).getNickname();
+						
+						if (token!=null) {
+	
+						    dispose();
+						    JOptionPane.showMessageDialog(null, "Benvingut, " + nick +"!!\n"
+						            + "Acabes d'entrar al sistema correctament", "Missatge de benvinguda",
+						            JOptionPane.INFORMATION_MESSAGE);
+						    intents = 4;
+						    PM02Principal f2 = new PM02Principal();
+						    f2.pack();
+						    f2.setVisible(true);
+						    f2.setLocationRelativeTo(null);
+						    f2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						    //informacio necessaria a la següent pantalla 
+						    f2.token=token;
+						    f2.email=email;
+						    f2.panelTop.nick = nick;
+						    
+						    dispose();
+	
+						}
+						
+						
+					} catch (Exception e1) {
+					      if (intents == 3) {								
+							    JOptionPane.showMessageDialog(null, "Accés bloquejat.\n Ha superat el màxim d'intents erronis!!");
+							    System.exit(0);
+							    
+					      } else {							    
+							    intents++;
+							    JOptionPane.showMessageDialog(null, "Email o contrasenya incorrecta.\n"
+							            + "Intenta-ho de nou", "Error", JOptionPane.ERROR_MESSAGE);
+					      }
+					      
+				    } finally {
+				    	tfMail.setText("");
+					    pfPassword.setText("");
+				    }
+		        
+				
 				} else {
-				    tfMail.setText("");
-				    pfPassword.setText("");
-				    intents++;
-				    JOptionPane.showMessageDialog(null, "Usuari o contrasenya incorrecta\n"
+					JOptionPane.showMessageDialog(null, "Els camps han d'estar plens\n"
 				            + "Intenta-ho de nou", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-
+				
 			}
 		});
 		
@@ -210,7 +224,7 @@ public class PM01Login2 extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PM03Registre f3 = new PM03Registre();
+				PM03Registre2 f3 = new PM03Registre2();
 			    f3.pack();
 			    f3.setVisible(true);
 			    f3.setLocationRelativeTo(null);

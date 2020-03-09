@@ -7,9 +7,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.omega.server.consumer.client.impl.LoginRegistroImpl;
+import com.omega.server.consumer.dto.UserDto;
+
 import javax.swing.JLabel;
 import javax.swing.JToolBar;
 import java.awt.Color;
+import java.awt.Dimension;
 
 /**
  * @author montse
@@ -19,9 +23,14 @@ public class PM02Principal extends JFrame {
 
 	private JPanel contentPane;
 	private PanelBarraEsq panelEsq;
-	private PanelBarraTop panelTop;
+	public PanelBarraTop panelTop;
 	private PanelInici panelMain;
 	protected String token;
+	protected static String nick;
+	protected String email;
+	protected UserDto usuari;
+	
+	private LoginRegistroImpl lg; 
 	
 
 	/**
@@ -53,14 +62,35 @@ public class PM02Principal extends JFrame {
 	//////////////////////////////////////////////////////////////
 	private void initComponents() {
 		setTitle("SaberApp");
-		setResizable(false);
+		setSize(800,650);
+		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(50, 50, 600, 450);
+		setMinimumSize(new Dimension(600, 450));
+		setBounds(20, 20, 600, 450);
 	
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		usuari = PM03Registre2.usuari;
+		
+		if (usuari !=null) {
+			nick = usuari.getNickname();
+			System.out.println(nick);
+		} else {
+			System.out.println("No s'ha trobat usuari");
+			token = PM01Login2.token;
+			System.out.println(token);
+			
+			email = PM01Login2.email;
+			System.out.println(email);
+			
+			lg = new LoginRegistroImpl();
+			usuari = lg.findUsuarioByEmail(email, token);
+			nick = usuari.getNickname();
+			System.out.println(nick);
+		}
 		
 		panelTop = new PanelBarraTop();
 		panelTop.setBackground(Utils.colorVerd);

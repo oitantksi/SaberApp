@@ -56,6 +56,9 @@ android {
 }
 
 dependencies {
+    /**
+     *  APP DEPENDENCIES
+     */
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -67,23 +70,6 @@ dependencies {
 
     // Constraint Layout
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-
-    // TESTING
-    // JUnit
-    testImplementation 'junit:junit:4.12'
-
-    // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-    // Assertions
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
-    androidTestImplementation 'com.google.truth:truth:0.42'
-    // Espresso dependencies
-    def espresso_version = "3.2.0"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
-    // Hamcrest
-    androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
 
     // LIFECYCLE EXTENSIONS (ViewModel & LiveData)
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -98,7 +84,7 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     // NAVIGATION
-    def navigation_version = "2.2.1"
+    def navigation_version = "2.2.0"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
@@ -115,4 +101,31 @@ dependencies {
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
+
+    /**
+     *  TESTING DEPENDENCIES
+     */
+
+    // JUnit
+    testImplementation 'junit:junit:4.12'
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    // Assertions
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
+    androidTestImplementation 'com.google.truth:truth:0.42'
+    // Espresso dependencies
+    def espresso_version = "3.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    // Hamcrest
+    androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
+    //Coroutines
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.4'
+    def fragment_version = "1.2.1"
+    // ...
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
 }

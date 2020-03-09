@@ -1,26 +1,32 @@
 package omega.isaacbenito.saberapp.authentication
 
-import android.util.Patterns
+import android.accounts.Account
+import android.accounts.AccountManager
+import android.content.Context
+import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import omega.isaacbenito.saberapp.authentication.login.LoginError
-import omega.isaacbenito.saberapp.authentication.login.LoginState
-import omega.isaacbenito.saberapp.authentication.login.LoginSuccess
-import omega.isaacbenito.saberapp.authentication.registration.RegistrationError
-import omega.isaacbenito.saberapp.authentication.registration.RegistrationState
-import omega.isaacbenito.saberapp.authentication.registration.RegistrationSuccesful
-import omega.isaacbenito.saberapp.server.model.UserCredentials
-import omega.isaacbenito.saberapp.server.model.UserDto
-import retrofit2.Response
+import kotlinx.coroutines.*
+import omega.isaacbenito.saberapp.utils.NetworkUtils
+import omega.isaacbenito.saberapp.authentication.ui.*
+import omega.isaacbenito.saberapp.di.UserComponent
+import omega.isaacbenito.saberapp.entities.UserCredentials
+import omega.isaacbenito.saberapp.entities.UserDto
+import java.net.ConnectException
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class AuthenticationManager @Inject constructor()  {
+@Singleton
+class AuthenticationManager @Inject constructor(
+    context: Context,
+    private val userComponentFactory: UserComponent.Factory
+)  {
+
+    private val TAG = this.javaClass.name
 
     companion object {
+        const val ACCOUNT_TYPE = "omega.saberapp"
         const val ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE"
         const val ARG_AUTH_TYPE = "AUTH_TYPE"
         const val ARG_ACCOUNT_NAME = "ACCOUNT_NAME"
@@ -29,34 +35,57 @@ class AuthenticationManager @Inject constructor()  {
 
     @Inject lateinit var serverAuthenticate : ServerAuthenticate
 
-    var authJob = Job()
-    val authScope = CoroutineScope(authJob + Dispatchers.Main )
+    @Inject lateinit var networkUtils: NetworkUtils
 
-    fun isUserLoggedIn() : Boolean {return false}
+    private val accountManager = AccountManager.get(context)
+
+    private var authJob = Job()
+    private val authScope = CoroutineScope(authJob + Dispatchers.Main )
 
     private var authToken: String? = null
-        get() = authToken
 
-    private val _loginState = MutableLiveData<LoginState>()
-    val loginState : LiveData<LoginState>
-        get() = _loginState
+    lateinit var userMail: String
+        private set
 
-    fun loginUser(userMail: String, password: String) : LiveData<LoginState>  {
-       authScope.launch {
-           val response = serverAuthenticate.logInUser(UserCredentials(userMail, password))
-           if (response.isSuccessful) {
-               authToken = response.headers().get("Authorization").toString()
-               _loginState.value = LoginSuccess
-           } else {
-               _loginState.value = LoginError("Unable to log in")
-           }
-       }
+    private val _loginState = MutableLiveData<AuthState>()
 
-        return loginState
+    fun login(userMail: String, password: String) : MutableLiveData<AuthState> {
+        if (!AccountGlobals.isValidEmail(userMail) or !AccountGlobals.isValidPassword(password)) {
+            _loginState.value = AuthError(AuthError.WRONG_CREDENTIALS_ERROR)
+        } else {
+
+            runBlocking {
+                _loginState.value = withContext(Dispatchers.IO) {
+                     return@withContext serverLogin(UserCredentials(userMail, password))
+                }
+            }
+        }
+
+        return _loginState
     }
 
-    private val _registrationState = MutableLiveData<RegistrationState>()
-    val registrationState : LiveData<RegistrationState>
+    suspend fun serverLogin(userCredentials: UserCredentials) : AuthState {
+        try {
+            val response = serverAuthenticate.logInUser(userCredentials)
+            if (response.isSuccessful) {
+                authToken = response.headers().get("Authorization").toString()
+                userMail = userCredentials.email
+                Log.d(TAG, "Authentication success. User $userMail logged in and obtained token $authToken")
+                addUser(userMail, userCredentials.password)
+                userJustLoggedIn()
+                return AuthSuccess
+            } else {
+                Log.d(TAG, "Authentication not successfull")
+                return AuthError(AuthError.WRONG_CREDENTIALS_ERROR)
+            }
+        } catch (e: ConnectException) {
+            Log.d(TAG, "Authentication ConnectException message ${e.message}")
+            return AuthError(AuthError.SERVER_UNREACHABLE_ERROR)
+        }
+    }
+
+    private val _registrationState = MutableLiveData<AuthState>()
+    val registrationState : LiveData<AuthState>
         get() = _registrationState
 
     fun registerUser(user_name: String,
@@ -64,60 +93,73 @@ class AuthenticationManager @Inject constructor()  {
                      user_nickname: String,
                      email: String,
                      password: String,
-                     centre: String,
-                     curs: String,
-                     aula: String) : LiveData<RegistrationState> {
-        if (!isUserMailValid(email)) {
-            _registrationState.value = RegistrationError("email not valid")
-            return registrationState
-        }
-
-        if (!isPasswordValid(password)) {
-            _registrationState.value = RegistrationError("password not valid")
-            return registrationState
-        }
+                     centre: String) : LiveData<AuthState> {
 
         authScope.launch {
-            val response = serverAuthenticate.registerUser(UserDto(user_name, user_surname, user_nickname,
-                email, password, centre, 'A'))
+            try {
+                val response = serverAuthenticate.registerUser(
+                    UserDto(user_name, user_surname, user_nickname, email, password,
+                        centre, 'A')
+                )
 
-            if (response.isSuccessful) {
-                loginUser(email, password)
-                _registrationState.value = RegistrationSuccesful
-            } else {
-                _registrationState.value = RegistrationError("")
+                if (response.isSuccessful) {
+                    login(email, password)
+                } else {
+                    _registrationState.postValue(AuthError(AuthError.WRONG_CREDENTIALS_ERROR))
+                }
+
+            } catch (e: ConnectException) {
+                _registrationState.postValue(AuthError(AuthError.SERVER_UNREACHABLE_ERROR))
             }
         }
 
         return registrationState
     }
 
-    fun logoutUser() {}
+    fun addUser(userMail: String, password: String) {
+        val account = Account(userMail, ACCOUNT_TYPE )
+        accountManager.addAccountExplicitly(account, password, null);
+    }
 
-    fun unregisterUser() {}
-
-    /**
-     * Comprova si el email proporcionat per l'usuari és una cadena de text amb format email correcta
-     *
-     * @param userMail email proporcionat per l'usuari
-     * @return Boolean
-     */
-    private fun isUserMailValid(userMail: String): Boolean {
-        return if (userMail.contains('@')) {
-            Patterns.EMAIL_ADDRESS.matcher(userMail).matches()
+    fun removeuser(userMail: String) {
+        val account = Account(userMail, ACCOUNT_TYPE )
+        if (Build.VERSION.SDK_INT >= 22) {
+            accountManager.removeAccount(account, null, null, null)
         } else {
-            userMail.isNotBlank()
+            accountManager.removeAccount(account, null, null)
         }
     }
 
-    /**
-     * Comprova si la contrassenya proporcionada per l'usuari compleix les característiques necessàries
-     *
-     * @param password
-     * @return
-     */
-    private fun isPasswordValid(password: String): Boolean {
-        return password.length > 5
+    fun getAuthToken() : String{
+        if (userIsLoggedIn() && authToken!=null) {
+            return authToken!!
+        } else  {
+            return ""
+        }
     }
+
+    fun logoutUser(userMail: String) {
+        removeuser(userMail)
+        userComponent = null
+    }
+
+    fun unregisterUser(userMail: String) {
+        removeuser(userMail)
+        userComponent = null
+        //TODO Unregister
+    }
+
+    var userComponent: UserComponent? = null
+        private set
+
+    fun userIsLoggedIn() = userComponent != null
+
+    private fun userJustLoggedIn() {
+        userComponent = userComponentFactory.create()
+    }
+
+
+
+
 
 }
