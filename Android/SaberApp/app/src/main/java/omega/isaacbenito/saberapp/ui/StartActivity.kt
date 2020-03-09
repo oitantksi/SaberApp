@@ -25,13 +25,13 @@ class StartActivity : AppCompatActivity() {
 
         val authManager = (application as SaberApp).appComponent.authManager()
 
-        Handler().postDelayed(Runnable {
+        //TODO Check if account is saved on device
+        Handler().postDelayed( {
             if (authManager.userIsLoggedIn()) {
-
+                startActivity(Intent(this, MainActivity::class.java))
             } else {
                 startActivity(Intent(this, AuthActivity::class.java))
             }
-//            startActivity(Intent(this, AuthActivity::class.java))
         }, 1000L)
     }
 }

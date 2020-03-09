@@ -5,9 +5,7 @@ import omega.isaacbenito.saberapp.entities.UserDto
 import omega.isaacbenito.saberapp.entities.User
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 
 interface ApiServerService {
@@ -21,13 +19,14 @@ interface ApiServerService {
     @GET("/user/id")
     suspend fun getUser(@Body userId: Long, authToken: String): User
 
-    @GET("/user/email")
-    suspend fun getUser(@Body userMail: String, @Body authToken: String): User
+    @GET("/user/email/{email}")
+    suspend fun getUser(@Path("email") userMail: String,
+                        @Header("Authorization") authToken: String): User
 
     @POST("/login")
     fun loginUserTest(@Body userCredentials: UserCredentials) : Call<Unit>
 
     @GET("/user/email")
-    fun getUserTest(@Body userMail: String, @Body authToken: String): Call<User>
+    fun getUserTest(@Body userMail: String, authToken: String): Call<User>
 
 }
