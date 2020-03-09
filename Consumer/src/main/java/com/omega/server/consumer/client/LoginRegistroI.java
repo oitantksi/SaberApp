@@ -1,7 +1,10 @@
 package com.omega.server.consumer.client;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 
+import com.omega.server.consumer.dto.CentreDto;
 import com.omega.server.consumer.dto.UserDto;
 
 public interface LoginRegistroI {
@@ -36,4 +39,5 @@ public interface LoginRegistroI {
 	 */
 	public ResponseEntity<String> helloworld(String name, String token);
 	
+	public CentreDto[] getAllCentres();
 }

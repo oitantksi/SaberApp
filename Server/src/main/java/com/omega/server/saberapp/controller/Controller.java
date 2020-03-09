@@ -3,6 +3,7 @@ package com.omega.server.saberapp.controller;
 
 
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.omega.server.consumer.dto.UserDto;
+import com.omega.server.saberapp.entity.Centre;
 import com.omega.server.saberapp.entity.User;
 import com.omega.server.saberapp.service.SaberAppServiceI;
 /**
@@ -74,6 +76,13 @@ public class Controller {
 						   request.getRol());
 		
 		return service.createUser(user);
+		
+	}
+	
+	@GetMapping("/centres")
+	public List<Centre> getAllCentres(){
+		
+		return service.getCentres();
 		
 	}
 	

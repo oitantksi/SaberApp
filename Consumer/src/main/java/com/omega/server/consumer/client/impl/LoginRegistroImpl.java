@@ -1,6 +1,7 @@
 package com.omega.server.consumer.client.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpEntity;
@@ -14,6 +15,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.omega.server.consumer.client.LoginRegistroI;
+import com.omega.server.consumer.dto.CentreDto;
+import com.omega.server.consumer.dto.CentresListDto;
 import com.omega.server.consumer.dto.UserDto;
 
 @Service
@@ -97,4 +100,20 @@ public class LoginRegistroImpl implements LoginRegistroI{
 		return response;
 	}
 
+	@Override 
+	public CentreDto[] getAllCentres(){
+		String uri="http://localhost:8080/centres";
+
+	    RestTemplate restTemplate = new RestTemplate();
+	    HttpHeaders headers = new HttpHeaders();
+	    
+		HttpEntity<CentreDto[]> entity = new HttpEntity<CentreDto[]>(headers);
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+		ResponseEntity<CentreDto[]> response = restTemplate
+		            .exchange(uri, HttpMethod.GET, entity, CentreDto[].class);
+				
+		
+		return response.getBody();
+		
+	}
 }

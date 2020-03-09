@@ -2,12 +2,16 @@ package com.omega.server.consumer.client.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 import com.omega.server.consumer.client.LoginRegistroI;
+import com.omega.server.consumer.dto.CentreDto;
 import com.omega.server.consumer.dto.UserDto;
 
 @SpringBootTest
@@ -38,7 +42,7 @@ public class LoginRegistroImplTest {
 		}
 	}
 	
-	@Test 
+	//@Test
 	public void whenRegisterUserTrue_thenReturnUser() {
 		UserDto datosUsuario=new UserDto(null, "Pedro", "Perez", "pedroperez@omega.com", "PereGran", "pepe", "IOC", 'A');
 		
@@ -51,6 +55,9 @@ public class LoginRegistroImplTest {
 		assertEquals(datosUsuario.getEmail(), userDto.getEmail());
 		
 	}
+	/**
+	 * Al intentar meter el mismo usuario por segunda vez fallará
+	 */
 	@Test 
 	public void whenRegisterUserFalse_thenReturnException() {
 		UserDto datosUsuario=new UserDto(null, "Pedro", "Perez", "pedroperez@omega.com", "PereGran", "pepe", "IOC", 'A');
@@ -58,7 +65,7 @@ public class LoginRegistroImplTest {
 		UserDto userDto=new UserDto();
 		try {
 			userDto = loginRegistro.registraUsuario(datosUsuario);
-		} catch (HttpClientErrorException e) {
+		} catch (HttpServerErrorException e) {
 			assertEquals(500, e.getRawStatusCode());
 		}	
 		
@@ -90,6 +97,15 @@ public class LoginRegistroImplTest {
 			assertEquals(403, e.getRawStatusCode());	
 		}
 	}
+	@Test
+	public void whenFindAll_thenReturnCentersArray() {
+		
+		CentreDto[] list=loginRegistro.getAllCentres();
+	
+		assertEquals("IOC", list[0].getCentre());
+		
+	}
+	
 	
 	public static void main (String []args) throws Exception {
 			
