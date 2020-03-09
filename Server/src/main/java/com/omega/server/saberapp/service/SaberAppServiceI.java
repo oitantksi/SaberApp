@@ -1,7 +1,9 @@
 package com.omega.server.saberapp.service;
 
+import java.util.List;
 import java.util.Optional;
 
+import com.omega.server.saberapp.entity.Centre;
 import com.omega.server.saberapp.entity.User;
 
 /**
@@ -18,6 +20,7 @@ public interface SaberAppServiceI {
 	public User createUser(User user);
 	public String login(String nickname, String password);
 	public User getUserByEmail(String email);
+	public List<Centre> getCentres();
 	
 
 }

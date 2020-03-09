@@ -2,6 +2,7 @@ package com.omega.server.saberapp.service.impl;
 
 import static java.util.Collections.emptyList;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.omega.server.saberapp.entity.Centre;
 import com.omega.server.saberapp.entity.User;
+import com.omega.server.saberapp.persistence.repository.CentresRepository;
 import com.omega.server.saberapp.persistence.repository.UserRepository;
 import com.omega.server.saberapp.service.SaberAppServiceI;
 /**
@@ -26,6 +29,8 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 	 private UserRepository userRepository;
 	 @Autowired
 	 private BCryptPasswordEncoder bCryptPasswordEncoder;
+	 @Autowired 
+	 private CentresRepository centreRepository;
 	
 	@Override
 	public User getUser(String name) {
@@ -70,5 +75,10 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 		return new org.springframework.security.core.userdetails.User(usuarioEntity.getEmail(), usuarioEntity.getPassword(), emptyList());
 	}
 	
+	@Override
+	public List<Centre> getCentres(){
+			
+		return centreRepository.findAll();
+	}
 	
 }
