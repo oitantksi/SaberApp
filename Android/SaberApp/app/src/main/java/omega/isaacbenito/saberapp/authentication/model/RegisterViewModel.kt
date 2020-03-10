@@ -34,9 +34,7 @@ class RegisterViewModel @Inject constructor() : ViewModel() {
         this.password = password
     }
 
-    fun updateCentreData(
-        centre: String
-    ) {
+    fun updateCentreData(centre: String) {
         this.centre = centre
 
         registerUser()

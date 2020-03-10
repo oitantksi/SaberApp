@@ -1,6 +1,7 @@
 package omega.isaacbenito.saberapp.authentication.ui
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,10 +22,12 @@ import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.authentication.model.RegCentreViewModel
 import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
 import omega.isaacbenito.saberapp.databinding.FragmentRegCentreBinding
+import omega.isaacbenito.saberapp.databinding.RegCentreItemBinding
+import omega.isaacbenito.saberapp.ui.MainActivity
 import javax.inject.Inject
 
 
-class RegCentreFragment : Fragment() {
+class RegCentreFragment : Fragment(), OnItemClickListener {
 
     @Inject
     lateinit var viewModel: RegCentreViewModel
@@ -41,7 +45,7 @@ class RegCentreFragment : Fragment() {
 
         registerViewModel.registrationStatus.observe(this, Observer {
             if(it is AuthSuccess) {
-//                this.findNavController().navigate(R.id.action_regCentreFragment_to_navigation_root)
+                startActivity(Intent(context, MainActivity::class.java))
             }
         })
     }
@@ -56,10 +60,7 @@ class RegCentreFragment : Fragment() {
 
         viewManager = LinearLayoutManager(context)
         viewAdapter = CentreAdapter(
-            viewModel.centres,
-            AdapterView.OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-                registerViewModel.updateCentreData(viewModel.centres[position])
-            })
+            viewModel.centres, this)
 
         recyclerView = binding.centreList.apply {
             setHasFixedSize(true)
@@ -68,6 +69,7 @@ class RegCentreFragment : Fragment() {
 
             adapter = viewAdapter
         }
+
 
         val decoration = DividerItemDecoration(context, VERTICAL)
         recyclerView.addItemDecoration(decoration)
@@ -81,28 +83,49 @@ class RegCentreFragment : Fragment() {
         (activity as AuthActivity).authComponent.inject(this)
     }
 
+    override fun onItemClick(position: Int) {
+            Toast.makeText(
+                context,
+                viewModel.centres[position],
+                Toast.LENGTH_SHORT
+            ).show()
+//            registerViewModel.updateCentreData(viewModel.centres[position])
+        }
+
+
     class CentreAdapter(
         private val centreList: List<String>,
-        val listener: AdapterView.OnItemClickListener
+        val listener: OnItemClickListener
     ) : RecyclerView.Adapter<CentreAdapter.CentreVH>() {
 
-        class CentreVH(val view: LinearLayout) : RecyclerView.ViewHolder(view) {
-            val centreTextView = view.findViewById<TextView>(R.id.centreTextView)
+
+        class CentreVH(private val binding: RegCentreItemBinding) : RecyclerView.ViewHolder(view){
+            init {
+                binding.setClickListener {
+                    //TODO
+                }
+            }
+
+            fun setOnItemClickListener(position:Int, listener: OnItemClickListener) {
+                centreTextView.setOnClickListener({listener.onItemClick(position)})
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CentreVH {
-            val itemLayout = LayoutInflater.from(parent.context)
-                .inflate(R.layout.reg_centre_item, parent, false) as LinearLayout
-            return CentreVH(itemLayout)
+            return CentreVH(RegCentreItemBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false))
         }
 
         override fun getItemCount(): Int = centreList.size
 
         override fun onBindViewHolder(holder: CentreVH, position: Int) {
             holder.centreTextView.text = centreList[position]
+            holder.setOnItemClickListener(position, listener)
         }
+
     }
 }
 
-
-
+interface OnItemClickListener {
+    fun onItemClick(position: Int)
+}
