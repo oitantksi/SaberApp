@@ -6,6 +6,10 @@
         <variable
             name="clickListener"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="viewModel"
+            type="omega.isaacbenito.saberapp.authentication.model.RegisterViewModel" />
     </data>
 
     <LinearLayout
@@ -19,8 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            tools:text="Text de prova"
-            android:clickable="true"/>
+            tools:text="Text de prova"/>
 
     </LinearLayout>
 </layout>

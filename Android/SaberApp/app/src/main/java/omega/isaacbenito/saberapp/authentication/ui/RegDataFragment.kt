@@ -33,7 +33,7 @@ class RegDataFragment : Fragment() {
                 is EnterDataSuccess -> {
                     val user_name = binding.name.text.toString()
                     val user_surname = binding.surname.text.toString()
-                    val user_nickname = ""
+                    val user_nickname = binding.nickname.text.toString()
                     val email = binding.accountMail.text.toString()
                     val password = binding.accountPassword.text.toString()
 

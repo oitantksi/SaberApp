@@ -6,6 +6,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.Root
@@ -20,6 +21,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import junit.framework.TestCase.fail
 import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
+import omega.isaacbenito.saberapp.authentication.ui.CentreAdapter
+import omega.isaacbenito.saberapp.authentication.ui.RegCentreFragment
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.any
@@ -158,16 +161,14 @@ class AuthModuleTest {
 
         onView(withId(R.id.submitData)).perform(click())
 
-        if (!waitForFragment(R.id.regCentreFragment, 2000)) {
-            fail()
-        }
+        onView(withId(R.id.centre_list)).check(matches(isDisplayed()))
 
         onView(withId(R.id.centre_list)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                1, recyclerClick())
+            RecyclerViewActions.actionOnItemAtPosition<CentreAdapter.CentreVH>(
+                centre,
+                click()
             )
-
-//        onData(withId(R.id.centre_list)).atPosition(1).perform(click())
+        )
 
         if (!waitForFragment(R.id.userFragment, 2000)) {
             fail()
@@ -184,26 +185,13 @@ class AuthModuleTest {
         while (SystemClock.uptimeMillis() <= endTime) {
             try {
                 onView(withId(id)).check(matches(isDisplayed()))
+                return true
             } catch (e: NoMatchingViewException) {}
         }
         return false
     }
 
-    fun recyclerClick(): ViewAction? {
-        return object : ViewAction {
-            override fun getConstraints(): Matcher<View> {
-                return any(View::class.java)
-            }
 
-            override fun getDescription(): String {
-                return "performing click() on recycler view item"
-            }
-
-            override fun perform(uiController: UiController?, view: View) {
-                view.performClick()
-            }
-        }
-    }
 }
 
 class ToastMatcher : TypeSafeMatcher<Root>() {

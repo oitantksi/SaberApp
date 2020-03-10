@@ -6,14 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +23,7 @@ import omega.isaacbenito.saberapp.ui.MainActivity
 import javax.inject.Inject
 
 
-class RegCentreFragment : Fragment(), OnItemClickListener {
+class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
 
     @Inject
     lateinit var viewModel: RegCentreViewModel
@@ -59,8 +55,7 @@ class RegCentreFragment : Fragment(), OnItemClickListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_reg_centre, container, false)
 
         viewManager = LinearLayoutManager(context)
-        viewAdapter = CentreAdapter(
-            viewModel.centres, this)
+        viewAdapter = CentreAdapter(viewModel.centres, this)
 
         recyclerView = binding.centreList.apply {
             setHasFixedSize(true)
@@ -83,49 +78,46 @@ class RegCentreFragment : Fragment(), OnItemClickListener {
         (activity as AuthActivity).authComponent.inject(this)
     }
 
-    override fun onItemClick(position: Int) {
-            Toast.makeText(
-                context,
-                viewModel.centres[position],
-                Toast.LENGTH_SHORT
-            ).show()
-//            registerViewModel.updateCentreData(viewModel.centres[position])
-        }
-
-
-    class CentreAdapter(
-        private val centreList: List<String>,
-        val listener: OnItemClickListener
-    ) : RecyclerView.Adapter<CentreAdapter.CentreVH>() {
-
-
-        class CentreVH(private val binding: RegCentreItemBinding) : RecyclerView.ViewHolder(view){
-            init {
-                binding.setClickListener {
-                    //TODO
-                }
-            }
-
-            fun setOnItemClickListener(position:Int, listener: OnItemClickListener) {
-                centreTextView.setOnClickListener({listener.onItemClick(position)})
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CentreVH {
-            return CentreVH(RegCentreItemBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false))
-        }
-
-        override fun getItemCount(): Int = centreList.size
-
-        override fun onBindViewHolder(holder: CentreVH, position: Int) {
-            holder.centreTextView.text = centreList[position]
-            holder.setOnItemClickListener(position, listener)
-        }
-
+    override fun onClickCentre(position: Int, centre: String) {
+        registerViewModel.updateCentreData(centre)
+//        Toast.makeText(context, centre, Toast.LENGTH_SHORT).show()
     }
 }
 
-interface OnItemClickListener {
-    fun onItemClick(position: Int)
+class CentreAdapter(
+    private val centreList: List<String>,
+    private val interaction: Interaction
+) : RecyclerView.Adapter<CentreAdapter.CentreVH>() {
+
+
+    class CentreVH(private val binding: RegCentreItemBinding, private val interaction: Interaction)
+        : RecyclerView.ViewHolder(binding.root){
+
+        fun bind(centre: String) {
+            binding.centreTextView.text = centre
+
+            binding.setClickListener {
+                interaction.onClickCentre(adapterPosition, centre)
+            }
+
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CentreVH {
+        return CentreVH(RegCentreItemBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false), interaction)
+    }
+
+    override fun getItemCount(): Int = centreList.size
+
+    override fun onBindViewHolder(holder: CentreVH, position: Int) {
+        holder.bind(centreList[position])
+    }
+
+    interface Interaction {
+        fun onClickCentre(position: Int, centre: String)
+    }
 }
+
+
+

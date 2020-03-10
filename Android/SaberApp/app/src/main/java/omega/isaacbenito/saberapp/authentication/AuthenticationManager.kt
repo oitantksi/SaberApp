@@ -95,7 +95,7 @@ class AuthenticationManager @Inject constructor(
                      password: String,
                      centre: String) : LiveData<AuthState> {
 
-        authScope.launch {
+        runBlocking {
             try {
                 val response = serverAuthenticate.registerUser(
                     UserDto(user_name, user_surname, user_nickname, email, password,
@@ -103,13 +103,13 @@ class AuthenticationManager @Inject constructor(
                 )
 
                 if (response.isSuccessful) {
-                    login(email, password)
+                    _registrationState.value = serverLogin(UserCredentials(email, password))
                 } else {
-                    _registrationState.postValue(AuthError(AuthError.WRONG_CREDENTIALS_ERROR))
+                    _registrationState.value = AuthError(AuthError.WRONG_CREDENTIALS_ERROR)
                 }
 
             } catch (e: ConnectException) {
-                _registrationState.postValue(AuthError(AuthError.SERVER_UNREACHABLE_ERROR))
+                _registrationState.value = AuthError(AuthError.SERVER_UNREACHABLE_ERROR)
             }
         }
 

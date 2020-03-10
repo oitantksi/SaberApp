@@ -1,5 +1,6 @@
 package omega.isaacbenito.saberapp.di
 
+import androidx.recyclerview.widget.RecyclerView
 import dagger.Subcomponent
 import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
 import omega.isaacbenito.saberapp.authentication.ui.LoginFragment

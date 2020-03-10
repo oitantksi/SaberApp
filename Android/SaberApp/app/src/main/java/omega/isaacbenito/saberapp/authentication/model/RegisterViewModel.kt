@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import omega.isaacbenito.saberapp.authentication.AuthenticationManager
 import omega.isaacbenito.saberapp.authentication.ui.AuthState
+import omega.isaacbenito.saberapp.di.ActivityScope
 import javax.inject.Inject
 
+@ActivityScope
 class RegisterViewModel @Inject constructor() : ViewModel() {
 
     @Inject lateinit var authenticationManager: AuthenticationManager
