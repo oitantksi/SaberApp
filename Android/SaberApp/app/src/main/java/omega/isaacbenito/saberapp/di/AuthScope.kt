@@ -15,16 +15,11 @@
  *     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package omega.isaacbenito.saberapp.authentication
+package omega.isaacbenito.saberapp.di
 
-import android.app.Service
-import android.content.Intent
-import android.os.IBinder
+import javax.inject.Scope
 
-class AuthenticatorService : Service() {
-    override fun onBind(intent: Intent?): IBinder? {
-
-        val authenticator = AccountAuthenticator(this)
-        return authenticator.iBinder
-    }
-}
+@Scope
+@MustBeDocumented
+@Retention(value = AnnotationRetention.RUNTIME)
+annotation class AuthScope

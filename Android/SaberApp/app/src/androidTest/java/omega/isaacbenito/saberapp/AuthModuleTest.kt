@@ -111,7 +111,7 @@ class AuthModuleTest {
         // Click login button
         onView(withId(R.id.submitLogin)).perform(click())
 
-        if (waitForFragment(R.id.userFragment, 2000)) {
+        if (waitForView(R.id.userFragment, 2000)) {
             fail()
         }
 
@@ -170,9 +170,7 @@ class AuthModuleTest {
             )
         )
 
-        if (!waitForFragment(R.id.userFragment, 2000)) {
-            fail()
-        }
+
     }
 
     @After
@@ -180,7 +178,7 @@ class AuthModuleTest {
         activityRule.finishActivity()
     }
 
-    protected fun waitForFragment(id: Int, timeout: Int): Boolean {
+    protected fun waitForView(id: Int, timeout: Int): Boolean {
         val endTime = SystemClock.uptimeMillis() + timeout
         while (SystemClock.uptimeMillis() <= endTime) {
             try {
