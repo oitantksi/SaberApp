@@ -65,8 +65,8 @@ import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.authentication.AuthenticationManager
 import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
 import omega.isaacbenito.saberapp.databinding.FragmentUserProfileBinding
-import omega.isaacbenito.saberapp.user.model.UserProfileViewModel
 import omega.isaacbenito.saberapp.ui.MainActivity
+import omega.isaacbenito.saberapp.user.model.UserProfileViewModel
 import javax.inject.Inject
 
 class UserProfileFragment : Fragment() {

@@ -26,11 +26,10 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import omega.isaacbenito.saberapp.R
-import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
 import omega.isaacbenito.saberapp.authentication.model.RegDataViewModel
+import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
 import omega.isaacbenito.saberapp.authentication.ui.EnterDataError.Companion.INVALID_EMAIL
 import omega.isaacbenito.saberapp.authentication.ui.EnterDataError.Companion.INVALID_NAME
 import omega.isaacbenito.saberapp.authentication.ui.EnterDataError.Companion.INVALID_NICKNAME
@@ -38,7 +37,6 @@ import omega.isaacbenito.saberapp.authentication.ui.EnterDataError.Companion.INV
 import omega.isaacbenito.saberapp.authentication.ui.EnterDataError.Companion.INVALID_PASSWORD_REPEAT
 import omega.isaacbenito.saberapp.authentication.ui.EnterDataError.Companion.INVALID_SURNAME
 import omega.isaacbenito.saberapp.databinding.FragmentRegDataBinding
-import omega.isaacbenito.saberapp.utils.NetworkUtils
 import javax.inject.Inject
 
 /**
@@ -49,7 +47,7 @@ import javax.inject.Inject
  */
 class RegDataFragment : Fragment() {
 
-    val TAG = this.javaClass.name
+    private val _tag = this.javaClass.name
 
     private lateinit var binding: FragmentRegDataBinding
 
@@ -78,14 +76,14 @@ class RegDataFragment : Fragment() {
         regDataViewModel.enterDetailsState.observe(this, Observer {
             when (it) {
                 is EnterDataSuccess -> {
-                    val user_name = binding.name.text.toString()
-                    val user_surname = binding.surname.text.toString()
-                    val user_nickname = binding.nickname.text.toString()
+                    val userName = binding.name.text.toString()
+                    val userSurname = binding.surname.text.toString()
+                    val userNickname = binding.nickname.text.toString()
                     val email = binding.accountMail.text.toString()
                     val password = binding.accountPassword.text.toString()
 
                     registrationViewModel.updateUserData(
-                        user_name, user_surname, user_nickname, email, password
+                        userName, userSurname, userNickname, email, password
                     )
 
                     this.findNavController()
@@ -190,16 +188,16 @@ class RegDataFragment : Fragment() {
      * si compleixen les característiques necessàries per a crear un compte de
      * l'aplicació.
      */
-    fun validateData() {
-        val user_name = binding.name.text.toString()
-        val user_surname = binding.surname.text.toString()
-        val user_nickname = binding.nickname.text.toString()
+    private fun validateData() {
+        val userName = binding.name.text.toString()
+        val userSurname = binding.surname.text.toString()
+        val userNickname = binding.nickname.text.toString()
         val email = binding.accountMail.text.toString()
         val password = binding.accountPassword.text.toString()
         val repeatPassword = binding.accountPasswordRepeat.text.toString()
 
         regDataViewModel.validateInput(
-            user_name, user_surname, user_nickname, email, password, repeatPassword
+            userName, userSurname, userNickname, email, password, repeatPassword
         )
     }
 

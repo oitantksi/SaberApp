@@ -24,12 +24,16 @@ import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.*
-import omega.isaacbenito.saberapp.utils.NetworkUtils
-import omega.isaacbenito.saberapp.authentication.ui.*
-import omega.isaacbenito.saberapp.di.UserComponent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import omega.isaacbenito.saberapp.api.entities.UserCredentials
 import omega.isaacbenito.saberapp.api.entities.UserDto
+import omega.isaacbenito.saberapp.authentication.ui.AuthError
+import omega.isaacbenito.saberapp.authentication.ui.AuthState
+import omega.isaacbenito.saberapp.authentication.ui.AuthSuccess
+import omega.isaacbenito.saberapp.di.UserComponent
+import omega.isaacbenito.saberapp.utils.NetworkUtils
 import java.net.ConnectException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -51,7 +55,7 @@ class AuthenticationManager @Inject constructor(
     private val userComponentFactory: UserComponent.Factory
 ) {
 
-    private val TAG = this.javaClass.name
+    private val _tag = this.javaClass.name
 
     companion object {
         const val ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE"
@@ -94,25 +98,25 @@ class AuthenticationManager @Inject constructor(
         return _loginState
     }
 
-    suspend fun serverLogin(userCredentials: UserCredentials): AuthState {
+    private suspend fun serverLogin(userCredentials: UserCredentials): AuthState {
         try {
             val response = serverAuthenticate.logInUser(userCredentials)
-            if (response.isSuccessful) {
+            return if (response.isSuccessful) {
                 authToken = response.headers()["Authorization"].toString()
                 userMail = userCredentials.email
                 Log.d(
-                    TAG,
+                    _tag,
                     "Authentication success. User $userMail logged in and obtained token $authToken"
                 )
                 addUser(userMail, userCredentials.password)
                 userJustLoggedIn()
-                return AuthSuccess
+                AuthSuccess
             } else {
-                Log.d(TAG, "Authentication not successfull")
-                return AuthError(AuthError.WRONG_CREDENTIALS_ERROR)
+                Log.d(_tag, "Authentication not successfull")
+                AuthError(AuthError.WRONG_CREDENTIALS_ERROR)
             }
         } catch (e: ConnectException) {
-            Log.d(TAG, "Authentication ConnectException message ${e.message}")
+            Log.d(_tag, "Authentication ConnectException message ${e.message}")
             return AuthError(AuthError.SERVER_UNREACHABLE_ERROR)
         }
     }
@@ -158,12 +162,12 @@ class AuthenticationManager @Inject constructor(
         return registrationState
     }
 
-    fun addUser(userMail: String, password: String) {
+    private fun addUser(userMail: String, password: String) {
         val account = Account(userMail, AccountGlobals.ACCOUNT_TYPE)
-        accountManager.addAccountExplicitly(account, password, null);
+        accountManager.addAccountExplicitly(account, password, null)
     }
 
-    fun removeuser(userMail: String) {
+    private fun removeuser(userMail: String) {
         val account = Account(userMail, AccountGlobals.ACCOUNT_TYPE)
         if (Build.VERSION.SDK_INT >= 22) {
             accountManager.removeAccount(account, null, null, null)
@@ -173,10 +177,10 @@ class AuthenticationManager @Inject constructor(
     }
 
     fun getAuthToken(): String {
-        if (userIsLoggedIn() && authToken != null) {
-            return authToken!!
+        return if (userIsLoggedIn() && authToken != null) {
+            authToken!!
         } else {
-            return ""
+            ""
         }
     }
 

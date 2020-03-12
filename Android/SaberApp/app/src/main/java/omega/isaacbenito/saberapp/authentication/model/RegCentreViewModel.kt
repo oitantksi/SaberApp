@@ -17,7 +17,14 @@
 
 package omega.isaacbenito.saberapp.authentication.model
 
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import omega.isaacbenito.saberapp.api.SaberAppServer
+import omega.isaacbenito.saberapp.api.entities.Centre
 import javax.inject.Inject
 
 /**
@@ -28,9 +35,28 @@ import javax.inject.Inject
  */
 class RegCentreViewModel @Inject constructor() {
 
+    @Inject
+    lateinit var server: SaberAppServer
+
+    private val _centres = MutableLiveData<List<Centre>>()
+    val centres: LiveData<List<Centre>>
+        get() = _centres
+
+    init {
+        fetchCentres()
+    }
+
+    private fun fetchCentres() {
+        CoroutineScope(Dispatchers.Main).launch {
+            _centres.value = withContext(Dispatchers.IO) {
+                return@withContext server.service.getCentres()
+            }
+        }
+    }
+
     //TODO request centre list
     // Centres hardcoded
-    val centres = listOf("IOC", "IES JOAN MARAGALL", "IES JAUME BALMES")
+//    val centres = listOf("IOC", "IES JOAN MARAGALL", "IES JAUME BALMES")
 
 
 

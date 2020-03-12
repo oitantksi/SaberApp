@@ -21,11 +21,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import omega.isaacbenito.saberapp.authentication.ui.EnterDataError
 import omega.isaacbenito.saberapp.authentication.ui.EnterDataSuccess
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Test
-
-import org.junit.Assert.*
 import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
@@ -34,11 +33,11 @@ class RegDataViewModelTest {
 
     private val regDataViewModel = RegDataViewModel()
 
-    private var right_user_name = "Name"
-    private var right_user_surname = "Surname Surname"
-    private var right_user_nickname = "Nickname"
-    private var right_email = "email@email.com"
-    private var right_password = "Aa@45678"
+    private var rightUserName = "Name"
+    private var rightUserSurname = "Surname Surname"
+    private var rightUserNickname = "Nickname"
+    private var rightEmail = "email@email.com"
+    private var rightPassword = "Aa@45678"
 
     @Rule
     @JvmField
@@ -59,12 +58,12 @@ class RegDataViewModelTest {
 
         // When
         regDataViewModel.validateInput(
-            right_user_name,
-            right_user_surname,
-            right_user_nickname,
-            right_email,
-            right_password,
-            right_password
+            rightUserName,
+            rightUserSurname,
+            rightUserNickname,
+            rightEmail,
+            rightPassword,
+            rightPassword
         )
 
         // Then
@@ -74,18 +73,18 @@ class RegDataViewModelTest {
     }
 
 
-    fun validateName(name: String) {
+    private fun validateName(name: String) {
         regDataViewModel.validateInput(
             name,
-            right_user_surname,
-            right_user_nickname,
-            right_email,
-            right_password,
-            right_password
+            rightUserSurname,
+            rightUserNickname,
+            rightEmail,
+            rightPassword,
+            rightPassword
         )
     }
 
-    val expected_nameError = EnterDataError(EnterDataError.INVALID_NAME)
+    private val expectedNameError = EnterDataError(EnterDataError.INVALID_NAME)
 
     @Test
     fun validateInput_nameTooShort_EnterDataError() {
@@ -96,7 +95,7 @@ class RegDataViewModelTest {
         validateName(name)
 
         //Then
-        assertEquals(expected_nameError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedNameError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -108,7 +107,7 @@ class RegDataViewModelTest {
         validateName(name)
 
         //Then
-        assertEquals(expected_nameError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedNameError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -120,7 +119,7 @@ class RegDataViewModelTest {
         validateName(name)
 
         //Then
-        assertEquals(expected_nameError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedNameError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -132,22 +131,22 @@ class RegDataViewModelTest {
         validateName(name)
 
         //Then
-        assertEquals(expected_nameError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedNameError, regDataViewModel.enterDetailsState.value)
     }
 
 
-    fun validateSurname(surname: String) {
+    private fun validateSurname(surname: String) {
         regDataViewModel.validateInput(
-            right_user_name,
+            rightUserName,
             surname,
-            right_user_nickname,
-            right_email,
-            right_password,
-            right_password
+            rightUserNickname,
+            rightEmail,
+            rightPassword,
+            rightPassword
         )
     }
 
-    val expected_surnameError = EnterDataError(EnterDataError.INVALID_SURNAME)
+    private val expectedSurnameError = EnterDataError(EnterDataError.INVALID_SURNAME)
 
     @Test
     fun validateInput_surnameTooShort_EnterDataError() {
@@ -158,7 +157,7 @@ class RegDataViewModelTest {
         validateSurname(surname)
 
         //Then
-        assertEquals(expected_surnameError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedSurnameError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -170,7 +169,7 @@ class RegDataViewModelTest {
         validateSurname(surname)
 
         //Then
-        assertEquals(expected_surnameError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedSurnameError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -182,7 +181,7 @@ class RegDataViewModelTest {
         validateSurname(surname)
 
         //Then
-        assertEquals(expected_surnameError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedSurnameError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -194,22 +193,22 @@ class RegDataViewModelTest {
         validateSurname(surname)
 
         //Then
-        assertEquals(expected_surnameError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedSurnameError, regDataViewModel.enterDetailsState.value)
     }
 
 
-    fun validateNickname(nickname: String) {
+    private fun validateNickname(nickname: String) {
         regDataViewModel.validateInput(
-            right_user_name,
-            right_user_surname,
+            rightUserName,
+            rightUserSurname,
             nickname,
-            right_email,
-            right_password,
-            right_password
+            rightEmail,
+            rightPassword,
+            rightPassword
         )
     }
 
-    val expected_nicknameError = EnterDataError(EnterDataError.INVALID_NICKNAME)
+    private val expectedNicknameError = EnterDataError(EnterDataError.INVALID_NICKNAME)
 
     @Test
     fun validateInput_nicknameTooShort_EnterDataError() {
@@ -220,7 +219,7 @@ class RegDataViewModelTest {
         validateNickname(nickname)
 
         //Then
-        assertEquals(expected_nicknameError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedNicknameError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -232,7 +231,7 @@ class RegDataViewModelTest {
         validateNickname(nickname)
 
         //Then
-        assertEquals(expected_nicknameError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedNicknameError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -244,22 +243,22 @@ class RegDataViewModelTest {
         validateNickname(nickname)
 
         //Then
-        assertEquals(expected_nicknameError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedNicknameError, regDataViewModel.enterDetailsState.value)
     }
 
 
-    fun validateEmail(email: String) {
+    private fun validateEmail(email: String) {
         regDataViewModel.validateInput(
-            right_user_name,
-            right_user_surname,
-            right_user_nickname,
+            rightUserName,
+            rightUserSurname,
+            rightUserNickname,
             email,
-            right_password,
-            right_password
+            rightPassword,
+            rightPassword
         )
     }
 
-    val expected_emailError = EnterDataError(EnterDataError.INVALID_EMAIL)
+    private val expectedEmailError = EnterDataError(EnterDataError.INVALID_EMAIL)
 
     @Test
     fun validateInput_email_EnterDataError() {
@@ -270,7 +269,7 @@ class RegDataViewModelTest {
         validateEmail(email)
 
         //Then
-        assertEquals(expected_emailError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedEmailError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -282,7 +281,7 @@ class RegDataViewModelTest {
         validateEmail(email)
 
         //Then
-        assertEquals(expected_emailError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedEmailError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -294,7 +293,7 @@ class RegDataViewModelTest {
         validateEmail(email)
 
         //Then
-        assertEquals(expected_emailError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedEmailError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -306,7 +305,7 @@ class RegDataViewModelTest {
         validateEmail(email)
 
         //Then
-        assertEquals(expected_emailError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedEmailError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -318,7 +317,7 @@ class RegDataViewModelTest {
         validateEmail(email)
 
         //Then
-        assertEquals(expected_emailError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedEmailError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -330,7 +329,7 @@ class RegDataViewModelTest {
         validateEmail(email)
 
         //Then
-        assertEquals(expected_emailError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedEmailError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -342,7 +341,7 @@ class RegDataViewModelTest {
         validateEmail(email)
 
         //Then
-        assertEquals(expected_emailError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedEmailError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -354,7 +353,7 @@ class RegDataViewModelTest {
         validateEmail(email)
 
         //Then
-        assertEquals(expected_emailError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedEmailError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -366,7 +365,7 @@ class RegDataViewModelTest {
         validateEmail(email)
 
         //Then
-        assertEquals(expected_emailError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedEmailError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -378,7 +377,7 @@ class RegDataViewModelTest {
         validateEmail(email)
 
         //Then
-        assertEquals(expected_emailError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedEmailError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -390,22 +389,22 @@ class RegDataViewModelTest {
         validateEmail(email)
 
         //Then
-        assertEquals(expected_emailError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedEmailError, regDataViewModel.enterDetailsState.value)
     }
 
 
-    fun validatePassword(password: String) {
+    private fun validatePassword(password: String) {
         regDataViewModel.validateInput(
-            right_user_name,
-            right_user_surname,
-            right_user_nickname,
-            right_email,
+            rightUserName,
+            rightUserSurname,
+            rightUserNickname,
+            rightEmail,
             password,
-            right_password
+            rightPassword
         )
     }
 
-    val expected_passwordError = EnterDataError(EnterDataError.INVALID_PASSWORD)
+    private val expectedPasswordError = EnterDataError(EnterDataError.INVALID_PASSWORD)
 
     @Test
     fun validateInput_passwordTooShort_EnterDataError() {
@@ -416,7 +415,7 @@ class RegDataViewModelTest {
         validatePassword(password)
 
         //Then
-        assertEquals(expected_passwordError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedPasswordError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -428,7 +427,7 @@ class RegDataViewModelTest {
         validatePassword(password)
 
         //Then
-        assertEquals(expected_passwordError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedPasswordError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -440,7 +439,7 @@ class RegDataViewModelTest {
         validatePassword(password)
 
         //Then
-        assertEquals(expected_passwordError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedPasswordError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -452,7 +451,7 @@ class RegDataViewModelTest {
         validatePassword(password)
 
         //Then
-        assertEquals(expected_passwordError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedPasswordError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -464,7 +463,7 @@ class RegDataViewModelTest {
         validatePassword(password)
 
         //Then
-        assertEquals(expected_passwordError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedPasswordError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -476,7 +475,7 @@ class RegDataViewModelTest {
         validatePassword(password)
 
         //Then
-        assertEquals(expected_passwordError, regDataViewModel.enterDetailsState.value)
+        assertEquals(expectedPasswordError, regDataViewModel.enterDetailsState.value)
     }
 
     @Test
@@ -486,10 +485,10 @@ class RegDataViewModelTest {
 
         // When
         regDataViewModel.validateInput(
-            right_user_name,
-            right_user_surname,
-            right_user_nickname,
-            right_email,
+            rightUserName,
+            rightUserSurname,
+            rightUserNickname,
+            rightEmail,
             password1,
             password2
         )

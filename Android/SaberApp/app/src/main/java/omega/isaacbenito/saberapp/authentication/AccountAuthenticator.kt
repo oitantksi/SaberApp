@@ -109,7 +109,7 @@ class AccountAuthenticator(private val context: Context) : AbstractAccountAuthen
 
         val authToken = authManager.getAuthToken()
 
-        if (!authToken.isEmpty()) {
+        if (authToken.isNotEmpty()) {
             return Bundle().apply {
                 putString(AccountManager.KEY_ACCOUNT_NAME, account?.name)
                 putString(AccountManager.KEY_ACCOUNT_TYPE, account?.type)

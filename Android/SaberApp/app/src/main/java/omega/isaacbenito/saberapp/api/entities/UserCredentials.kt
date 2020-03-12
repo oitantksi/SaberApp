@@ -51,6 +51,7 @@
 
 package omega.isaacbenito.saberapp.api.entities
 
-class UserCredentials(
+data class UserCredentials(
     var email: String,
-    var password: String) {}
+    var password: String
+)

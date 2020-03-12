@@ -36,7 +36,7 @@ import javax.inject.Singleton
 class SaberAppServer @Inject constructor() {
 
     companion object {
-        private const val API_SERVER_URL = "http://10.0.2.2:8080"
+        const val API_SERVER_URL = "http://10.0.2.2:8080"
     }
 
     // Logging interceptor per a mostrar en el log de l'aplicació la comunicació amb el servidor
@@ -48,6 +48,10 @@ class SaberAppServer @Inject constructor() {
 
     lateinit var service: ApiServerService
         private set
+
+    init {
+        buildRetrofit()
+    }
 
     /**
      * Rep el token d'autorització de l'API i crea un interceptor que intercepta cada crida al
