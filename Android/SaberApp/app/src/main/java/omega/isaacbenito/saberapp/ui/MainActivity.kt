@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var drawerLayout : DrawerLayout
-    private lateinit var appBarConfiguration : AppBarConfiguration
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     lateinit var authManager: AuthenticationManager
 
@@ -51,7 +51,8 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "launched")
 
-        binding = DataBindingUtil.setContentView(this,
+        binding = DataBindingUtil.setContentView(
+            this,
             R.layout.activity_main
         )
 
@@ -61,8 +62,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
 
-        navController.addOnDestinationChangedListener {
-                nc: NavController, nd: NavDestination, _: Bundle? ->
+        navController.addOnDestinationChangedListener { nc: NavController, nd: NavDestination, _: Bundle? ->
             if (nd.id == nc.graph.startDestination) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             } else {
@@ -79,7 +79,6 @@ class MainActivity : AppCompatActivity() {
         val navController = this.findNavController(R.id.mainNavHostFragment)
         return NavigationUI.navigateUp(navController, appBarConfiguration)
     }
-
 
 
 }

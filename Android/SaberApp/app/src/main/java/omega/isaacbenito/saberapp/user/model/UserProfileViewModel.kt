@@ -32,35 +32,19 @@
  *     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package omega.isaacbenito.saberapp.user
+package omega.isaacbenito.saberapp.user.model
 
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import omega.isaacbenito.saberapp.api.SaberAppServer
-import omega.isaacbenito.saberapp.authentication.AuthenticationManager
 import omega.isaacbenito.saberapp.di.LoggedUserScope
 import omega.isaacbenito.saberapp.user.User
+import omega.isaacbenito.saberapp.user.UserRepository
 import javax.inject.Inject
 
 @LoggedUserScope
-class UserRepository @Inject constructor() {
+class UserProfileViewModel @Inject constructor(
+    userRepository: UserRepository
+) : Fragment() {
 
-    @Inject lateinit var server: SaberAppServer
-
-    @Inject lateinit var authManager: AuthenticationManager
-
-    var userRepoJob = Job()
-    val userRepoScope =  CoroutineScope(userRepoJob + Dispatchers.Main)
-
-    fun getUser() : LiveData<User> {
-        val user = MutableLiveData<User>()
-        userRepoScope.launch {
-            user.value = server.service.getUser(authManager.userMail)
-        }
-        return user
-    }
+    val user: LiveData<User> = userRepository.getUser()
 }

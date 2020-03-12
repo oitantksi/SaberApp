@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.get
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.SaberApp
 import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
@@ -73,6 +74,11 @@ class AuthActivity : AppCompatActivity() {
          */
         navController = this.findNavController(R.id.authNavHostFragment)
     }
+
+    /**
+     * Override back navigation to disallow it.
+     */
+    override fun onBackPressed() {}
 }
 
 /**

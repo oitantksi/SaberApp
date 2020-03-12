@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModel
 import omega.isaacbenito.saberapp.authentication.AccountGlobals
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidEmail
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidNameOrSurname
+import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidNickname
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidPassword
 import omega.isaacbenito.saberapp.authentication.ui.*
 import javax.inject.Inject
@@ -66,11 +67,11 @@ class RegDataViewModel @Inject constructor() : ViewModel() {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_PASSWORD)
         } else if (!repeatPassword.equals(password)) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_PASSWORD_REPEAT)
-        } else if (!isValidNameOrSurname(user_name)) {
+        } else if (!isValidNameOrSurname(user_name.toLowerCase())) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_NAME)
-        } else if (!isValidNameOrSurname(user_surname)) {
+        } else if (!isValidNameOrSurname(user_surname.toLowerCase())) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_SURNAME)
-        } else if (!isValidNameOrSurname(user_nickname)) {
+        } else if (!isValidNickname(user_nickname)) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_NICKNAME)
         } else {
             _enterDataState.value = EnterDataSuccess

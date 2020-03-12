@@ -18,6 +18,7 @@
 package omega.isaacbenito.saberapp.authentication
 
 import android.util.Patterns
+import androidx.core.util.PatternsCompat
 
 /**
  *  Classe estàtica que proporciona les característiques globals del tipus de compte de l'aplicació.
@@ -31,14 +32,20 @@ class AccountGlobals {
 
         val ACCOUNT_TYPE = "omega.saberapp"
 
+        //Email validation pattern
+        private val EMAIL_VALIDATION_PATTERN =
+            "^[a-zA-Z\\d\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@[a-zA-Z\\d][a-zA-Z\\d\\-]{1,64}" +
+                    "(\\.[a-zA-Z\\d][a-zA-Z\\d\\-]{1,25})\$"
+
         // Password restrictions
         private const val PASSWORD_MUST_HAVE_LOWER = true
         private const val PASSWORD_MUST_HAVE_UPPER = true
         private const val PASSWORD_MUST_HAVE_DIGIT = true
         private const val PASSWORD_MUST_HAVE_SYMBOL = true
         private const val ALLOWED_PASSWORD_SYMBOLS = " !#\$%&()*+,\\-.:;<>?@\\[\\]{}^_|"
-        private const val MIN_PASSWORD_LENGTH = 1
-        private const val MAX_PASSWORD_LENGTH = 1
+        private const val MIN_PASSWORD_LENGTH = 8
+        private const val MAX_PASSWORD_LENGTH = ""
         private val PASSWORD_RESTRICTIONS =
             (if (PASSWORD_MUST_HAVE_LOWER) "^(?=.*[a-z])" else "") +
                     (if (PASSWORD_MUST_HAVE_UPPER) "(?=.*[A-Z])" else "") +
@@ -51,24 +58,22 @@ class AccountGlobals {
         private const val NICKNAME_ALLOWED_UPPER = true
         private const val NICKNAME_ALLOWED_DIGIT = true
         private const val ALLOWED_NICKNAME_SPECIAL_CHARACTERS = "\\-\\._"
-        private const val MIN_NICNAME_LENGTH = 1
-        private const val MAX_NICNAME_LENGTH = 1
+        private const val MIN_NICNAME_LENGTH = 3
+        private const val MAX_NICNAME_LENGTH = 15
         private val NICKNAME_RESTRICTIONS =
-            "[a-z" +
+            "^[a-z" +
                     (if (NICKNAME_ALLOWED_UPPER) "A-Z" else "") +
-                    (if (NICKNAME_ALLOWED_DIGIT) "0-9" else "") +
+                    (if (NICKNAME_ALLOWED_DIGIT) "\\d" else "") +
                     "$ALLOWED_NICKNAME_SPECIAL_CHARACTERS]" +
-                    "{$MIN_NICNAME_LENGTH,$MAX_NICNAME_LENGTH}"
+                    "{$MIN_NICNAME_LENGTH,$MAX_NICNAME_LENGTH}\$"
 
         // Name and surname restrictions
-        private const val ALLOWED_UPPER_SPECIAL_CHARACTERS = "ÁÀÉÈÍÒÓÜ"
         private const val ALLOWED_LOWER_SPECIAL_CHARACTERS = "àáèéíïòóúü ."
         private const val MIN_NAME_LENGTH = 2
         private const val MAX_NAME_LEGTH = 50
         private const val NAME_SURNAME_RESTRICTIONS =
-            "([A-Z$ALLOWED_UPPER_SPECIAL_CHARACTERS]" +
-                    "[a-z$ALLOWED_LOWER_SPECIAL_CHARACTERS]" +
-                    "{$MIN_NAME_LENGTH,$MAX_NAME_LEGTH})+"
+            "^[a-z$ALLOWED_LOWER_SPECIAL_CHARACTERS]" +
+                    "{$MIN_NAME_LENGTH,$MAX_NAME_LEGTH}\$"
 
         /**
          * Comprova si el email proporcionat per l'usuari és una cadena de text amb format email correcta
@@ -77,11 +82,7 @@ class AccountGlobals {
          * @return true si és un email vàlid, false en altre cas.
          */
         fun isValidEmail(userMail: String): Boolean {
-            return if (userMail.isNotBlank()) {
-                Patterns.EMAIL_ADDRESS.matcher(userMail).matches()
-            } else {
-                false
-            }
+            return checkStringValidity(userMail, EMAIL_VALIDATION_PATTERN)
         }
 
         /**

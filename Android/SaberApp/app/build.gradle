@@ -110,11 +110,27 @@ dependencies {
 
 
     /**
-     *  TESTING DEPENDENCIES
+     *  UNIT TESTING DEPENDENCIES
      */
 
     // JUnit
     testImplementation 'junit:junit:4.12'
+
+    //Coroutines
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.4'
+
+    def fragment_version = "1.2.1"
+    // ...
+    testImplementation "androidx.fragment:fragment-testing:$fragment_version"
+
+    // optional - Test helpers for LiveData
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+
+    /**
+     *  INTEGRATION TESTING DEPENDENCIES
+     */
 
     // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation 'androidx.test:runner:1.2.0'
@@ -129,11 +145,6 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
     // Hamcrest
     androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
-    //Coroutines
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.4'
-    def fragment_version = "1.2.1"
-    // ...
-    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
-    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+
 }

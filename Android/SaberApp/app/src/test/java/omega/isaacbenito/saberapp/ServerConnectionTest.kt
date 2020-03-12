@@ -7,17 +7,13 @@ import kotlinx.coroutines.test.setMain
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import omega.isaacbenito.saberapp.api.ApiServerService
-import omega.isaacbenito.saberapp.entities.UserCredentials
+import omega.isaacbenito.saberapp.api.entities.UserCredentials
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.ConnectException
-import java.util.concurrent.CountDownLatch
 
 class ServerConnectionTest {
 
@@ -56,7 +52,12 @@ class ServerConnectionTest {
         runBlockingTest {
             this.launch {
                 try {
-                    var response = server.loginUser(UserCredentials("ramon@omega.com", "omega"))
+                    var response = server.loginUser(
+                        UserCredentials(
+                            "ramon@omega.com",
+                            "omega"
+                        )
+                    )
                     println("hola")
                 } catch (e: ConnectException) {
                     println("hola2")

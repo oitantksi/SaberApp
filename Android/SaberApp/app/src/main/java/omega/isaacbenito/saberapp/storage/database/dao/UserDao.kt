@@ -23,7 +23,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Update
-import omega.isaacbenito.saberapp.entities.User
+import omega.isaacbenito.saberapp.user.User
 
 @Dao
 interface UserDao {

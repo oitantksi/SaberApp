@@ -23,7 +23,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import omega.isaacbenito.saberapp.storage.database.dao.UserDao
-import omega.isaacbenito.saberapp.entities.User
+import omega.isaacbenito.saberapp.user.User
 
 @Database(entities = [User::class], version = 1)
 abstract class SaberAppDatabase : RoomDatabase() {

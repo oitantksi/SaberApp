@@ -181,6 +181,8 @@ class RegDataFragment : Fragment() {
         (activity as AuthActivity).authComponent.inject(this)
     }
 
+
+
     /**
      * Es crida quan l'usuari polsa el botó de registre.
      *

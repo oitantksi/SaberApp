@@ -127,6 +127,7 @@ class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
      * registre de l'usuari.
      */
     override fun onClickCentre(position: Int, centre: String) {
+        binding.loadingSpinnerLayout.visibility = View.VISIBLE
         registerViewModel.updateCentreData(centre)
     }
 }

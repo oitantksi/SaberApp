@@ -19,7 +19,8 @@ package omega.isaacbenito.saberapp.di
 
 import dagger.Subcomponent
 import omega.isaacbenito.saberapp.ui.MainActivity
-import omega.isaacbenito.saberapp.ui.UserProfileFragment
+import omega.isaacbenito.saberapp.user.ui.UserMainFragment
+import omega.isaacbenito.saberapp.user.ui.UserProfileFragment
 
 @LoggedUserScope
 @Subcomponent
@@ -33,5 +34,6 @@ interface UserComponent {
     // Classes that can be injected by this Component
     fun inject(activity: MainActivity)
 
+    fun inject(fragment: UserMainFragment)
     fun inject(fragment: UserProfileFragment)
 }

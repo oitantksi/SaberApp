@@ -26,6 +26,14 @@
 
     <fragment
         android:id="@+id/userFragment"
-        android:name="omega.isaacbenito.saberapp.ui.UserProfileFragment"
-        android:label="UserFragment" />
+        android:name="omega.isaacbenito.saberapp.user.ui.UserMainFragment"
+        android:label="UserFragment" >
+        <action
+            android:id="@+id/action_userMainFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="omega.isaacbenito.saberapp.user.ui.UserProfileFragment"
+        android:label="UserProfileFragment" />
 </navigation>

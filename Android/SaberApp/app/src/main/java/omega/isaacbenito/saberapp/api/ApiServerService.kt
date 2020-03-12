@@ -17,10 +17,9 @@
 
 package omega.isaacbenito.saberapp.api
 
-import omega.isaacbenito.saberapp.entities.UserCredentials
-import omega.isaacbenito.saberapp.entities.UserDto
-import omega.isaacbenito.saberapp.entities.User
-import retrofit2.Call
+import omega.isaacbenito.saberapp.api.entities.UserCredentials
+import omega.isaacbenito.saberapp.api.entities.UserDto
+import omega.isaacbenito.saberapp.user.User
 import retrofit2.Response
 import retrofit2.http.*
 

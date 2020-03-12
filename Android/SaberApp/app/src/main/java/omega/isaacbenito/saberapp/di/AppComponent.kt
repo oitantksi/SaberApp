@@ -22,7 +22,6 @@ import dagger.BindsInstance
 import dagger.Component
 import omega.isaacbenito.saberapp.ui.StartActivity
 import omega.isaacbenito.saberapp.authentication.AuthenticationManager
-import omega.isaacbenito.saberapp.entities.User
 import javax.inject.Singleton
 
 @Singleton

@@ -28,8 +28,8 @@ import kotlinx.coroutines.*
 import omega.isaacbenito.saberapp.utils.NetworkUtils
 import omega.isaacbenito.saberapp.authentication.ui.*
 import omega.isaacbenito.saberapp.di.UserComponent
-import omega.isaacbenito.saberapp.entities.UserCredentials
-import omega.isaacbenito.saberapp.entities.UserDto
+import omega.isaacbenito.saberapp.api.entities.UserCredentials
+import omega.isaacbenito.saberapp.api.entities.UserDto
 import java.net.ConnectException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -81,7 +81,12 @@ class AuthenticationManager @Inject constructor(
         } else {
             runBlocking {
                 _loginState.value = withContext(Dispatchers.IO) {
-                    return@withContext serverLogin(UserCredentials(userMail, password))
+                    return@withContext serverLogin(
+                        UserCredentials(
+                            userMail,
+                            password
+                        )
+                    )
                 }
             }
         }
@@ -135,7 +140,12 @@ class AuthenticationManager @Inject constructor(
                 )
 
                 if (response.isSuccessful) {
-                    _registrationState.value = serverLogin(UserCredentials(email, password))
+                    _registrationState.value = serverLogin(
+                        UserCredentials(
+                            email,
+                            password
+                        )
+                    )
                 } else {
                     _registrationState.value = AuthError(AuthError.WRONG_CREDENTIALS_ERROR)
                 }
@@ -170,21 +180,37 @@ class AuthenticationManager @Inject constructor(
         }
     }
 
-    fun logoutUser(userMail: String) {
+    fun logoutUser() {
         removeuser(userMail)
         userComponent = null
     }
 
-    fun unregisterUser(userMail: String) {
+    fun unregisterUser() {
         removeuser(userMail)
         userComponent = null
-        //TODO Unregister
+        //TODO Unregister from server
     }
 
     var userComponent: UserComponent? = null
         private set
 
-    fun userIsLoggedIn() = userComponent != null
+    fun userIsLoggedIn(): Boolean {
+        if (userComponent != null) {
+            return true
+        }
+
+        val accounts = accountManager.getAccountsByType(AccountGlobals.ACCOUNT_TYPE)
+        if (accounts.isEmpty()) {
+            return false
+        }
+
+        val userMail = accounts[0].name
+        val password = accountManager.getPassword(accounts[0])
+
+        login(userMail, password)
+
+        return true
+    }
 
     private fun userJustLoggedIn() {
         userComponent = userComponentFactory.create()
