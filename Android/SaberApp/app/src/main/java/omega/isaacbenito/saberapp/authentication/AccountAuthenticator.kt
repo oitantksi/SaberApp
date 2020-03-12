@@ -70,10 +70,10 @@ class AccountAuthenticator(private val context: Context) : AbstractAccountAuthen
         Log.d(TAG, "addAccount")
 
         val intent = Intent(context, AuthActivity::class.java).apply {
-            putExtra(AuthenticationManager.ARG_ACCOUNT_TYPE, accountType);
-            putExtra(AuthenticationManager.ARG_AUTH_TYPE, authTokenType);
-            putExtra(AuthenticationManager.ARG_IS_ADDING_NEW_ACCOUNT, true);
-            putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+            putExtra(AuthenticationManager.ARG_ACCOUNT_TYPE, accountType)
+            putExtra(AuthenticationManager.ARG_AUTH_TYPE, authTokenType)
+            putExtra(AuthenticationManager.ARG_IS_ADDING_NEW_ACCOUNT, true)
+            putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response)
         }
 
         return Bundle().apply {
@@ -101,19 +101,19 @@ class AccountAuthenticator(private val context: Context) : AbstractAccountAuthen
     ): Bundle {
 
         Log.d(TAG, "getAuthToken")
-
-        val accountManager = AccountManager.get(context)
-
-        val accountMail = account?.name
-        val password = accountManager.getPassword(account)
+//
+//        val accountManager = AccountManager.get(context)
+//
+//        val accountMail = account?.name
+//        val password = accountManager.getPassword(account)
 
         val authToken = authManager.getAuthToken()
 
         if (!authToken.isEmpty()) {
             return Bundle().apply {
-                putString(AccountManager.KEY_ACCOUNT_NAME, account?.name);
-                putString(AccountManager.KEY_ACCOUNT_TYPE, account?.type);
-                putString(AccountManager.KEY_AUTHTOKEN, authToken);
+                putString(AccountManager.KEY_ACCOUNT_NAME, account?.name)
+                putString(AccountManager.KEY_ACCOUNT_TYPE, account?.type)
+                putString(AccountManager.KEY_AUTHTOKEN, authToken)
             }
         }
 
