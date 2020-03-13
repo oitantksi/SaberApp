@@ -1,0 +1,81 @@
+<!--
+  ~ This file is part of SaberApp.
+  ~
+  ~     SaberApp is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     SaberApp is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="12.7"
+    android:viewportHeight="12.7">
+  <path
+      android:pathData="m2.6996,9.0796c2.0463,-3.5443 3.344,-5.7084 4.9416,-8.4754 0.1521,-0.2634 0.4935,-0.422 0.7545,-0.2713l1.5086,0.871c0.35,0.202 0.3922,0.6168 0.2551,0.8542l-4.9053,8.4963c-0.881,0.6321 -2.7888,1.87 -2.7888,1.87 0,0 0.2155,-2.3327 0.2343,-3.3448z"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="round"
+      android:strokeWidth="0.5"
+      android:fillColor="#00000000"
+      android:strokeColor="#000000"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="m6.9193,1.8716l2.5653,1.4811"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.1"
+      android:fillColor="#00000000"
+      android:strokeColor="#000000"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m7.0365,1.6686l2.5653,1.4811"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.1"
+      android:fillColor="#00000000"
+      android:strokeColor="#000000"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m7.1537,1.4656l2.5653,1.4811"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.1"
+      android:fillColor="#00000000"
+      android:strokeColor="#000000"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m7.2709,1.2626l2.5653,1.4811"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.1"
+      android:fillColor="#00000000"
+      android:strokeColor="#000000"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m2.4652,12.4246 l1.1289,-0.6881l-0.9774,-0.5643z"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.26676136"
+      android:fillColor="#000000"
+      android:strokeColor="#000000"
+      android:fillAlpha="1"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="m6.8969,2.0836c-0.0523,-0.0302 -0.1299,0.0069 -0.1739,0.0832l-4.0767,7.061c-0.044,0.0763 -0.0374,0.162 0.0149,0.1922l2.3414,1.3518c0.0523,0.0302 0.1299,-0.0069 0.174,-0.0831L9.2532,3.6276c0.044,-0.0763 0.0374,-0.1621 -0.0149,-0.1923zM8.4487,3.9224l0.0018,0.0011c0.0497,0.0287 0.0512,0.1185 0.0034,0.2012l-2.4205,4.1924c-0.0478,0.0828 -0.1262,0.1263 -0.176,0.0976l-0.0018,-0.0011c-0.0497,-0.0287 -0.0512,-0.1184 -0.0035,-0.2012L8.2727,4.02c0.0478,-0.0828 0.1263,-0.1263 0.176,-0.0976zM5.7447,8.6057l0.0018,0.0011c0.0497,0.0287 0.0532,0.115 0.0078,0.1936l-0.2234,0.3869c-0.0454,0.0786 -0.1219,0.1188 -0.1716,0.0901l-0.0018,-0.0011c-0.0497,-0.0287 -0.0532,-0.1151 -0.0078,-0.1937l0.2234,-0.3869c0.0454,-0.0786 0.1219,-0.1187 0.1716,-0.0901zM5.2466,9.4685l0.0018,0.0011c0.0497,0.0287 0.0509,0.119 0.0027,0.2025l-0.0353,0.0612c-0.0482,0.0835 -0.127,0.1276 -0.1767,0.0989l-0.0018,-0.0011c-0.0497,-0.0287 -0.0509,-0.119 -0.0027,-0.2025l0.0353,-0.0612c0.0482,-0.0835 0.127,-0.1276 0.1767,-0.0989z"
+      android:strokeAlpha="1"
+      android:strokeLineJoin="round"
+      android:strokeWidth="6.4312439"
+      android:fillColor="#000000"
+      android:strokeColor="#00000000"
+      android:fillAlpha="1"
+      android:strokeLineCap="round"/>
+</vector>

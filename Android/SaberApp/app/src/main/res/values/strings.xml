@@ -1,3 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of SaberApp.
+  ~
+  ~     SaberApp is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     SaberApp is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <resources>
     <string name="app_name">SaberApp</string>
     <string name="title_activity_main">MainActivity</string>
@@ -42,6 +60,12 @@
     <string name="revisar_respostes">Review answers</string>
     <string name="logout">Logout</string>
     <string name="settings">Settings</string>
+    <string name="invalid_email">Must enter a valid email address</string>
+    <string name="invalid_password_repeat">Passwords must be the same</string>
+    <string name="invalid_name">Please check your name and surname</string>
+    <string name="invalid_nickname">This is not a valid nickname. \n Nicknames can include upper and lowercase letters . - and _</string>
+    <string name="unregister">Unregister</string>
+    <string name="change_password">Change Password</string>
 
 
 </resources>

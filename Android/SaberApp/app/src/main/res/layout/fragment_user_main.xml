@@ -1,10 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of SaberApp.
+  ~
+  ~     SaberApp is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     SaberApp is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/userMainFragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/scoreCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/colorAccent"
+            app:cardCornerRadius="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_layout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/scoreImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@android:mipmap/sym_def_app_icon" />
+
+                <TextView
+                    android:id="@+id/score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/scoreImage"
+                    app:layout_constraintLeft_toRightOf="@id/scoreImage"
+                    app:layout_constraintTop_toTopOf="@id/scoreImage"
+                    tools:text="3.000" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/profile_layout"
@@ -21,7 +78,7 @@
                 android:id="@+id/userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Isaac Benito"
+                tools:text="Isaac Benito"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
                 android:textStyle="bold"
@@ -35,7 +92,7 @@
                 android:id="@+id/userSchool"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="IES Joan Maragall"
+                tools:text="IES Joan Maragall"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@id/profile_picture_cardView"
@@ -72,7 +129,7 @@
                 android:id="@+id/separator"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:backgroundTint="@android:color/darker_gray"
+                android:background="@android:color/darker_gray"
                 android:layout_marginTop="20dp"
                 app:layout_constraintTop_toBottomOf="@id/profile_picture_cardView"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -80,46 +137,6 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/scoreCardView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_layout"
-            android:layout_marginTop="30dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                >
-
-                <ImageView
-                    android:id="@+id/scoreImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:srcCompat="@android:mipmap/sym_def_app_icon"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="3.000"
-                    app:layout_constraintLeft_toRightOf="@id/scoreImage"
-                    app:layout_constraintTop_toTopOf="@id/scoreImage"
-                    app:layout_constraintBottom_toBottomOf="@id/scoreImage"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/actions"

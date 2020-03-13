@@ -1,3 +1,20 @@
+/*
+ * This file is part of SaberApp.
+ *
+ *     SaberApp is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     SaberApp is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package omega.isaacbenito.saberapp.ui
 
 import android.os.Bundle
@@ -14,27 +31,27 @@ import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.SaberApp
 import omega.isaacbenito.saberapp.authentication.AuthenticationManager
 import omega.isaacbenito.saberapp.databinding.ActivityMainBinding
-import omega.isaacbenito.saberapp.di.UserComponent
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var drawerLayout : DrawerLayout
-    private lateinit var appBarConfiguration : AppBarConfiguration
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     lateinit var authManager: AuthenticationManager
 
-    private val TAG = this.javaClass.name.toString()
+    private val _tag = this.javaClass.name
 
     override fun onCreate(savedInstanceState: Bundle?) {
         authManager = (application as SaberApp).appComponent.authManager()
 
         super.onCreate(savedInstanceState)
 
-        Log.d(TAG, "launched")
+        Log.d(_tag, "launched")
 
-        binding = DataBindingUtil.setContentView(this,
+        binding = DataBindingUtil.setContentView(
+            this,
             R.layout.activity_main
         )
 
@@ -44,8 +61,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
 
-        navController.addOnDestinationChangedListener {
-                nc: NavController, nd: NavDestination, _: Bundle? ->
+        navController.addOnDestinationChangedListener { nc: NavController, nd: NavDestination, _: Bundle? ->
             if (nd.id == nc.graph.startDestination) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             } else {
@@ -62,7 +78,6 @@ class MainActivity : AppCompatActivity() {
         val navController = this.findNavController(R.id.mainNavHostFragment)
         return NavigationUI.navigateUp(navController, appBarConfiguration)
     }
-
 
 
 }
