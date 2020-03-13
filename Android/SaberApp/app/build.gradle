@@ -23,7 +23,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.example.android.dagger.SaberAppTestRunner"
 
         vectorDrawables.useSupportLibrary = true
 
@@ -105,6 +106,7 @@ dependencies {
 
     // DAGGER 2
     def dagger_version = "2.25.4"
+    api "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
@@ -126,8 +128,6 @@ dependencies {
     // optional - Test helpers for LiveData
     testImplementation "androidx.arch.core:core-testing:2.1.0"
 
-    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
-
     /**
      *  INTEGRATION TESTING DEPENDENCIES
      */
@@ -145,6 +145,8 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
     // Hamcrest
     androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
+    //Dagger
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
 
 
 }

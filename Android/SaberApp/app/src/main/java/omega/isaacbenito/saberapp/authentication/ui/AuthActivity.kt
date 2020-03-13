@@ -92,7 +92,8 @@ object AuthSuccess : AuthState()
 data class AuthError(val error: Int) : AuthState() {
     companion object {
         const val SERVER_UNREACHABLE_ERROR = 0
-        const val WRONG_CREDENTIALS_ERROR = 1
+        const val NO_INTERNET_ACCESS = 1
+        const val WRONG_CREDENTIALS_ERROR = 2
     }
 }
 

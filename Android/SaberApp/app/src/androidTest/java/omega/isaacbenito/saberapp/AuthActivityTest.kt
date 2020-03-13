@@ -27,10 +27,6 @@ class AuthActivityTest {
     private lateinit var userMail: String
     private lateinit var password: String
 
-//    @get:Rule
-//    var activityRule: ActivityTestRule<AuthActivity> =
-//        ActivityTestRule(AuthActivity::class.java)
-
     @get:Rule
     var activityRule = ActivityTestRule(AuthActivity::class.java)
 
