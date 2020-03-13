@@ -17,16 +17,17 @@
 
 package omega.isaacbenito.saberapp.authentication.model
 
-import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import omega.isaacbenito.saberapp.authentication.AccountGlobals
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidEmail
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidNameOrSurname
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidNickname
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidPassword
-import omega.isaacbenito.saberapp.authentication.ui.*
+import omega.isaacbenito.saberapp.authentication.ui.EnterDataError
+import omega.isaacbenito.saberapp.authentication.ui.EnterDataState
+import omega.isaacbenito.saberapp.authentication.ui.EnterDataSuccess
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -37,7 +38,7 @@ import javax.inject.Inject
  */
 class RegDataViewModel @Inject constructor() : ViewModel() {
 
-    val TAG = this.javaClass.name.toString()
+    private val _tag = this.javaClass.name
 
     private val _enterDataState = MutableLiveData<EnterDataState>()
     val enterDetailsState: LiveData<EnterDataState>
@@ -65,11 +66,11 @@ class RegDataViewModel @Inject constructor() : ViewModel() {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_EMAIL)
         } else if (!isValidPassword(password)) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_PASSWORD)
-        } else if (!repeatPassword.equals(password)) {
+        } else if (repeatPassword != password) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_PASSWORD_REPEAT)
-        } else if (!isValidNameOrSurname(user_name.toLowerCase())) {
+        } else if (!isValidNameOrSurname(user_name.toLowerCase(Locale.getDefault()))) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_NAME)
-        } else if (!isValidNameOrSurname(user_surname.toLowerCase())) {
+        } else if (!isValidNameOrSurname(user_surname.toLowerCase(Locale.getDefault()))) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_SURNAME)
         } else if (!isValidNickname(user_nickname)) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_NICKNAME)
@@ -110,7 +111,7 @@ class RegDataViewModel @Inject constructor() : ViewModel() {
         val lower = (password.length - Regex("[a-z]").findAll(password).count()) * 2
         val numbers = Regex("[\\d]").findAll(password).count() * 4
         val symbols = Regex("[ !#$%&()*+,\\-.:;<>?@\\[\\]{}^_|]").findAll(password).count() * 6
-        val repeatChar = Regex("(.)\\1+").findAll(password.toLowerCase()).count()
+        val repeatChar = Regex("(.)\\1+").findAll(password.toLowerCase(Locale.getDefault())).count()
         val repeatLower = Regex("([a-z])\\1+").findAll(password).count() * 2
         val repeatUpper = Regex("([A-Z])\\1+").findAll(password).count() * 2
         val repeatNumber = Regex("(\\d)\\1+").findAll(password).count() * 2

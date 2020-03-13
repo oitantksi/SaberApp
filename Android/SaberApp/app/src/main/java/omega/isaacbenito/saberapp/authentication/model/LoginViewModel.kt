@@ -17,17 +17,17 @@
 
 package omega.isaacbenito.saberapp.authentication.model
 
-import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import omega.isaacbenito.saberapp.authentication.AccountGlobals
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidEmail
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidPassword
 import omega.isaacbenito.saberapp.authentication.AuthenticationManager
-import omega.isaacbenito.saberapp.authentication.ui.*
+import omega.isaacbenito.saberapp.authentication.ui.AuthState
+import omega.isaacbenito.saberapp.authentication.ui.EnterDataError
+import omega.isaacbenito.saberapp.authentication.ui.EnterDataState
+import omega.isaacbenito.saberapp.authentication.ui.EnterDataSuccess
 import javax.inject.Inject
-import kotlin.math.log
 
 /**
  * @author Isaac Benito

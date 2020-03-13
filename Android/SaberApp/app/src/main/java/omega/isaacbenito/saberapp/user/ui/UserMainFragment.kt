@@ -53,18 +53,18 @@ package omega.isaacbenito.saberapp.user.ui
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.databinding.FragmentUserMainBinding
-import omega.isaacbenito.saberapp.user.model.UserMainViewModel
 import omega.isaacbenito.saberapp.ui.MainActivity
+import omega.isaacbenito.saberapp.user.model.UserMainViewModel
 import javax.inject.Inject
 
 

@@ -59,4 +59,4 @@ data class UserDto (
     val password: String,
     val center: String,
     val rol: Char
-){}
+)

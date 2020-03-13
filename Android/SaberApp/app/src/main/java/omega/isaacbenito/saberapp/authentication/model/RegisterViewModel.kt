@@ -91,7 +91,7 @@ class RegisterViewModel @Inject constructor() : ViewModel() {
      *
      * Obte un valor d'estat de l'autenticació que desa per a que pugui ser observat.
      */
-    fun registerUser() {
+    private fun registerUser() {
         _registrationStatus.value = authenticationManager.registerUser(
             userName, userSurname, userNickname, email, password, centre).value
     }

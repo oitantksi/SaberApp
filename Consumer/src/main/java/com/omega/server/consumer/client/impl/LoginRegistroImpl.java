@@ -65,7 +65,25 @@ public class LoginRegistroImpl implements LoginRegistroI{
 	    
 	    return response.getBody();
 	}
+	@Override
+	public Long deleteUsuario(String email, String token) {
+		String uri="http://localhost:8080/user/{email}";
 
+	    RestTemplate restTemplate = new RestTemplate();
+	 // Add the Jackson message converter
+
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    headers.set("Authorization", token);
+	    
+	    Map<String, String> params = new HashMap<String, String>();
+	    params.put("email", email);
+		HttpEntity<Long> entity = new HttpEntity<Long>(headers);
+		ResponseEntity<Long> response = restTemplate
+		            .exchange(uri, HttpMethod.DELETE, entity, Long.class,params);
+		return response.getBody();
+		
+	}
 
 	@Override
 	public UserDto findUsuarioByEmail(String email, String token) {

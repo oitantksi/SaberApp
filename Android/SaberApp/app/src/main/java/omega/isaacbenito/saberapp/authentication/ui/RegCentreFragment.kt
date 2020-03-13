@@ -26,11 +26,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import omega.isaacbenito.saberapp.R
+import omega.isaacbenito.saberapp.api.entities.Centre
 import omega.isaacbenito.saberapp.authentication.model.RegCentreViewModel
 import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
 import omega.isaacbenito.saberapp.databinding.FragmentRegCentreBinding
@@ -49,12 +48,14 @@ import javax.inject.Inject
 class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
 
     @Inject
-    lateinit var viewModel: RegCentreViewModel
+    lateinit var regCentreViewModel: RegCentreViewModel
 
     @Inject
     lateinit var registerViewModel: RegisterViewModel
 
     private lateinit var binding: FragmentRegCentreBinding
+
+    private lateinit var centreAdapter: CentreAdapter
 
     /**
      * Es crida en crear el fragment.
@@ -75,6 +76,12 @@ class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
                 startActivity(Intent(context, MainActivity::class.java))
             }
         })
+
+        regCentreViewModel.centres.observe(this, Observer {
+            centreAdapter.submitList(it)
+        })
+
+
     }
 
     /**
@@ -94,11 +101,13 @@ class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_reg_centre, container, false)
 
+        centreAdapter = CentreAdapter(this)
+
 
         binding.centreList.let {
             it.setHasFixedSize(true)
             it.layoutManager = LinearLayoutManager(context)
-            it.adapter = CentreAdapter(viewModel.centres, this)
+            it.adapter = centreAdapter
             it.addItemDecoration(DividerItemDecoration(context, VERTICAL))
         }
 
@@ -126,9 +135,9 @@ class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
      * Envia les dades del centre al model de la vista de registre per a procedir al
      * registre de l'usuari.
      */
-    override fun onClickCentre(position: Int, centre: String) {
+    override fun onClickCentre(position: Int, centre: Centre) {
         binding.loadingSpinnerLayout.visibility = View.VISIBLE
-        registerViewModel.updateCentreData(centre)
+        registerViewModel.updateCentreData(centre.centre)
     }
 }
 
@@ -138,13 +147,11 @@ class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
  * Proporcionen una enquadernació del conjunt de dades de centres educatius
  * per a visualitzar-les dins el RecyclerView.
  *
- * @property centreList Llista de Centres educatius
  * @property interaction listener que gestiona la interacció en polsar un centre.
  */
 class CentreAdapter(
-    private val centreList: List<String>,
     private val interaction: Interaction
-) : RecyclerView.Adapter<CentreAdapter.CentreVH>() {
+) : ListAdapter<Centre, CentreAdapter.CentreVH>(CentreDiffCallback()) {
 
     /**
      * @author Isaac Benito
@@ -161,8 +168,8 @@ class CentreAdapter(
         private val interaction: Interaction
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(centre: String) {
-            binding.centreTextView.text = centre
+        fun bind(centre: Centre) {
+            binding.centreTextView.text = centre.centre
 
             binding.setClickListener {
                 interaction.onClickCentre(adapterPosition, centre)
@@ -179,10 +186,9 @@ class CentreAdapter(
         )
     }
 
-    override fun getItemCount(): Int = centreList.size
-
     override fun onBindViewHolder(holder: CentreVH, position: Int) {
-        holder.bind(centreList[position])
+        val centre = getItem(position)
+        holder.bind(centre)
     }
 
 
@@ -193,7 +199,19 @@ class CentreAdapter(
      *
      */
     interface Interaction {
-        fun onClickCentre(position: Int, centre: String)
+        fun onClickCentre(position: Int, centre: Centre)
+    }
+}
+
+
+private class CentreDiffCallback : DiffUtil.ItemCallback<Centre>() {
+
+    override fun areItemsTheSame(oldItem: Centre, newItem: Centre): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Centre, newItem: Centre): Boolean {
+        return oldItem == newItem
     }
 }
 

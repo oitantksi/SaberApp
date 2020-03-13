@@ -80,5 +80,11 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 			
 		return centreRepository.findAll();
 	}
+	@Override
+	public long deleteUser(String email){	
+		
+		return userRepository.deleteByEmail(email);
+		
+	}
 	
 }

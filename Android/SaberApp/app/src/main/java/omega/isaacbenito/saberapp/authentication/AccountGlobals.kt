@@ -17,9 +17,6 @@
 
 package omega.isaacbenito.saberapp.authentication
 
-import android.util.Patterns
-import androidx.core.util.PatternsCompat
-
 /**
  *  Classe estàtica que proporciona les característiques globals del tipus de compte de l'aplicació.
  *
@@ -30,10 +27,10 @@ import androidx.core.util.PatternsCompat
 class AccountGlobals {
     companion object {
 
-        val ACCOUNT_TYPE = "omega.saberapp"
+        const val ACCOUNT_TYPE = "omega.saberapp"
 
         //Email validation pattern
-        private val EMAIL_VALIDATION_PATTERN =
+        private const val EMAIL_VALIDATION_PATTERN =
             "^[a-zA-Z\\d\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@[a-zA-Z\\d][a-zA-Z\\d\\-]{1,64}" +
                     "(\\.[a-zA-Z\\d][a-zA-Z\\d\\-]{1,25})\$"

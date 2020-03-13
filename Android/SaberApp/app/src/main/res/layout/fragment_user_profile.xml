@@ -19,146 +19,147 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/profile_picture_cardView"
-        android:layout_width="82dp"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="41dp"
-        app:layout_constraintBottom_toTopOf="@id/userName"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/userPassword_change"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/change_password"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/logout_button"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userSchool" />
+
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/logout"
+            app:layout_constraintBottom_toTopOf="@id/unregister_button"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userPassword_change" />
+
+        <Button
+            android:id="@+id/unregister_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/unregister"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logout_button" />
+
+        <ImageView
+            android:id="@+id/username_edit"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintLeft_toRightOf="@id/userName"
+            app:layout_constraintTop_toTopOf="@+id/userName"
+            app:srcCompat="@drawable/ic_edit_llapis" />
+
+        <ImageView
+            android:id="@+id/userNickname_edit"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintLeft_toRightOf="@id/userNickname"
+            app:layout_constraintTop_toTopOf="@+id/userNickname"
+            app:srcCompat="@drawable/ic_edit_llapis" />
+
+        <ImageView
+            android:id="@+id/userSchool_edit"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintLeft_toRightOf="@id/userSchool"
+            app:layout_constraintTop_toTopOf="@+id/userSchool"
+            app:srcCompat="@drawable/ic_edit_llapis" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@id/userNickname"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture_cardView"
+            tools:text="Name Surname" />
+
+        <TextView
+            android:id="@+id/userNickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@id/userSchool"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userName"
+            tools:text="Nickname" />
+
+        <TextView
+            android:id="@+id/userSchool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@id/userPassword_change"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userNickname"
+            tools:text="IES Joan Maragall" />
 
         <androidx.cardview.widget.CardView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:cardCornerRadius="40dp">
+            android:id="@+id/profile_picture_cardView"
+            android:layout_width="82dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="41dp"
+            app:layout_constraintBottom_toTopOf="@id/userName"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:srcCompat="@android:mipmap/sym_def_app_icon" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:cardCornerRadius="40dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:srcCompat="@android:mipmap/sym_def_app_icon" />
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.cardview.widget.CardView>
-
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/userName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Name Surname"
-        android:textSize="25sp"
-        app:layout_constraintTop_toBottomOf="@id/profile_picture_cardView"
-        app:layout_constraintBottom_toTopOf="@id/userNickname"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-         />
-
-    <ImageView
-        android:id="@+id/username_edit"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintLeft_toRightOf="@id/userName"
-        app:layout_constraintTop_toTopOf="@+id/userName"
-        app:srcCompat="@drawable/ic_edit_llapis"
-        android:focusable="true"
-        android:clickable="true"/>
-
-    <TextView
-        android:id="@+id/userNickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Nickname"
-        android:textSize="25sp"
-        app:layout_constraintTop_toBottomOf="@id/userName"
-        app:layout_constraintBottom_toTopOf="@id/userSchool"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <ImageView
-        android:id="@+id/userNickname_edit"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintLeft_toRightOf="@id/userNickname"
-        app:layout_constraintTop_toTopOf="@+id/userNickname"
-        app:srcCompat="@drawable/ic_edit_llapis"
-        android:focusable="true"
-        android:clickable="true"/>
-
-    <TextView
-        android:id="@+id/userSchool"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="IES Joan Maragall"
-        android:textSize="25sp"
-        app:layout_constraintTop_toBottomOf="@id/userNickname"
-        app:layout_constraintBottom_toTopOf="@id/userPassword_change"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <ImageView
-        android:id="@+id/userSchool_edit"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintLeft_toRightOf="@id/userSchool"
-        app:layout_constraintTop_toTopOf="@+id/userSchool"
-        app:srcCompat="@drawable/ic_edit_llapis"
-        android:focusable="true"
-        android:clickable="true"/>
-
-    <Button
-        android:id="@+id/userPassword_change"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/change_password"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/userSchool"
-        app:layout_constraintBottom_toTopOf="@id/logout_button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <Button
-        android:id="@+id/logout_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/logout"
-        app:layout_constraintTop_toBottomOf="@id/userPassword_change"
-        app:layout_constraintBottom_toTopOf="@id/unregister_button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <Button
-        android:id="@+id/unregister_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/unregister"
-        app:layout_constraintTop_toBottomOf="@id/logout_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

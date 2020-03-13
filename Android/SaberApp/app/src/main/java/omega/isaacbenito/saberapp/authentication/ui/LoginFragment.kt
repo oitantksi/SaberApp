@@ -28,13 +28,12 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import omega.isaacbenito.saberapp.utils.NetworkUtils
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.authentication.model.LoginViewModel
 import omega.isaacbenito.saberapp.databinding.FragmentLoginBinding
 import omega.isaacbenito.saberapp.ui.MainActivity
+import omega.isaacbenito.saberapp.utils.NetworkUtils
 import javax.inject.Inject
 
 /**
@@ -42,9 +41,9 @@ import javax.inject.Inject
  *
  * Vista de login de l'aplicació
  */
-class LoginFragment() : Fragment() {
+class LoginFragment : Fragment() {
 
-    val TAG = this.javaClass.name
+    private val _tag = this.javaClass.name
 
     private lateinit var binding: FragmentLoginBinding
 

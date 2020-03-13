@@ -21,6 +21,6 @@ public interface SaberAppServiceI {
 	public String login(String nickname, String password);
 	public User getUserByEmail(String email);
 	public List<Centre> getCentres();
-	
+	public long deleteUser(String email);
 
 }

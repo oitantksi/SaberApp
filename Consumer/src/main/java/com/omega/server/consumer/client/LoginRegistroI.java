@@ -24,6 +24,13 @@ public interface LoginRegistroI {
 	 * @exception excepción con mensaje de error
 	 */
 	public UserDto registraUsuario(UserDto datosUsuario);
+	
+	/**
+	 * Borra un usuario de la base de datos
+	 * @param datosUsuario
+	 * @param token
+	 */
+	public Long deleteUsuario(String email, String token);
 	/**
 	 * 
 	 * @param email
@@ -39,5 +46,11 @@ public interface LoginRegistroI {
 	 */
 	public ResponseEntity<String> helloworld(String name, String token);
 	
+	/**
+	 * Recupera los centros adscritos a la app
+	 * @return listado de centros válidos
+	 */
 	public CentreDto[] getAllCentres();
+	
+	
 }

@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.get
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.SaberApp
 import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
@@ -44,7 +43,7 @@ class AuthActivity : AppCompatActivity() {
 
     lateinit var authComponent: AuthComponent
 
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
 
     /**
      * Es crida quan es crea l'activitat.
@@ -88,12 +87,12 @@ class AuthActivity : AppCompatActivity() {
  * entre les diferents activitats i models del mòdul
  *
  */
-sealed class AuthState()
+sealed class AuthState
 object AuthSuccess : AuthState()
 data class AuthError(val error: Int) : AuthState() {
     companion object {
-        val SERVER_UNREACHABLE_ERROR = 0
-        val WRONG_CREDENTIALS_ERROR = 1
+        const val SERVER_UNREACHABLE_ERROR = 0
+        const val WRONG_CREDENTIALS_ERROR = 1
     }
 }
 
@@ -108,12 +107,12 @@ sealed class EnterDataState
 object EnterDataSuccess : EnterDataState()
 data class EnterDataError(val errorCode: Int) : EnterDataState() {
     companion object {
-        val INVALID_EMAIL = 0
-        val INVALID_PASSWORD = 2
-        val INVALID_PASSWORD_REPEAT = 3
-        val INVALID_NAME = 4
-        val INVALID_SURNAME = 5
-        val INVALID_NICKNAME = 6
+        const val INVALID_EMAIL = 0
+        const val INVALID_PASSWORD = 2
+        const val INVALID_PASSWORD_REPEAT = 3
+        const val INVALID_NAME = 4
+        const val INVALID_SURNAME = 5
+        const val INVALID_NICKNAME = 6
     }
 }
 

@@ -29,7 +29,7 @@ import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
 
 class StartActivity : AppCompatActivity() {
 
-    val TAG = this.javaClass.name
+    private val _tag = this.javaClass.name
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

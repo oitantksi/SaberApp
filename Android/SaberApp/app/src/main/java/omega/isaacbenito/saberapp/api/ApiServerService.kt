@@ -17,11 +17,15 @@
 
 package omega.isaacbenito.saberapp.api
 
+import omega.isaacbenito.saberapp.api.entities.Centre
 import omega.isaacbenito.saberapp.api.entities.UserCredentials
 import omega.isaacbenito.saberapp.api.entities.UserDto
 import omega.isaacbenito.saberapp.user.User
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
 
 /**
  * @author Isaac Benito
@@ -38,5 +42,8 @@ interface ApiServerService {
 
     @GET("/user/email/{email}")
     suspend fun getUser(@Path("email") userMail: String): User
+
+    @GET("/centres")
+    suspend fun getCentres(): List<Centre>
 
 }
