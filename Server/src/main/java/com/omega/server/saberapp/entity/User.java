@@ -39,7 +39,7 @@ public class User implements Serializable{
     @Email(message = "{email.notempty}")
 	String email;
 	
-	@NotEmpty(message = "{email.notempty}")
+	@NotEmpty(message = "{nickname.notempty}")
 	String nickname;
 	
 	@NotEmpty(message = "Password must not be empty")
