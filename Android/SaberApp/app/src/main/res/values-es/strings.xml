@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of SaberApp.
+  ~
+  ~     SaberApp is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     SaberApp is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string name="app_name">SaberApp</string>
+    <string name="menu_saberapp_rules">Reglas</string>
+    <string name="menu_about_saberapp">Sobre SaberApp</string>
+    <string name="user_email_hint">Dirección electrónica</string>
+    <string name="user_name_hint">Nombre</string>
+    <string name="user_surname_hint">Apellidos</string>
+    <string name="user_nickname_hint">Sobrenombre</string>
+    <string name="user_password_hint">Contraseña</string>
+    <string name="user_password_repeat_hint">Confirmar contrasenya</string>
+    <string name="user_signIn">Entrar</string>
+    <string name="user_signUp">Registrarse</string>
+    <string name="new_user">Nuevo usuario?</string>
+    <string name="already_member">Ya tienes cuenta?</string>
+    <string name="invalid_username">El nombre de usuario no es válido</string>
+    <string name="invalid_password">La contraseña ha de tener como mínimo 8 carácteres y ha de contener una mayúscula, una minúscula, un número y un símbolo</string>
+    <string name="login_failed">No se ha podido iniciar sesión</string>
+    <string name="server_unreachable">No se ha podido conectar con el servidor</string>
+    <string name="wrong_credentials">Las credenciales introducidas no son correctas</string>
+    <string name="no_network">No hay conexión a internet</string>
+    <string name="choose_centre">Escoge tu centro educativo</string>
+    <string name="prgunta_dia">Pregunta del día</string>
+    <string name="preguntes_antigues">Preguntas antiguas</string>
+    <string name="revisar_respostes">Revisar las respuestas</string>
+    <string name="logout">Salir</string>
+    <string name="settings">Preferéncias</string>
+    <string name="invalid_email">Es necesário introducir una dirección electrónica válida</string>
+    <string name="invalid_password_repeat">Las contraseñas deben coincidir</string>
+    <string name="invalid_name">Por favor, revisa tu nombre y apellidos</string>
+    <string name="invalid_nickname">Este sobrenombre no es válido. El sobrenombre puede incluir mayúsculas, minúsculas y los símbolos . - y _</string>
+    <string name="unregister">Eliminar cuenta</string>
+    <string name="change_password">Cambiar la contraseña</string>
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of SaberApp.
+  ~
+  ~     SaberApp is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     SaberApp is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string name="app_name">SaberApp</string>
+    <string name="menu_saberapp_rules">Regles</string>
+    <string name="menu_about_saberapp">Sobre SaberApp</string>
+    <string name="user_email_hint">Adreça electrònica</string>
+    <string name="user_name_hint">Nom</string>
+    <string name="user_surname_hint">Cognoms</string>
+    <string name="user_nickname_hint">Sobrenom</string>
+    <string name="user_password_hint">Contrassenya</string>
+    <string name="user_password_repeat_hint">Cornfirmar contarassenya</string>
+    <string name="user_signIn">Entrar</string>
+    <string name="user_signUp">Registrar-se</string>
+    <string name="new_user">Nou usuari?</string>
+    <string name="already_member">Ja tens compte?</string>
+    <string name="invalid_username">El nom d\'usuari no és vàlid</string>
+    <string name="invalid_password">La contrassenya ha de tindre com a mínim 8 caràcters i ha de contindre una majúscula, una minúscula un dígit i un simbol.</string>
+    <string name="login_failed">No s\'ha pogut iniciar sessió</string>
+    <string name="server_unreachable">No s\'ha pogut connectar amb el servidor</string>
+    <string name="wrong_credentials">Les credencials introduïdes no son correctes</string>
+    <string name="no_network">No hi ha connexió a internet</string>
+    <string name="choose_centre">Tria el teu centre educatiu</string>
+    <string name="prgunta_dia">Pregunta del dia</string>
+    <string name="preguntes_antigues">Preguntes antigues</string>
+    <string name="revisar_respostes">Revisar les respostes</string>
+    <string name="logout">Sortir</string>
+    <string name="settings">Preferències</string>
+    <string name="invalid_email">Cal introduir una adreça electrònica vàlida</string>
+    <string name="invalid_password_repeat">Les contrassenyes han de coincidir</string>
+    <string name="invalid_name">Si us plau, comprova el teu nom i cognoms</string>
+    <string name="invalid_nickname">Aquest sobrenom no és vàlid. Els sobrenoms poden incloure majúscules, minúscules i els simbols . - i _</string>
+    <string name="unregister">Esborrar compte</string>
+    <string name="change_password">Canviar la contrassenya</string>
+</resources>
