@@ -48,4 +48,5 @@
     <string name="invalid_nickname">Este sobrenombre no es válido. El sobrenombre puede incluir mayúsculas, minúsculas y los símbolos . - y _</string>
     <string name="unregister">Eliminar cuenta</string>
     <string name="change_password">Cambiar la contraseña</string>
+    <string name="unregister_unknown_error">No se ha podido borrar la cuenta por un error desconocido. Por favor, pruébalo más tarde.</string>
 </resources>

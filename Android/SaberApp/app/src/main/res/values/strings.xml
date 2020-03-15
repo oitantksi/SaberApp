@@ -61,6 +61,7 @@
     <string name="invalid_nickname">This is not a valid nickname. \n Nicknames can include upper and lowercase letters . - and _</string>
     <string name="unregister">Unregister</string>
     <string name="change_password">Change Password</string>
+    <string name="unregister_unknown_error">Unable to unregister due to an unknown error. Please try again later.</string>
 
 
 </resources>

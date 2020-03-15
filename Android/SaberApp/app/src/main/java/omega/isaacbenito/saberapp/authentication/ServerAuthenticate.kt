@@ -31,5 +31,7 @@ interface ServerAuthenticate {
 
     suspend fun registerUser(userDto: UserDto) : Response<Unit>
 
+    suspend fun unregisterUser(userMail: String): Response<Unit>
+
     fun setAuthToken(authToken: String)
 }

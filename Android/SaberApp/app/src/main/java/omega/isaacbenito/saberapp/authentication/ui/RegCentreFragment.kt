@@ -23,6 +23,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -72,8 +73,16 @@ class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
          * En cas que l'autenticació sigui exitosa llança l'activitat principal de l'aplicació.
          */
         registerViewModel.registrationStatus.observe(this, Observer {
-            if (it is AuthSuccess) {
-                startActivity(Intent(context, MainActivity::class.java))
+            when (it) {
+                is AuthSuccess -> startActivity(Intent(context, MainActivity::class.java))
+                is AuthError ->
+                    when (it.error) {
+                        AuthError.NO_INTERNET_ACCESS ->
+                            Toast.makeText(context, R.string.no_network, Toast.LENGTH_SHORT).show()
+                        AuthError.SERVER_UNREACHABLE_ERROR ->
+                            Toast.makeText(context, R.string.server_unreachable, Toast.LENGTH_SHORT)
+                                .show()
+                    }
             }
         })
 

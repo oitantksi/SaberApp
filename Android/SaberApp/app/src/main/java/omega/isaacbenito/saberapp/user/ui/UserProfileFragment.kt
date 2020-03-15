@@ -15,40 +15,6 @@
  *     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/*
- * This file is part of SaberApp.
- *
- *     SaberApp is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     SaberApp is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
- */
-
-/*
- * This file is part of SaberApp.
- *
- *     SaberApp is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     SaberApp is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 package omega.isaacbenito.saberapp.user.ui
 
 import android.content.Context
@@ -60,10 +26,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import omega.isaacbenito.saberapp.R
-import omega.isaacbenito.saberapp.authentication.AuthenticationManager
 import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
+import omega.isaacbenito.saberapp.authentication.ui.AuthState
 import omega.isaacbenito.saberapp.databinding.FragmentUserProfileBinding
 import omega.isaacbenito.saberapp.ui.MainActivity
 import omega.isaacbenito.saberapp.user.model.UserProfileViewModel
@@ -73,9 +41,6 @@ class UserProfileFragment : Fragment() {
 
     @Inject
     lateinit var userProfileVM: UserProfileViewModel
-
-    @Inject
-    lateinit var authManager: AuthenticationManager
 
     private lateinit var binding: FragmentUserProfileBinding
 
@@ -117,13 +82,11 @@ class UserProfileFragment : Fragment() {
         }
 
         binding.logoutButton.setOnClickListener {
-            authManager.logoutUser()
-            startActivity(Intent(context, AuthActivity::class.java))
+            setUnauthObserver(this, userProfileVM.logoutUser())
         }
 
         binding.unregisterButton.setOnClickListener {
-            authManager.unregisterUser()
-            startActivity(Intent(context, AuthActivity::class.java))
+            setUnauthObserver(this, userProfileVM.unregisterUser())
         }
 
         return binding.root
@@ -133,5 +96,12 @@ class UserProfileFragment : Fragment() {
         super.onAttach(context)
 
         (activity as MainActivity).authManager.userComponent?.inject(this)
+    }
+
+    private fun setUnauthObserver(owner: LifecycleOwner, authState: LiveData<AuthState>) {
+        authState.observe(owner, Observer {
+            startActivity(Intent(context, AuthActivity::class.java))
+        })
+
     }
 }

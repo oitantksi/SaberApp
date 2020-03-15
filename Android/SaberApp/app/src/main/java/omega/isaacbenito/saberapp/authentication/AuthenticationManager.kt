@@ -24,9 +24,7 @@ import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import omega.isaacbenito.saberapp.api.entities.UserCredentials
 import omega.isaacbenito.saberapp.api.entities.UserDto
 import omega.isaacbenito.saberapp.authentication.ui.AuthError
@@ -64,6 +62,9 @@ class AuthenticationManager @Inject constructor(
         const val ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT"
     }
 
+    var userComponent: UserComponent? = null
+        private set
+
     @Inject
     lateinit var serverAuthenticate: ServerAuthenticate
 
@@ -82,6 +83,8 @@ class AuthenticationManager @Inject constructor(
     fun login(userMail: String, password: String): MutableLiveData<AuthState> {
         if (!AccountGlobals.isValidEmail(userMail) or !AccountGlobals.isValidPassword(password)) {
             _loginState.value = AuthError(AuthError.WRONG_CREDENTIALS_ERROR)
+        } else if (!networkUtils.isConnected) {
+            _loginState.value = AuthError(AuthError.NO_INTERNET_ACCESS)
         } else {
             runBlocking {
                 _loginState.value = withContext(Dispatchers.IO) {
@@ -121,9 +124,9 @@ class AuthenticationManager @Inject constructor(
         }
     }
 
-    private val _registrationState = MutableLiveData<AuthState>()
-    val registrationState: LiveData<AuthState>
-        get() = _registrationState
+    private val _authState = MutableLiveData<AuthState>()
+    private val authState: LiveData<AuthState>
+        get() = _authState
 
     fun registerUser(
         user_name: String,
@@ -144,22 +147,22 @@ class AuthenticationManager @Inject constructor(
                 )
 
                 if (response.isSuccessful) {
-                    _registrationState.value = serverLogin(
+                    _authState.value = serverLogin(
                         UserCredentials(
                             email,
                             password
                         )
                     )
                 } else {
-                    _registrationState.value = AuthError(AuthError.WRONG_CREDENTIALS_ERROR)
+                    _authState.value = AuthError(AuthError.WRONG_CREDENTIALS_ERROR)
                 }
 
             } catch (e: ConnectException) {
-                _registrationState.value = AuthError(AuthError.SERVER_UNREACHABLE_ERROR)
+                _authState.value = AuthError(AuthError.SERVER_UNREACHABLE_ERROR)
             }
         }
 
-        return registrationState
+        return authState
     }
 
     private fun addUser(userMail: String, password: String) {
@@ -167,7 +170,7 @@ class AuthenticationManager @Inject constructor(
         accountManager.addAccountExplicitly(account, password, null)
     }
 
-    private fun removeuser(userMail: String) {
+    private fun removeUser(userMail: String) {
         val account = Account(userMail, AccountGlobals.ACCOUNT_TYPE)
         if (Build.VERSION.SDK_INT >= 22) {
             accountManager.removeAccount(account, null, null, null)
@@ -184,19 +187,34 @@ class AuthenticationManager @Inject constructor(
         }
     }
 
-    fun logoutUser() {
-        removeuser(userMail)
+    fun logoutUser(): LiveData<AuthState> {
+        removeUser(userMail)
         userComponent = null
+        _authState.value = AuthSuccess
+        return authState
     }
 
-    fun unregisterUser() {
-        removeuser(userMail)
-        userComponent = null
-        //TODO Unregister from server
-    }
+    fun unregisterUser(): LiveData<AuthState> {
+        CoroutineScope(Dispatchers.Main).launch {
+            _authState.value = withContext(Dispatchers.IO) {
+                try {
+                    val response = serverAuthenticate.unregisterUser(userMail)
+                    return@withContext if (response.isSuccessful) {
+                        logoutUser()
+                        AuthSuccess
+                    } else {
+                        AuthError(AuthError.WRONG_CREDENTIALS_ERROR)
+                    }
+                } catch (e: ConnectException) {
+                    return@withContext AuthError(AuthError.SERVER_UNREACHABLE_ERROR)
+                }
 
-    var userComponent: UserComponent? = null
-        private set
+            }
+
+        }
+
+        return authState
+    }
 
     fun userIsLoggedIn(): Boolean {
         if (userComponent != null) {
@@ -208,7 +226,7 @@ class AuthenticationManager @Inject constructor(
             return false
         }
 
-        val userMail = accounts[0].name
+        userMail = accounts[0].name
         val password = accountManager.getPassword(accounts[0])
 
         login(userMail, password)

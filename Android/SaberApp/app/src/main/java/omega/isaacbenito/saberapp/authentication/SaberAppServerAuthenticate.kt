@@ -38,6 +38,10 @@ class SaberAppServerAuthenticate @Inject constructor():
         return server.service.registerUser(userDto)
     }
 
+    override suspend fun unregisterUser(userMail: String): Response<Unit> {
+        return server.service.unregisterUser(userMail)
+    }
+
     override fun setAuthToken(authToken: String) {
         server.setAuthToken(authToken)
     }

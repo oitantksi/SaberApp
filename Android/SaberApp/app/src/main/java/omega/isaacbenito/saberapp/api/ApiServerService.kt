@@ -22,10 +22,7 @@ import omega.isaacbenito.saberapp.api.entities.UserCredentials
 import omega.isaacbenito.saberapp.api.entities.UserDto
 import omega.isaacbenito.saberapp.user.User
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 /**
  * @author Isaac Benito
@@ -39,6 +36,9 @@ interface ApiServerService {
 
     @POST("/user")
     suspend fun registerUser(@Body user: UserDto): Response<Unit>
+
+    @DELETE("/user/{email}")
+    suspend fun unregisterUser(@Path("email") userMail: String): Response<Unit>
 
     @GET("/user/email/{email}")
     suspend fun getUser(@Path("email") userMail: String): User

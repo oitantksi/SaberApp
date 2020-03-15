@@ -80,10 +80,7 @@ class LoginFragment : Fragment() {
         loginViewModel.enterDataState.observe(this, Observer {
             when (it) {
                 is EnterDataError ->
-                    Toast.makeText(
-                        context, R.string.wrong_credentials,
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(context, R.string.wrong_credentials, Toast.LENGTH_LONG).show()
                 is EnterDataSuccess ->
                     if (networkUtils.isConnected) {
                         loginViewModel.login(user.text.toString(), password.text.toString())
@@ -110,12 +107,12 @@ class LoginFragment : Fragment() {
                         AuthError.WRONG_CREDENTIALS_ERROR ->
                             Toast.makeText(
                                 context, R.string.wrong_credentials,
-                                Toast.LENGTH_LONG
+                                Toast.LENGTH_SHORT
                             ).show()
                         AuthError.SERVER_UNREACHABLE_ERROR ->
                             Toast.makeText(
                                 context, R.string.server_unreachable,
-                                Toast.LENGTH_LONG
+                                Toast.LENGTH_SHORT
                             ).show()
                     }
             }
