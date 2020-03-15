@@ -36,8 +36,6 @@ public class Materia implements Serializable {
 		
 	}
 	
-	
-	
 	public Long getId() {
 		return id;
 	}
