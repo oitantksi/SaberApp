@@ -57,6 +57,13 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 		return userRepository.save(user);
 		
 	}
+	
+	@Override
+	public User updateUser(User user) {
+		
+		return userRepository.save(user);	
+		
+	}
 
 	@Override
 	public String login(String nickname, String password) {

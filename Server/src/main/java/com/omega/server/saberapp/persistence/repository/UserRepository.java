@@ -22,4 +22,6 @@ public interface UserRepository extends CrudRepository<User, Long>{
 	User findByNickname(String nickname);
 	@Transactional
 	long deleteByEmail(String mail);
+	
+	
 }

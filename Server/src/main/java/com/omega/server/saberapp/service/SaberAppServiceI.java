@@ -22,5 +22,6 @@ public interface SaberAppServiceI {
 	public User getUserByEmail(String email);
 	public List<Centre> getCentres();
 	public long deleteUser(String email);
+	public User updateUser(User user);
 
 }
