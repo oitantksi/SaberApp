@@ -25,55 +25,100 @@
             type="omega.isaacbenito.saberapp.authentication.model.LoginViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/login_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/accountMail"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/user_email_hint"
-            android:inputType="textEmailAddress"
-            android:padding="@dimen/editText_padding"
-            app:chainUseRtl="false"
-            app:layout_constraintBottom_toTopOf="@id/accountPassword"
-            app:layout_constraintTop_toTopOf="@id/login_layout"
-            app:layout_constraintVertical_chainStyle="packed" />
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
 
-        <EditText
-            android:id="@+id/accountPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_chain_margin"
-            android:hint="@string/user_password_hint"
-            android:inputType="textPassword"
-            android:padding="@dimen/editText_padding"
-            app:layout_constraintBottom_toTopOf="@id/submitLogin"
-            app:layout_constraintTop_toBottomOf="@id/accountMail" />
+            <Button
+                android:id="@+id/submitLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/login_chain_margin"
+                android:onClick="@{() -> viewModel.validateInput()}"
+                android:padding="@dimen/editText_padding"
+                android:text="@string/user_signIn"
+                app:layout_constraintBottom_toTopOf="@id/newUser"
+                app:layout_constraintTop_toBottomOf="@id/login_account_password" />
 
-        <Button
-            android:id="@+id/submitLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_chain_margin"
-            android:padding="@dimen/editText_padding"
-            android:text="@string/user_signIn"
-            app:layout_constraintBottom_toTopOf="@id/newUser"
-            app:layout_constraintTop_toBottomOf="@id/accountPassword"/>
+            <EditText
+                android:id="@+id/login_account_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/login_chain_margin"
+                android:hint="@string/user_password_hint"
+                android:inputType="textPassword"
+                android:padding="@dimen/editText_padding"
+                android:text="@={viewModel.userPassword}"
+                app:layout_constraintBottom_toTopOf="@id/submitLogin"
+                app:layout_constraintTop_toBottomOf="@id/login_account_mail" />
 
-        <TextView
-            android:id="@+id/newUser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_chain_margin"
-            android:gravity="center"
-            android:text="@string/new_user"
-            app:layout_constraintBottom_toBottomOf="@id/login_layout"
-            app:layout_constraintTop_toBottomOf="@id/submitLogin"
-            />
+            <EditText
+                android:id="@+id/login_account_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/user_email_hint"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/editText_padding"
+                android:text="@={viewModel.userMail}"
+                app:chainUseRtl="false"
+                app:layout_constraintBottom_toTopOf="@id/login_account_password"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/login_wrong_credentials"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/editText_padding"
+                android:text="@string/wrong_credentials"
+                android:textColor="@android:color/holo_red_light"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/login_account_mail" />
+
+            <TextView
+                android:id="@+id/newUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/login_chain_margin"
+                android:gravity="center"
+                android:onClick="@{() -> viewModel.isNewUser()}"
+                android:text="@string/new_user"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/submitLogin" />
+
+            <View
+                android:id="@+id/login_wrong_email"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="3dp"
+                android:layout_marginBottom="7dp"
+                android:background="@android:color/holo_red_light"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/login_account_mail"
+                app:layout_constraintLeft_toLeftOf="@id/login_account_mail"
+                app:layout_constraintRight_toRightOf="@id/login_account_mail" />
+
+            <View
+                android:id="@+id/login_wrong_password"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginHorizontal="3dp"
+                android:layout_marginTop="@dimen/login_chain_margin"
+                android:layout_marginBottom="7dp"
+                android:background="@android:color/holo_red_light"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/login_account_password"
+                app:layout_constraintLeft_toLeftOf="@id/login_account_password"
+                app:layout_constraintRight_toRightOf="@id/login_account_password" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </layout>

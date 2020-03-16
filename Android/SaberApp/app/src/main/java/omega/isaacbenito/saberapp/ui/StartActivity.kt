@@ -17,10 +17,13 @@
 
 package omega.isaacbenito.saberapp.ui
 
+import android.app.ActivityOptions
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.SaberApp
@@ -42,10 +45,20 @@ class StartActivity : AppCompatActivity() {
 
         val authManager = (application as SaberApp).appComponent.authManager()
 
-        //TODO Check if account is saved on device
         Handler().postDelayed( {
             if (authManager.userIsLoggedIn()) {
-                startActivity(Intent(this, MainActivity::class.java))
+                val intent = Intent(this, MainActivity::class.java)
+                if (Build.VERSION.SDK_INT >= 21) {
+                    val logo = findViewById<View>(R.id.start_applogo)
+                    val options = ActivityOptions
+                        .makeSceneTransitionAnimation(
+                            this, logo,
+                            resources.getString(R.string.start_login_logo_transition)
+                        )
+                    startActivity(intent, options.toBundle())
+                } else {
+                    startActivity(intent)
+                }
             } else {
                 startActivity(Intent(this, AuthActivity::class.java))
             }

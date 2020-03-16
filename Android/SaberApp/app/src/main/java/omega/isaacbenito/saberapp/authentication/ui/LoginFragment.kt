@@ -25,6 +25,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -79,11 +80,40 @@ class LoginFragment : Fragment() {
          */
         loginViewModel.enterDataState.observe(this, Observer {
             when (it) {
-                is EnterDataError ->
-                    Toast.makeText(context, R.string.wrong_credentials, Toast.LENGTH_LONG).show()
+                is EnterDataError -> {
+                    binding.loginAccountMail.text.clear()
+                    binding.loginAccountPassword.text.clear()
+
+                    when (it.errorCode) {
+                        EnterDataError.INVALID_EMAIL -> {
+                            binding.loginAccountMail.setHintTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.loginWrongEmail.visibility = View.VISIBLE
+                        }
+                        EnterDataError.INVALID_PASSWORD -> {
+                            binding.loginAccountPassword.setHintTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.loginWrongPassword.visibility = View.VISIBLE
+                        }
+                        EnterDataError.INVALID_EMAIL_AND_PASSWORD -> {
+                            binding.loginAccountMail.setHintTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.loginWrongEmail.visibility = View.VISIBLE
+                            binding.loginAccountPassword.setHintTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.loginWrongPassword.visibility = View.VISIBLE
+                        }
+                        else -> binding.loginWrongCredentials.visibility = View.VISIBLE
+                    }
+                }
+
                 is EnterDataSuccess ->
                     if (networkUtils.isConnected) {
-                        loginViewModel.login(user.text.toString(), password.text.toString())
+                        loginViewModel.login()
                     } else {
                         Toast.makeText(context, R.string.no_network, Toast.LENGTH_LONG).show()
                     }
@@ -105,10 +135,7 @@ class LoginFragment : Fragment() {
                 is AuthError ->
                     when (loginState.error) {
                         AuthError.WRONG_CREDENTIALS_ERROR ->
-                            Toast.makeText(
-                                context, R.string.wrong_credentials,
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            binding.loginWrongCredentials.visibility = View.VISIBLE
                         AuthError.SERVER_UNREACHABLE_ERROR ->
                             Toast.makeText(
                                 context, R.string.server_unreachable,
@@ -117,6 +144,11 @@ class LoginFragment : Fragment() {
                     }
             }
         })
+
+        loginViewModel.newUser.observe(this, Observer {
+            this.findNavController().navigate(R.id.action_loginFragment_to_regDataFragment)
+        })
+
     }
 
     /**
@@ -135,17 +167,11 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        binding.viewModel = loginViewModel
 
-        user = binding.accountMail
+        user = binding.loginAccountMail
 
-        password = binding.accountPassword
-
-        binding.submitLogin.setOnClickListener { login() }
-
-        // Al clickar en la opció de nou usuari es navega al fragment de registre
-        binding.newUser.setOnClickListener {
-            this.findNavController().navigate(R.id.action_loginFragment_to_regDataFragment)
-        }
+        password = binding.loginAccountPassword
 
         return binding.root
     }
@@ -172,9 +198,9 @@ class LoginFragment : Fragment() {
      * si compleixen les característiques necessàries per a ser unes credencials
      * d'accés a l'aplicació.
      */
-    private fun login() {
-        loginViewModel.validateInput(user.text.toString(), password.text.toString())
-    }
+//    private fun login() {
+//        loginViewModel.validateInput(user.text.toString(), password.text.toString())
+//    }
 }
 
 

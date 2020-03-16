@@ -22,7 +22,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -76,11 +77,11 @@ class RegDataFragment : Fragment() {
         regDataViewModel.enterDetailsState.observe(this, Observer {
             when (it) {
                 is EnterDataSuccess -> {
-                    val userName = binding.name.text.toString()
-                    val userSurname = binding.surname.text.toString()
-                    val userNickname = binding.nickname.text.toString()
-                    val email = binding.accountMail.text.toString()
-                    val password = binding.accountPassword.text.toString()
+                    val userName = binding.registerName.text.toString()
+                    val userSurname = binding.registerSurname.text.toString()
+                    val userNickname = binding.registerNickname.text.toString()
+                    val email = binding.registerAccountMail.text.toString()
+                    val password = binding.registerAccountPassword.text.toString()
 
                     registrationViewModel.updateUserData(
                         userName, userSurname, userNickname, email, password
@@ -91,42 +92,67 @@ class RegDataFragment : Fragment() {
                 }
                 is EnterDataError -> {
                     when (it.errorCode) {
-                        INVALID_EMAIL ->
-                            Toast.makeText(
-                                context,
-                                R.string.invalid_email,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        INVALID_PASSWORD ->
-                            Toast.makeText(
-                                context,
-                                R.string.invalid_password,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        INVALID_PASSWORD_REPEAT ->
-                            Toast.makeText(
-                                context,
-                                R.string.invalid_password_repeat,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        INVALID_NAME ->
-                            Toast.makeText(
-                                context,
-                                R.string.invalid_name,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        INVALID_SURNAME ->
-                            Toast.makeText(
-                                context,
-                                R.string.invalid_name,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        INVALID_NICKNAME ->
-                            Toast.makeText(
-                                context,
-                                R.string.invalid_nickname,
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        INVALID_NAME -> {
+                            val params =
+                                binding.registerName.layoutParams as LinearLayout.LayoutParams
+                            params.topMargin = 0
+                            binding.registerName.setTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.regWrongNameText.visibility = View.VISIBLE
+                            binding.regWrongNameView.visibility = View.VISIBLE
+                        }
+                        INVALID_SURNAME -> {
+                            val params =
+                                binding.registerSurname.layoutParams as LinearLayout.LayoutParams
+                            params.topMargin = 0
+                            binding.registerSurname.setTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.regWrongSurnameText.visibility = View.VISIBLE
+                            binding.regWrongSurnameView.visibility = View.VISIBLE
+                        }
+                        INVALID_NICKNAME -> {
+                            val params =
+                                binding.registerNickname.layoutParams as LinearLayout.LayoutParams
+                            params.topMargin = 0
+                            binding.registerNickname.setTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.regWrongNicknameText.visibility = View.VISIBLE
+                            binding.regWrongNicknameView.visibility = View.VISIBLE
+                        }
+                        INVALID_EMAIL -> {
+                            val params =
+                                binding.registerAccountMail.layoutParams as LinearLayout.LayoutParams
+                            params.topMargin = 0
+                            binding.registerAccountMail.setTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.regWrongMailText.visibility = View.VISIBLE
+                            binding.regWrongMailView.visibility = View.VISIBLE
+                        }
+                        INVALID_PASSWORD -> {
+                            val params =
+                                binding.registerAccountPassword.layoutParams as LinearLayout.LayoutParams
+                            params.topMargin = 0
+                            binding.registerAccountPassword.setTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.regWrongPasswordText.visibility = View.VISIBLE
+                            binding.regWrongPasswordView.visibility = View.VISIBLE
+                        }
+                        INVALID_PASSWORD_REPEAT -> {
+                            val params =
+                                binding.registerAccountPasswordRepeat.layoutParams as LinearLayout.LayoutParams
+                            params.topMargin = 0
+                            binding.registerAccountPasswordRepeat.setTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.regWrongPasswordRepeatText.visibility = View.VISIBLE
+                            binding.regWrongPasswordRepeatView.visibility = View.VISIBLE
+                        }
+
                     }
                 }
             }
@@ -159,7 +185,7 @@ class RegDataFragment : Fragment() {
         }
 
 
-        binding.submitData.setOnClickListener { validateData() }
+        binding.registerSubmitData.setOnClickListener { validateData() }
 
         return binding.root
     }
@@ -189,12 +215,12 @@ class RegDataFragment : Fragment() {
      * l'aplicació.
      */
     private fun validateData() {
-        val userName = binding.name.text.toString()
-        val userSurname = binding.surname.text.toString()
-        val userNickname = binding.nickname.text.toString()
-        val email = binding.accountMail.text.toString()
-        val password = binding.accountPassword.text.toString()
-        val repeatPassword = binding.accountPasswordRepeat.text.toString()
+        val userName = binding.registerName.text.toString()
+        val userSurname = binding.registerSurname.text.toString()
+        val userNickname = binding.registerNickname.text.toString()
+        val email = binding.registerAccountMail.text.toString()
+        val password = binding.registerAccountPassword.text.toString()
+        val repeatPassword = binding.registerAccountPasswordRepeat.text.toString()
 
         regDataViewModel.validateInput(
             userName, userSurname, userNickname, email, password, repeatPassword

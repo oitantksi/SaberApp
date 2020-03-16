@@ -32,87 +32,152 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
 
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/user_name_hint"
-            android:autofillHints="personGivenName"
-            android:inputType="text"
-            android:padding="@dimen/editText_padding"
-            app:layout_constraintBottom_toTopOf="@id/surname"
-            app:layout_constraintTop_toTopOf="@id/register_layout"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:layout_editor_absoluteX="17dp" />
-
-        <EditText
-            android:id="@+id/surname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_chain_margin"
-            android:hint="@string/user_surname_hint"
-            android:autofillHints="personFamilyName"
-            android:inputType="text"
-            android:padding="@dimen/editText_padding"
-            app:layout_constraintBottom_toTopOf="@id/nickname"
-            app:layout_constraintTop_toBottomOf="@id/name" />
-
-        <EditText
-            android:id="@+id/nickname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_chain_margin"
-            android:hint="@string/user_nickname_hint"
-            android:autofillHints="username"
-            android:inputType="text"
-            android:padding="@dimen/editText_padding"
-            app:layout_constraintBottom_toTopOf="@id/accountMail"
-            app:layout_constraintTop_toBottomOf="@id/surname" />
-
-        <EditText
-            android:id="@+id/accountMail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_chain_margin"
-            android:hint="@string/user_email_hint"
-            android:autofillHints="emailAddress"
-            android:inputType="textEmailAddress"
-            android:padding="@dimen/editText_padding"
-            app:layout_constraintBottom_toTopOf="@id/accountPassword"
-            app:layout_constraintTop_toBottomOf="@id/nickname" />
-
-        <EditText
-            android:id="@+id/accountPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_chain_margin"
-            android:hint="@string/user_password_hint"
-            android:autofillHints="password"
-            android:inputType="textPassword"
-            android:padding="@dimen/editText_padding"
-            app:layout_constraintBottom_toTopOf="@id/accountPassword_repeat"
-            app:layout_constraintTop_toBottomOf="@id/accountMail" />
-
-        <EditText
-            android:id="@+id/accountPassword_repeat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_chain_margin"
-            android:hint="@string/user_password_repeat_hint"
-            android:inputType="textPassword"
-            android:padding="@dimen/editText_padding"
-            app:layout_constraintBottom_toTopOf="@id/submitData"
-            app:layout_constraintTop_toBottomOf="@id/accountPassword" />
-
         <Button
-            android:id="@+id/submitData"
+            android:id="@+id/register_submitData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/login_chain_margin"
             android:padding="@dimen/editText_padding"
             android:text="@string/user_signUp"
             app:layout_constraintBottom_toTopOf="@id/alreadyMember"
-            app:layout_constraintTop_toBottomOf="@id/accountPassword_repeat" />
+            app:layout_constraintTop_toBottomOf="@id/register_accountPassword_repeat" />
+
+        <EditText
+            android:id="@+id/register_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/user_name_hint"
+            android:autofillHints="personGivenName"
+            android:inputType="text"
+            android:padding="@dimen/editText_padding"
+            app:layout_constraintBottom_toTopOf="@id/reg_wrong_surname_text"
+            app:layout_constraintTop_toTopOf="@id/register_layout"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:layout_editor_absoluteX="17dp" />
+
+        <EditText
+            android:id="@+id/register_surname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/user_surname_hint"
+            android:autofillHints="personFamilyName"
+            android:inputType="text"
+            android:padding="@dimen/editText_padding"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            app:layout_constraintBottom_toTopOf="@id/reg_wrong_nickname_text"
+            app:layout_constraintTop_toBottomOf="@id/reg_wrong_surname_text" />
+
+        <EditText
+            android:id="@+id/register_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/user_nickname_hint"
+            android:autofillHints="username"
+            android:inputType="text"
+            android:padding="@dimen/editText_padding"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            app:layout_constraintBottom_toTopOf="@id/reg_wrong_mail_text"
+            app:layout_constraintTop_toBottomOf="@id/reg_wrong_nickname_text" />
+
+        <EditText
+            android:id="@+id/register_account_mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/user_email_hint"
+            android:autofillHints="emailAddress"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/editText_padding"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            app:layout_constraintBottom_toTopOf="@id/reg_wrong_password_text"
+            app:layout_constraintTop_toBottomOf="@id/reg_wrong_mail_text" />
+
+        <EditText
+            android:id="@+id/register_account_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/user_password_hint"
+            android:autofillHints="password"
+            android:inputType="textPassword"
+            android:padding="@dimen/editText_padding"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            app:layout_constraintBottom_toTopOf="@id/reg_wrong_passwordRepeat_text"
+            app:layout_constraintTop_toBottomOf="@id/reg_wrong_password_text" />
+
+        <EditText
+            android:id="@+id/register_accountPassword_repeat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:hint="@string/user_password_repeat_hint"
+            android:inputType="textPassword"
+            android:padding="@dimen/editText_padding"
+            app:layout_constraintBottom_toTopOf="@id/register_submitData"
+            app:layout_constraintTop_toBottomOf="@id/reg_wrong_passwordRepeat_text" />
+
+        <TextView
+            android:id="@+id/reg_wrong_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/editText_padding"
+            android:text="@string/invalid_name"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/register_name" />
+
+        <TextView
+            android:id="@+id/reg_wrong_surname_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/editText_padding"
+            android:text="@string/invalid_name"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/register_surname"
+            app:layout_constraintTop_toBottomOf="@id/register_name" />
+
+        <TextView
+            android:id="@+id/reg_wrong_nickname_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/editText_padding"
+            android:text="@string/invalid_nickname"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/register_nickname"
+            app:layout_constraintTop_toBottomOf="@id/register_surname" />
+
+        <TextView
+            android:id="@+id/reg_wrong_mail_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/editText_padding"
+            android:text="@string/invalid_email"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/register_account_mail"
+            app:layout_constraintTop_toBottomOf="@id/register_nickname" />
+
+        <TextView
+            android:id="@+id/reg_wrong_password_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/editText_padding"
+            android:text="@string/invalid_password"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/register_account_password"
+            app:layout_constraintTop_toBottomOf="@id/register_account_mail" />
+
+        <TextView
+            android:id="@+id/reg_wrong_passwordRepeat_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/editText_padding"
+            android:text="@string/invalid_password_repeat"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/register_accountPassword_repeat"
+            app:layout_constraintTop_toBottomOf="@id/register_account_password" />
 
         <TextView
             android:id="@+id/alreadyMember"
@@ -122,8 +187,85 @@
             android:gravity="center"
             android:text="@string/already_member"
             app:layout_constraintBottom_toBottomOf="@id/register_layout"
-            app:layout_constraintTop_toBottomOf="@id/submitData"
+            app:layout_constraintTop_toBottomOf="@id/register_submitData"
             />
+
+        <View
+            android:id="@+id/reg_wrong_name_view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginBottom="7dp"
+            android:background="@android:color/holo_red_light"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/register_name"
+            app:layout_constraintLeft_toLeftOf="@id/register_name"
+            app:layout_constraintRight_toRightOf="@id/register_name" />
+
+        <View
+            android:id="@+id/reg_wrong_surname_view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:layout_marginBottom="7dp"
+            android:background="@android:color/holo_red_light"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/register_surname"
+            app:layout_constraintLeft_toLeftOf="@id/register_surname"
+            app:layout_constraintRight_toRightOf="@id/register_surname" />
+
+        <View
+            android:id="@+id/reg_wrong_nickname_view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:layout_marginBottom="7dp"
+            android:background="@android:color/holo_red_light"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/register_nickname"
+            app:layout_constraintLeft_toLeftOf="@id/register_nickname"
+            app:layout_constraintRight_toRightOf="@id/register_nickname" />
+
+        <View
+            android:id="@+id/reg_wrong_mail_view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:layout_marginBottom="7dp"
+            android:background="@android:color/holo_red_light"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/register_account_mail"
+            app:layout_constraintLeft_toLeftOf="@id/register_account_mail"
+            app:layout_constraintRight_toRightOf="@id/register_account_mail" />
+
+        <View
+            android:id="@+id/reg_wrong_password_view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:layout_marginBottom="7dp"
+            android:background="@android:color/holo_red_light"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/register_account_password"
+            app:layout_constraintLeft_toLeftOf="@id/register_account_password"
+            app:layout_constraintRight_toRightOf="@id/register_account_password" />
+
+        <View
+            android:id="@+id/reg_wrong_passwordRepeat_view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="3dp"
+            android:layout_marginTop="@dimen/login_chain_margin"
+            android:layout_marginBottom="7dp"
+            android:background="@android:color/holo_red_light"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/register_accountPassword_repeat"
+            app:layout_constraintLeft_toLeftOf="@id/register_accountPassword_repeat"
+            app:layout_constraintRight_toRightOf="@id/register_accountPassword_repeat" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

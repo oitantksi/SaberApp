@@ -108,12 +108,14 @@ sealed class EnterDataState
 object EnterDataSuccess : EnterDataState()
 data class EnterDataError(val errorCode: Int) : EnterDataState() {
     companion object {
-        const val INVALID_EMAIL = 0
+        const val WRONG_CREDENTIALS = 0
+        const val INVALID_EMAIL = 1
         const val INVALID_PASSWORD = 2
-        const val INVALID_PASSWORD_REPEAT = 3
-        const val INVALID_NAME = 4
-        const val INVALID_SURNAME = 5
-        const val INVALID_NICKNAME = 6
+        const val INVALID_EMAIL_AND_PASSWORD = 3
+        const val INVALID_PASSWORD_REPEAT = 4
+        const val INVALID_NAME = 5
+        const val INVALID_SURNAME = 6
+        const val INVALID_NICKNAME = 7
     }
 }
 

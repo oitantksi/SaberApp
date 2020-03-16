@@ -17,6 +17,7 @@
 
 package omega.isaacbenito.saberapp.authentication.model
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -48,6 +49,9 @@ class LoginViewModel @Inject constructor() : ViewModel() {
     val enterDataState: LiveData<EnterDataState>
         get() = _enterDataState
 
+    val userMail = ObservableField<String>()
+    val userPassword = ObservableField<String>()
+
     /**
      * Crida al gestor d'autenticació per a que realitzi el login amb les credencials
      * facilitades per l'usuari.
@@ -55,8 +59,10 @@ class LoginViewModel @Inject constructor() : ViewModel() {
      * @param userMail
      * @param password
      */
-    fun login(userMail: String, password: String) {
-        _loginState.value = authenticationManager.login(userMail, password).value
+    fun login() {
+        _loginState.value = authenticationManager.login(
+            userMail.get()!!, userPassword.get()!!
+        ).value
     }
 
     /**
@@ -66,13 +72,46 @@ class LoginViewModel @Inject constructor() : ViewModel() {
      * @param userMail
      * @param password
      */
-    fun validateInput(userMail: String, password: String) {
-        if (!isValidEmail(userMail)) {
-            _enterDataState.value = EnterDataError(EnterDataError.INVALID_EMAIL)
-        } else if (!isValidPassword(password)) {
-            _enterDataState.value = EnterDataError(EnterDataError.INVALID_EMAIL)
+//    fun validateInput(userMail: String, password: String) {
+//        if (userMail.isEmpty() && password.isEmpty()) {
+//            _enterDataState.value = EnterDataError(EnterDataError.INVALID_EMAIL_AND_PASSWORD)
+//        } else if (userMail.isEmpty()) {
+//            _enterDataState.value = EnterDataError(EnterDataError.INVALID_EMAIL)
+//        } else if (password.isEmpty()) {
+//            _enterDataState.value = EnterDataError(EnterDataError.INVALID_PASSWORD)
+//        } else if (!isValidEmail(userMail) || !isValidPassword(password)) {
+//            _enterDataState.value = EnterDataError(EnterDataError.WRONG_CREDENTIALS)
+//        } else {
+//            _enterDataState.value = EnterDataSuccess
+//        }
+//    }
+    fun validateInput() {
+        if (userMail.get() == null || userPassword.get() == null) {
+            _enterDataState.value = EnterDataError(EnterDataError.INVALID_EMAIL_AND_PASSWORD)
         } else {
-            _enterDataState.value = EnterDataSuccess
+            val mail = userMail.get()!!
+            val password = userPassword.get()!!
+
+            if (mail.isEmpty() && password.isEmpty()) {
+                _enterDataState.value = EnterDataError(EnterDataError.INVALID_EMAIL_AND_PASSWORD)
+            } else if (mail.isEmpty()) {
+                _enterDataState.value = EnterDataError(EnterDataError.INVALID_EMAIL)
+            } else if (password.isEmpty()) {
+                _enterDataState.value = EnterDataError(EnterDataError.INVALID_PASSWORD)
+            } else if (!isValidEmail(mail) || !isValidPassword(password)) {
+                _enterDataState.value = EnterDataError(EnterDataError.WRONG_CREDENTIALS)
+            } else {
+                _enterDataState.value = EnterDataSuccess
+            }
+
         }
+    }
+
+    private val _newUser = MutableLiveData<Boolean>()
+    val newUser: LiveData<Boolean>
+        get() = _newUser
+
+    fun isNewUser() {
+        _newUser.value = _newUser.value != true
     }
 }

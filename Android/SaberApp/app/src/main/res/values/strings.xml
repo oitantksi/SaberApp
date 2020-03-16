@@ -19,6 +19,9 @@
 <resources>
     <string name="app_name" translatable="false">SaberApp</string>
 
+    <!--  Transitions  -->
+    <string name="start_login_logo_transition" translatable="false">start_login_logo_transition</string>
+
     <!-- Navigation Drawer -->
     <string name="menu_saberapp_rules">Rules</string>
     <string name="menu_about_saberapp">About</string>
@@ -42,7 +45,7 @@
 
     <string name="login_failed">"Login failed"</string>
     <string name="server_unreachable">Server Unreachable</string>
-    <string name="wrong_credentials">Wrong credentials</string>
+    <string name="wrong_credentials">Wrong username or password</string>
 
     <!-- Network Availability -->
     <string name="no_network">No network connection</string>
