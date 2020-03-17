@@ -28,8 +28,8 @@
         <action
             android:id="@+id/action_regDataFragment_to_regCentreFragment"
             app:destination="@id/regCentreFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_regDataFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -48,8 +48,8 @@
         <action
             android:id="@+id/action_loginFragment_to_regDataFragment"
             app:destination="@id/regDataFragment"
-            app:enterAnim="@android:anim/slide_out_right"
-            app:exitAnim="@android:anim/slide_in_left" />
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
     </fragment>
 
 </navigation>

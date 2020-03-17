@@ -43,6 +43,8 @@
                 android:onClick="@{() -> viewModel.validateInput()}"
                 android:padding="@dimen/editText_padding"
                 android:text="@string/user_signIn"
+                android:background="@color/colorPrimary"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/newUser"
                 app:layout_constraintTop_toBottomOf="@id/login_account_password" />
 
@@ -89,6 +91,7 @@
                 android:gravity="center"
                 android:onClick="@{() -> viewModel.isNewUser()}"
                 android:text="@string/new_user"
+                android:textColor="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/submitLogin" />
 

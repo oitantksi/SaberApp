@@ -19,6 +19,7 @@ package omega.isaacbenito.saberapp.authentication.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,7 +34,7 @@ import javax.inject.Inject
  * Model de la vista de selecció de centre educatiu
  *
  */
-class RegCentreViewModel @Inject constructor() {
+class RegCentreViewModel @Inject constructor() : ViewModel() {
 
     @Inject
     lateinit var server: SaberAppServer

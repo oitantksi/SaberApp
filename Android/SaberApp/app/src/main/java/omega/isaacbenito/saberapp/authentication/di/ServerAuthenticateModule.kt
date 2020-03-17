@@ -15,6 +15,16 @@
  *     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package omega.isaacbenito.saberapp.storage
+package omega.isaacbenito.saberapp.authentication.di
 
-class Storage
+import dagger.Binds
+import dagger.Module
+import omega.isaacbenito.saberapp.authentication.SaberAppServerAuthenticate
+import omega.isaacbenito.saberapp.authentication.ServerAuthenticate
+
+@Module
+abstract class ServerAuthenticateModule {
+
+    @Binds
+    abstract fun provideServerAuthenticate(server: SaberAppServerAuthenticate) : ServerAuthenticate
+}

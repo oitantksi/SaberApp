@@ -20,9 +20,9 @@ class LoginFragmentTest {
     private val rightUserPassword = "Abr@kd4bra!"
 
     @get:Rule
-    var activityRule = ActivityTestRule(AuthActivity::class.java)
+    private val activityRule = ActivityTestRule(AuthActivity::class.java)
 
-    val testedFragment = R.id.loginFragment
+    private val testedFragment = R.id.loginFragment
 
     private fun launchFragment() {
         activityRule.launchActivity(getFragmentIntent(testedFragment))
@@ -170,7 +170,7 @@ class LoginFragmentTest {
 
         //Then
 
-        if (waitForViewWithId(R.id.userMainFragment_layout, 5000)) {
+        if (waitForViewWithId(R.id.userMainFragment, 5000)) {
             fail()
         }
 

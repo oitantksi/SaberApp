@@ -26,7 +26,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import omega.isaacbenito.saberapp.R
@@ -49,10 +51,11 @@ import javax.inject.Inject
 class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
 
     @Inject
-    lateinit var regCentreViewModel: RegCentreViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    @Inject
-    lateinit var registerViewModel: RegisterViewModel
+    private val regCentreViewModel by viewModels<RegCentreViewModel> { viewModelFactory }
+
+    private val registerViewModel by viewModels<RegisterViewModel> { viewModelFactory }
 
     private lateinit var binding: FragmentRegCentreBinding
 

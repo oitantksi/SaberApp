@@ -33,11 +33,11 @@ class RegDataViewModelTest {
 
     private val regDataViewModel = RegDataViewModel()
 
-    private var rightUserName = "Name"
-    private var rightUserSurname = "Surname Surname"
-    private var rightUserNickname = "Nickname"
-    private var rightEmail = "email@email.com"
-    private var rightPassword = "Aa@45678"
+    val rightUserName = "Name"
+    val rightUserSurname = "Surname Surname"
+    val rightUserNickname = "Nickname"
+    val rightEmail = "email@email.com"
+    val rightPassword = "Aa@45678"
 
     @Rule
     @JvmField
@@ -51,13 +51,28 @@ class RegDataViewModelTest {
     fun tearDown() {
     }
 
+    private fun setData(
+        userName: String,
+        userSurname: String,
+        userNickname: String,
+        userMail: String,
+        userPassword: String,
+        userPasswordRepeat: String
+    ) {
+        regDataViewModel.userName.set(userName)
+        regDataViewModel.userSurname.set(userSurname)
+        regDataViewModel.userNickname.set(userNickname)
+        regDataViewModel.userMail.set(userMail)
+        regDataViewModel.userPassword.set(userPassword)
+        regDataViewModel.userPasswordRepeat.set(userPasswordRepeat)
+    }
 
     @Test
     fun validateInput_rightData_EnterDataSuccess() {
         // Given right data
 
         // When
-        regDataViewModel.validateInput(
+        setData(
             rightUserName,
             rightUserSurname,
             rightUserNickname,
@@ -65,6 +80,8 @@ class RegDataViewModelTest {
             rightPassword,
             rightPassword
         )
+
+        regDataViewModel.validateInput()
 
         // Then
         val expected = EnterDataSuccess
@@ -74,7 +91,7 @@ class RegDataViewModelTest {
 
 
     private fun validateName(name: String) {
-        regDataViewModel.validateInput(
+        setData(
             name,
             rightUserSurname,
             rightUserNickname,
@@ -82,6 +99,8 @@ class RegDataViewModelTest {
             rightPassword,
             rightPassword
         )
+
+        regDataViewModel.validateInput()
     }
 
     private val expectedNameError = EnterDataError(EnterDataError.INVALID_NAME)
@@ -136,7 +155,7 @@ class RegDataViewModelTest {
 
 
     private fun validateSurname(surname: String) {
-        regDataViewModel.validateInput(
+        setData(
             rightUserName,
             surname,
             rightUserNickname,
@@ -144,6 +163,8 @@ class RegDataViewModelTest {
             rightPassword,
             rightPassword
         )
+
+        regDataViewModel.validateInput()
     }
 
     private val expectedSurnameError = EnterDataError(EnterDataError.INVALID_SURNAME)
@@ -198,7 +219,7 @@ class RegDataViewModelTest {
 
 
     private fun validateNickname(nickname: String) {
-        regDataViewModel.validateInput(
+        setData(
             rightUserName,
             rightUserSurname,
             nickname,
@@ -206,6 +227,8 @@ class RegDataViewModelTest {
             rightPassword,
             rightPassword
         )
+
+        regDataViewModel.validateInput()
     }
 
     private val expectedNicknameError = EnterDataError(EnterDataError.INVALID_NICKNAME)
@@ -248,7 +271,7 @@ class RegDataViewModelTest {
 
 
     private fun validateEmail(email: String) {
-        regDataViewModel.validateInput(
+        setData(
             rightUserName,
             rightUserSurname,
             rightUserNickname,
@@ -256,6 +279,8 @@ class RegDataViewModelTest {
             rightPassword,
             rightPassword
         )
+
+        regDataViewModel.validateInput()
     }
 
     private val expectedEmailError = EnterDataError(EnterDataError.INVALID_EMAIL)
@@ -394,7 +419,7 @@ class RegDataViewModelTest {
 
 
     private fun validatePassword(password: String) {
-        regDataViewModel.validateInput(
+        setData(
             rightUserName,
             rightUserSurname,
             rightUserNickname,
@@ -402,6 +427,8 @@ class RegDataViewModelTest {
             password,
             rightPassword
         )
+
+        regDataViewModel.validateInput()
     }
 
     private val expectedPasswordError = EnterDataError(EnterDataError.INVALID_PASSWORD)
@@ -484,7 +511,7 @@ class RegDataViewModelTest {
         val password2 = "Aa@45679"
 
         // When
-        regDataViewModel.validateInput(
+        setData(
             rightUserName,
             rightUserSurname,
             rightUserNickname,
@@ -492,6 +519,8 @@ class RegDataViewModelTest {
             password1,
             password2
         )
+
+        regDataViewModel.validateInput()
 
         // Then
         val expected = EnterDataError(EnterDataError.INVALID_PASSWORD_REPEAT)

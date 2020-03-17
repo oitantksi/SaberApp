@@ -17,6 +17,7 @@
 
 package omega.isaacbenito.saberapp.authentication.model
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,39 +41,56 @@ class RegDataViewModel @Inject constructor() : ViewModel() {
 
     private val _tag = this.javaClass.name
 
+    val userName = ObservableField<String>()
+    val userSurname = ObservableField<String>()
+    val userNickname = ObservableField<String>()
+    val userMail = ObservableField<String>()
+    val userPassword = ObservableField<String>()
+    val userPasswordRepeat = ObservableField<String>()
+
     private val _enterDataState = MutableLiveData<EnterDataState>()
     val enterDetailsState: LiveData<EnterDataState>
         get() = _enterDataState
 
+
     /**
+     * Es crida quan l'usuari polsa el botó de registre.
+     *
      * Valida les dades introduïdes per l'usuari, en cas de que alguna no sigui vàlida
      * registra la dada en qúestió en el motiu de l'error.
      *
-     * @param user_name
-     * @param user_surname
-     * @param user_nickname
-     * @param email
-     * @param password
      */
-    fun validateInput(
-        user_name: String,
-        user_surname: String,
-        user_nickname: String,
-        email: String,
-        password: String,
-        repeatPassword: String
-    ) {
-        if (!isValidEmail(email)) {
+    fun validateInput() {
+        if (userMail.get() == null
+            || userMail.get()!!.isEmpty()
+            || !isValidEmail(userMail.get()!!)
+        ) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_EMAIL)
-        } else if (!isValidPassword(password)) {
+        } else if (userPassword.get() == null
+            || userPassword.get()!!.isEmpty()
+            || !isValidPassword(userPassword.get()!!)
+        ) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_PASSWORD)
-        } else if (repeatPassword != password) {
+        } else if (userPasswordRepeat.get() == null
+            || userPassword.get() == null
+            || userPasswordRepeat.get()!!.isEmpty()
+            || userPassword.get()!! != userPasswordRepeat.get()!!
+        ) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_PASSWORD_REPEAT)
-        } else if (!isValidNameOrSurname(user_name.toLowerCase(Locale.getDefault()))) {
+        } else if (userName.get() == null
+            || userName.get()!!.isEmpty()
+            || !isValidNameOrSurname(userName.get()!!)
+        ) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_NAME)
-        } else if (!isValidNameOrSurname(user_surname.toLowerCase(Locale.getDefault()))) {
+        } else if (userSurname.get() == null
+            || userSurname.get()!!.isEmpty()
+            || !isValidNameOrSurname(userSurname.get()!!)
+        ) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_SURNAME)
-        } else if (!isValidNickname(user_nickname)) {
+        } else if (userNickname.get() == null
+            || userNickname.get()!!.isEmpty()
+            || !isValidNickname(userNickname.get()!!)
+        ) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_NICKNAME)
         } else {
             _enterDataState.value = EnterDataSuccess
@@ -126,5 +144,13 @@ class RegDataViewModel @Inject constructor() : ViewModel() {
         val score = additions - deductions
 
         return if (score > 100) 100 else score
+    }
+
+    private val _alreadyMember = MutableLiveData<Boolean>()
+    val alreadyMember: LiveData<Boolean>
+        get() = _alreadyMember
+
+    fun alreadyMember() {
+        _alreadyMember.value = _alreadyMember.value != true
     }
 }

@@ -21,7 +21,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import omega.isaacbenito.saberapp.api.SaberAppServer
 import omega.isaacbenito.saberapp.authentication.AuthenticationManager
@@ -35,12 +34,9 @@ class UserRepository @Inject constructor() {
 
     @Inject lateinit var authManager: AuthenticationManager
 
-    private var userRepoJob = Job()
-    private val userRepoScope = CoroutineScope(userRepoJob + Dispatchers.Main)
-
     fun getUser() : LiveData<User> {
         val user = MutableLiveData<User>()
-        userRepoScope.launch {
+        CoroutineScope(Dispatchers.Main).launch {
             user.value = server.service.getUser(authManager.userMail)
         }
         return user

@@ -20,12 +20,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="viewModel"
-            type="omega.isaacbenito.saberapp.authentication.model.RegDataViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/register_layout"
         android:layout_width="match_parent"
@@ -39,7 +33,10 @@
             android:layout_marginTop="@dimen/login_chain_margin"
             android:padding="@dimen/editText_padding"
             android:text="@string/user_signUp"
+            android:background="@color/colorPrimary"
+            android:onClick="@{()-> regDataVM.validateInput()}"
             app:layout_constraintBottom_toTopOf="@id/alreadyMember"
+            android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/register_accountPassword_repeat" />
 
         <EditText
@@ -50,6 +47,8 @@
             android:autofillHints="personGivenName"
             android:inputType="text"
             android:padding="@dimen/editText_padding"
+            android:layout_marginBottom="@dimen/login_chain_margin"
+            android:text="@={regDataVM.userName}"
             app:layout_constraintBottom_toTopOf="@id/reg_wrong_surname_text"
             app:layout_constraintTop_toTopOf="@id/register_layout"
             app:layout_constraintVertical_chainStyle="packed"
@@ -62,8 +61,9 @@
             android:hint="@string/user_surname_hint"
             android:autofillHints="personFamilyName"
             android:inputType="text"
+            android:layout_marginBottom="@dimen/login_chain_margin"
             android:padding="@dimen/editText_padding"
-            android:layout_marginTop="@dimen/login_chain_margin"
+            android:text="@={regDataVM.userSurname}"
             app:layout_constraintBottom_toTopOf="@id/reg_wrong_nickname_text"
             app:layout_constraintTop_toBottomOf="@id/reg_wrong_surname_text" />
 
@@ -74,8 +74,9 @@
             android:hint="@string/user_nickname_hint"
             android:autofillHints="username"
             android:inputType="text"
+            android:layout_marginBottom="@dimen/login_chain_margin"
             android:padding="@dimen/editText_padding"
-            android:layout_marginTop="@dimen/login_chain_margin"
+            android:text="@={regDataVM.userNickname}"
             app:layout_constraintBottom_toTopOf="@id/reg_wrong_mail_text"
             app:layout_constraintTop_toBottomOf="@id/reg_wrong_nickname_text" />
 
@@ -86,8 +87,9 @@
             android:hint="@string/user_email_hint"
             android:autofillHints="emailAddress"
             android:inputType="textEmailAddress"
+            android:layout_marginBottom="@dimen/login_chain_margin"
             android:padding="@dimen/editText_padding"
-            android:layout_marginTop="@dimen/login_chain_margin"
+            android:text="@={regDataVM.userMail}"
             app:layout_constraintBottom_toTopOf="@id/reg_wrong_password_text"
             app:layout_constraintTop_toBottomOf="@id/reg_wrong_mail_text" />
 
@@ -98,8 +100,9 @@
             android:hint="@string/user_password_hint"
             android:autofillHints="password"
             android:inputType="textPassword"
+            android:layout_marginBottom="@dimen/login_chain_margin"
             android:padding="@dimen/editText_padding"
-            android:layout_marginTop="@dimen/login_chain_margin"
+            android:text="@={regDataVM.userPassword}"
             app:layout_constraintBottom_toTopOf="@id/reg_wrong_passwordRepeat_text"
             app:layout_constraintTop_toBottomOf="@id/reg_wrong_password_text" />
 
@@ -107,9 +110,9 @@
             android:id="@+id/register_accountPassword_repeat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_chain_margin"
             android:hint="@string/user_password_repeat_hint"
             android:inputType="textPassword"
+            android:text="@={regDataVM.userPasswordRepeat}"
             android:padding="@dimen/editText_padding"
             app:layout_constraintBottom_toTopOf="@id/register_submitData"
             app:layout_constraintTop_toBottomOf="@id/reg_wrong_passwordRepeat_text" />
@@ -186,8 +189,10 @@
             android:layout_marginTop="@dimen/login_chain_margin"
             android:gravity="center"
             android:text="@string/already_member"
+            android:onClick="@{()-> regDataVM.alreadyMember()}"
             app:layout_constraintBottom_toBottomOf="@id/register_layout"
             app:layout_constraintTop_toBottomOf="@id/register_submitData"
+            android:textColor="@color/colorAccent"
             />
 
         <View
@@ -268,4 +273,11 @@
             app:layout_constraintRight_toRightOf="@id/register_accountPassword_repeat" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="regDataVM"
+            type="omega.isaacbenito.saberapp.authentication.model.RegDataViewModel" />
+    </data>
 </layout>

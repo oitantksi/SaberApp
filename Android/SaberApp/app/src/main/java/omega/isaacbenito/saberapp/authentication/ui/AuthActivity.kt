@@ -24,10 +24,8 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.SaberApp
-import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
+import omega.isaacbenito.saberapp.authentication.di.AuthComponent
 import omega.isaacbenito.saberapp.databinding.ActivityAuthBinding
-import omega.isaacbenito.saberapp.di.AuthComponent
-import javax.inject.Inject
 
 /**
  * @author Isaac Benito
@@ -39,7 +37,6 @@ class AuthActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityAuthBinding
 
-    @Inject lateinit var authViewModel: RegisterViewModel
 
     lateinit var authComponent: AuthComponent
 

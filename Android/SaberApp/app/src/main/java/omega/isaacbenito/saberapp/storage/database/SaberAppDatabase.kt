@@ -33,11 +33,11 @@ abstract class SaberAppDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var instance: SaberAppDatabase? = null
+        private var INSTANCE: SaberAppDatabase? = null
 
         fun getInstance(context: Context): SaberAppDatabase {
             synchronized(this) {
-                var _instance = instance
+                var instance = INSTANCE
 
                 val PREPOPULATE_DATA = listOf(
                     User(
@@ -60,8 +60,8 @@ abstract class SaberAppDatabase : RoomDatabase() {
                     )
                 )
 
-                if (_instance == null) {
-                    _instance = Room.databaseBuilder(
+                if (instance == null) {
+                    instance = Room.databaseBuilder(
                         context.applicationContext,
                         SaberAppDatabase::class.java,
                         "SaberAppDatabase"
@@ -76,10 +76,10 @@ abstract class SaberAppDatabase : RoomDatabase() {
                         }
                     })
                     .build()
-                    instance = _instance
+                    INSTANCE = instance
                 }
 
-                return _instance
+                return instance
             }
         }
     }
