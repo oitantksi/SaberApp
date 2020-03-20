@@ -87,7 +87,7 @@ public class Controller {
 		user.setCognom(request.getCognom());   
 		user.setEmail(request.getEmail());   
 		user.setNickname(request.getNickname());   
-		user.setPassword(request.getPassword());   
+		//user.setPassword(request.getPassword());   
 		user.setCenter(request.getCenter());    
 		user.setRol(request.getRol());   
 		
