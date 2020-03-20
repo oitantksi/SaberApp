@@ -15,7 +15,7 @@
  *     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package omega.isaacbenito.saberapp.di
+package omega.isaacbenito.saberapp.authentication.di
 
 import dagger.Subcomponent
 import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
@@ -24,7 +24,7 @@ import omega.isaacbenito.saberapp.authentication.ui.RegCentreFragment
 import omega.isaacbenito.saberapp.authentication.ui.RegDataFragment
 
 @AuthScope
-@Subcomponent
+@Subcomponent(modules = [AuthModule::class])
 interface AuthComponent {
 
     @Subcomponent.Factory

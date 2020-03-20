@@ -36,6 +36,8 @@ import javax.inject.Inject
 
 class UserMainFragment : Fragment() {
 
+    private val _tag = this.javaClass.name
+
     @Inject
     lateinit var userMainViewModel: UserMainViewModel
 
@@ -85,4 +87,6 @@ class UserMainFragment : Fragment() {
         (activity as MainActivity).authManager.userComponent?.inject(this)
 
     }
+
+
 }

@@ -19,11 +19,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_root"
-    app:startDestination="@id/userFragment">
+    app:startDestination="@id/userMainFragment">
 
 
     <fragment
-        android:id="@+id/userFragment"
+        android:id="@+id/userMainFragment"
         android:name="omega.isaacbenito.saberapp.user.ui.UserMainFragment"
         android:label="UserFragment" >
         <action

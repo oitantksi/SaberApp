@@ -24,10 +24,8 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.SaberApp
-import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
+import omega.isaacbenito.saberapp.authentication.di.AuthComponent
 import omega.isaacbenito.saberapp.databinding.ActivityAuthBinding
-import omega.isaacbenito.saberapp.di.AuthComponent
-import javax.inject.Inject
 
 /**
  * @author Isaac Benito
@@ -39,7 +37,6 @@ class AuthActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityAuthBinding
 
-    @Inject lateinit var authViewModel: RegisterViewModel
 
     lateinit var authComponent: AuthComponent
 
@@ -108,12 +105,14 @@ sealed class EnterDataState
 object EnterDataSuccess : EnterDataState()
 data class EnterDataError(val errorCode: Int) : EnterDataState() {
     companion object {
-        const val INVALID_EMAIL = 0
+        const val WRONG_CREDENTIALS = 0
+        const val INVALID_EMAIL = 1
         const val INVALID_PASSWORD = 2
-        const val INVALID_PASSWORD_REPEAT = 3
-        const val INVALID_NAME = 4
-        const val INVALID_SURNAME = 5
-        const val INVALID_NICKNAME = 6
+        const val INVALID_EMAIL_AND_PASSWORD = 3
+        const val INVALID_PASSWORD_REPEAT = 4
+        const val INVALID_NAME = 5
+        const val INVALID_SURNAME = 6
+        const val INVALID_NICKNAME = 7
     }
 }
 

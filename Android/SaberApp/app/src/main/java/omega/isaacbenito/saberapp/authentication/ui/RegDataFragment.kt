@@ -22,10 +22,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.authentication.model.RegDataViewModel
@@ -52,9 +54,11 @@ class RegDataFragment : Fragment() {
     private lateinit var binding: FragmentRegDataBinding
 
     @Inject
-    lateinit var regDataViewModel: RegDataViewModel
-    @Inject
-    lateinit var registrationViewModel: RegisterViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val regDataViewModel by viewModels<RegDataViewModel> { viewModelFactory }
+
+    private val registrationViewModel by viewModels<RegisterViewModel> { viewModelFactory }
 
     /**
      * Es crida en crear el fragment.
@@ -76,11 +80,11 @@ class RegDataFragment : Fragment() {
         regDataViewModel.enterDetailsState.observe(this, Observer {
             when (it) {
                 is EnterDataSuccess -> {
-                    val userName = binding.name.text.toString()
-                    val userSurname = binding.surname.text.toString()
-                    val userNickname = binding.nickname.text.toString()
-                    val email = binding.accountMail.text.toString()
-                    val password = binding.accountPassword.text.toString()
+                    val userName = binding.registerName.text.toString()
+                    val userSurname = binding.registerSurname.text.toString()
+                    val userNickname = binding.registerNickname.text.toString()
+                    val email = binding.registerAccountMail.text.toString()
+                    val password = binding.registerAccountPassword.text.toString()
 
                     registrationViewModel.updateUserData(
                         userName, userSurname, userNickname, email, password
@@ -90,46 +94,64 @@ class RegDataFragment : Fragment() {
                         .navigate(R.id.action_regDataFragment_to_regCentreFragment)
                 }
                 is EnterDataError -> {
+
+                    binding.registerName.text.clear()
+                    binding.registerSurname.text.clear()
+                    binding.registerNickname.text.clear()
+                    binding.registerAccountMail.text.clear()
+                    binding.registerAccountPassword.text.clear()
+
                     when (it.errorCode) {
-                        INVALID_EMAIL ->
-                            Toast.makeText(
-                                context,
-                                R.string.invalid_email,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        INVALID_PASSWORD ->
-                            Toast.makeText(
-                                context,
-                                R.string.invalid_password,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        INVALID_PASSWORD_REPEAT ->
-                            Toast.makeText(
-                                context,
-                                R.string.invalid_password_repeat,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        INVALID_NAME ->
-                            Toast.makeText(
-                                context,
-                                R.string.invalid_name,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        INVALID_SURNAME ->
-                            Toast.makeText(
-                                context,
-                                R.string.invalid_name,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        INVALID_NICKNAME ->
-                            Toast.makeText(
-                                context,
-                                R.string.invalid_nickname,
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        INVALID_NAME -> {
+                            binding.registerName.setHintTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.regWrongNameText.visibility = View.VISIBLE
+                            binding.regWrongNameView.visibility = View.VISIBLE
+                        }
+                        INVALID_SURNAME -> {
+                            binding.registerSurname.setHintTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.regWrongSurnameText.visibility = View.VISIBLE
+                            binding.regWrongSurnameView.visibility = View.VISIBLE
+                        }
+                        INVALID_NICKNAME -> {
+                            binding.registerNickname.setHintTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.regWrongNicknameText.visibility = View.VISIBLE
+                            binding.regWrongNicknameView.visibility = View.VISIBLE
+                        }
+                        INVALID_EMAIL -> {
+                            binding.regWrongMailText.visibility = View.VISIBLE
+                            binding.regWrongMailView.visibility = View.VISIBLE
+                            binding.registerAccountMail.setHintTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                        }
+                        INVALID_PASSWORD -> {
+                            binding.registerAccountPassword.setHintTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.regWrongPasswordText.visibility = View.VISIBLE
+                            binding.regWrongPasswordView.visibility = View.VISIBLE
+                        }
+                        INVALID_PASSWORD_REPEAT -> {
+                            binding.registerAccountPasswordRepeat.setHintTextColor(
+                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                            )
+                            binding.regWrongPasswordRepeatText.visibility = View.VISIBLE
+                            binding.regWrongPasswordRepeatView.visibility = View.VISIBLE
+                        }
+
                     }
                 }
             }
+        })
+
+        regDataViewModel.alreadyMember.observe(this, Observer {
+            this.findNavController().navigate(R.id.action_regDataFragment_to_loginFragment)
         })
     }
 
@@ -153,13 +175,7 @@ class RegDataFragment : Fragment() {
             R.layout.fragment_reg_data, container, false
         )
 
-        // Al clickar en la opció de membre ja registrat es navega al fragment de login
-        binding.alreadyMember.setOnClickListener {
-            this.findNavController().navigate(R.id.action_regDataFragment_to_loginFragment)
-        }
-
-
-        binding.submitData.setOnClickListener { validateData() }
+        binding.regDataVM = regDataViewModel
 
         return binding.root
     }
@@ -181,25 +197,7 @@ class RegDataFragment : Fragment() {
 
 
 
-    /**
-     * Es crida quan l'usuari polsa el botó de registre.
-     *
-     * Envia les dades introduïdes per l'usuari al model de la vista per a que verifiqui
-     * si compleixen les característiques necessàries per a crear un compte de
-     * l'aplicació.
-     */
-    private fun validateData() {
-        val userName = binding.name.text.toString()
-        val userSurname = binding.surname.text.toString()
-        val userNickname = binding.nickname.text.toString()
-        val email = binding.accountMail.text.toString()
-        val password = binding.accountPassword.text.toString()
-        val repeatPassword = binding.accountPasswordRepeat.text.toString()
 
-        regDataViewModel.validateInput(
-            userName, userSurname, userNickname, email, password, repeatPassword
-        )
-    }
 
 }
 

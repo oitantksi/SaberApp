@@ -21,8 +21,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import omega.isaacbenito.saberapp.authentication.AuthenticationManager
+import omega.isaacbenito.saberapp.authentication.di.AuthScope
 import omega.isaacbenito.saberapp.authentication.ui.AuthState
-import omega.isaacbenito.saberapp.di.AuthScope
 import javax.inject.Inject
 
 /**

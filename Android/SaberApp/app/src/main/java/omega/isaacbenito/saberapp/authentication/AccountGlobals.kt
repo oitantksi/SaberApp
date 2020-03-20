@@ -100,7 +100,7 @@ class AccountGlobals {
          * @return true si és un nom o cognoms vàlid, false en altre cas.
          */
         fun isValidNameOrSurname(name: String): Boolean {
-            return checkStringValidity(name, NAME_SURNAME_RESTRICTIONS)
+            return checkStringValidity(name.toLowerCase(), NAME_SURNAME_RESTRICTIONS)
         }
 
         /**

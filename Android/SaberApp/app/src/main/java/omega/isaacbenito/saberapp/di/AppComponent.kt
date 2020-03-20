@@ -20,14 +20,18 @@ package omega.isaacbenito.saberapp.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import dagger.Module
 import omega.isaacbenito.saberapp.authentication.AuthenticationManager
+import omega.isaacbenito.saberapp.authentication.di.AuthComponent
+import omega.isaacbenito.saberapp.authentication.di.ServerAuthenticateModule
 import omega.isaacbenito.saberapp.ui.StartActivity
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
-        AppSubComponents::class,
+        DaggerViewModelFactoryModule::class,
+        AppSubComponentsModule::class,
         ServerAuthenticateModule::class]
 )
 interface AppComponent {
@@ -48,3 +52,10 @@ interface AppComponent {
     fun inject(activity: StartActivity)
 
 }
+
+@Module(
+    subcomponents = [
+        AuthComponent::class,
+        UserComponent::class]
+)
+object AppSubComponentsModule

@@ -15,7 +15,7 @@
  *     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package omega.isaacbenito.saberapp.di
+package omega.isaacbenito.saberapp.authentication.di
 
 import javax.inject.Scope
 

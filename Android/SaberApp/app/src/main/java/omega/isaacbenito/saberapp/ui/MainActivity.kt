@@ -20,6 +20,7 @@ package omega.isaacbenito.saberapp.ui
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -27,6 +28,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.navigateUp
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.SaberApp
 import omega.isaacbenito.saberapp.authentication.AuthenticationManager
@@ -58,8 +60,12 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = binding.drawerLayout
 
         val navController = this.findNavController(R.id.mainNavHostFragment)
-        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+
+        val toolbar = findViewById<Toolbar>(R.id.main_toolbar)
+        setSupportActionBar(toolbar)
+
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { nc: NavController, nd: NavDestination, _: Bundle? ->
             if (nd.id == nc.graph.startDestination) {
@@ -71,12 +77,20 @@ class MainActivity : AppCompatActivity() {
 
         NavigationUI.setupWithNavController(binding.navView, navController)
 
+//        navController.popBackStack()
+
     }
 
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = this.findNavController(R.id.mainNavHostFragment)
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
+        return findNavController(R.id.mainNavHostFragment).navigateUp(appBarConfiguration)
+    }
+
+    override fun onBackPressed() {
+        val navController = findNavController(R.id.mainNavHostFragment)
+        if (navController.currentDestination?.id != navController.graph.startDestination) {
+            super.onBackPressed()
+        }
     }
 
 
