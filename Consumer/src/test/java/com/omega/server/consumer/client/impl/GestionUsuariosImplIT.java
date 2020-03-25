@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.omega.server.consumer.client.GestionUsuariosI;
 import com.omega.server.consumer.client.LoginRegistroI;
@@ -55,7 +56,7 @@ public class GestionUsuariosImplIT {
 		//actualizamos el usuario
 		userDto= gestionUsuarios.actualizarPasswordUsuario(email, "JaimePasswordOld", "JaimePasswordNew", token);
 		//tratamos de recuperar el usuario sin el mail modificado, ya no existirá
-		//assertNotEquals(userDto.getPassword(), userToModifyPassword.getPassword());
+		assertTrue((userDto.getPassword()).equals(userToModifyPassword.getPassword()));
 		
 		
 		
