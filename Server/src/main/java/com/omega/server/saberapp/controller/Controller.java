@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.omega.server.consumer.dto.PasswordDto;
 import com.omega.server.consumer.dto.UserDto;
 import com.omega.server.saberapp.entity.Centre;
 import com.omega.server.saberapp.entity.User;
@@ -66,6 +67,11 @@ public class Controller {
 		
 	}
 	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
 	@PostMapping(path = "/user", consumes = "application/json", produces = "application/json")
 	public User postUser( @Valid @RequestBody UserDto request) {
 		
@@ -81,7 +87,7 @@ public class Controller {
 		
 	}
 	@PutMapping(path="/user/{email}")
-	public User putUser(@PathVariable("email") String email,@Valid @RequestBody UserDto request) {
+	public User putUser(@PathVariable("email") String email,@RequestBody UserDto request) {
 		User user=service.getUserByEmail(email);
 		user.setName(request.getName());
 		user.setCognom(request.getCognom());   
@@ -93,6 +99,15 @@ public class Controller {
 		
 	
 		return service.updateUser(user);
+	
+		
+	}
+	@PutMapping(path="/user/password/{email}")
+	public User putUserPassword(@PathVariable("email") String email,@RequestBody PasswordDto request) {
+		
+		
+	//TO-DO
+		return service.updateUserPassword(email, request.getOldPassword(),request.getNewPassword());
 	
 		
 	}

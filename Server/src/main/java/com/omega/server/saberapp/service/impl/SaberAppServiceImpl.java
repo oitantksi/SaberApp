@@ -93,5 +93,17 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 		return userRepository.deleteByEmail(email);
 		
 	}
+	@Override
+	public User updateUserPassword(String email, String oldPassword, String newPassword) {
+		User user=getUserByEmail(email);
+		String userOldPasswordEncrypt=bCryptPasswordEncoder.encode(oldPassword);
+		//validación si el password antiguo es correcto guardamos el nuevo
+		if(bCryptPasswordEncoder.encode(oldPassword).equals(user.getPassword())) {
+			user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+			return userRepository.save(user);
+		}else {
+			return null;
+		}		
+	}
 	
 }

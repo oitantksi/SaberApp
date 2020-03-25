@@ -32,13 +32,36 @@ public class GestionUsuariosImplIT {
 		UserDto userDto=new UserDto();
 		userDto = loginRegistro.registraUsuario(datosUsuario);
 		//Nuevos datos del usuario a modificar
-		UserDto userToModify= new UserDto(null, "PedroUpdated", "PerezUpdated", "pedroperezUpdated@omega.com", "PereGranUpdated", "pepeUpdated", "IOC", 'A');
+		UserDto userToModify= new UserDto(null, "PedroUpdated", "PerezUpdated", "pedroperezUpdated@omega.com", "PereGranUpdated", null, "IOC", 'A');
 		
 		//actualizamos el usuario
 		userDto= gestionUsuarios.actualizarUsuario(userToModify, email, token);
 		//tratamos de recuperar el usuario sin el mail modificado, ya no existirá
 		assertEquals(null, loginRegistro.findUsuarioByEmail(email, token));		
 		assertEquals(userToModify.getEmail(), emailUpdate);
+		
+	}
+	@Test
+	public void whenUpdateUserPasswordTrue_thenReturnUser() {
+		
+		String token=loginRegistro.login("master@omega.com", "omega");
+		UserDto datosUsuario=new UserDto(null, "Jaime", "Perez", "jaimeperez@omega.com", "Jaime", "JaimePasswordOld", "IOC", 'A');
+		String email= "jaimeperez@omega.com";
+		//Usurio que se registra
+		UserDto userDto=new UserDto();
+		userDto = loginRegistro.registraUsuario(datosUsuario);
+		//Nuevos datos del usuario a modificar
+		UserDto userToModifyPassword= new UserDto()	;	
+		//actualizamos el usuario
+		userDto= gestionUsuarios.actualizarPasswordUsuario(email, "JaimePasswordOld", "JaimePasswordNew", token);
+		//tratamos de recuperar el usuario sin el mail modificado, ya no existirá
+		//assertNotEquals(userDto.getPassword(), userToModifyPassword.getPassword());
+		
+		
+		
+		
+		
+		
 		
 	}
 
