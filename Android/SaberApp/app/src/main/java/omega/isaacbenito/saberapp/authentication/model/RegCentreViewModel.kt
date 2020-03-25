@@ -20,21 +20,23 @@ package omega.isaacbenito.saberapp.authentication.model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import omega.isaacbenito.saberapp.api.SaberAppServer
-import omega.isaacbenito.saberapp.api.entities.Centre
+import omega.isaacbenito.saberapp.data.Result.Success
+import omega.isaacbenito.saberapp.data.entities.Centre
+import omega.isaacbenito.saberapp.data.remote.server.SaberAppServer
+import omega.isaacbenito.saberapp.data.repos.CentreRepository
 import javax.inject.Inject
 
 /**
- * @author Isaac Benito
- *
  * Model de la vista de selecció de centre educatiu
  *
+ * @author Isaac Benito
+ * @property centreRepo repositori de dades de centres educatius
  */
-class RegCentreViewModel @Inject constructor() : ViewModel() {
+class RegCentreViewModel @Inject constructor(
+    private val centreRepo: CentreRepository
+) : ViewModel() {
 
     @Inject
     lateinit var server: SaberAppServer
@@ -47,20 +49,18 @@ class RegCentreViewModel @Inject constructor() : ViewModel() {
         fetchCentres()
     }
 
+    /**
+     * Recupera els centres del repositori de centres.
+     */
     private fun fetchCentres() {
-        CoroutineScope(Dispatchers.Main).launch {
-            _centres.value = withContext(Dispatchers.IO) {
-                return@withContext server.service.getCentres()
+        viewModelScope.launch {
+            val fetchResult = centreRepo.getCentres(true)
+
+            when (fetchResult) {
+                is Success -> _centres.value = fetchResult.data.value
+                else -> _centres.value = emptyList()
             }
+
         }
     }
-
-    //TODO request centre list
-    // Centres hardcoded
-//    val centres = listOf("IOC", "IES JOAN MARAGALL", "IES JAUME BALMES")
-
-
-
-
-
 }

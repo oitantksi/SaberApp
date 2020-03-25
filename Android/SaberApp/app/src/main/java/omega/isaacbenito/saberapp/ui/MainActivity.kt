@@ -18,7 +18,6 @@
 package omega.isaacbenito.saberapp.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -33,6 +32,7 @@ import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.SaberApp
 import omega.isaacbenito.saberapp.authentication.AuthenticationManager
 import omega.isaacbenito.saberapp.databinding.ActivityMainBinding
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,14 +43,10 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var authManager: AuthenticationManager
 
-    private val _tag = this.javaClass.name
-
     override fun onCreate(savedInstanceState: Bundle?) {
         authManager = (application as SaberApp).appComponent.authManager()
 
         super.onCreate(savedInstanceState)
-
-        Log.d(_tag, "launched")
 
         binding = DataBindingUtil.setContentView(
             this,

@@ -25,4 +25,6 @@
 
     <color name="color_nav_header_background">#FFF99e</color>
     <color name="color_background">#E0deff</color>
+    <color name="color_overlay_background">#80555555</color>
+    <color name="transparent">#00000000</color>
 </resources>

@@ -2,6 +2,7 @@ INSERT INTO users VALUES (0, 'Sistema','Master', 'master','$2a$10$DjTz.jTSd3QDHI
 INSERT INTO users VALUES (1, 'ramon','omega', 'server','$2a$10$DjTz.jTSd3QDHIFRa/HGrO..FtUUnCxAx6I7gT6NScLNJuINnrSX.','ramon@omega.com','IOC','M');
 INSERT INTO users VALUES (2, 'montse','omega','desktop','$2a$10$DjTz.jTSd3QDHIFRa/HGrO..FtUUnCxAx6I7gT6NScLNJuINnrSX.', 'montse@omega.com','IOC','M');
 INSERT INTO users VALUES (3, 'isaac', 'omega','android','$2a$10$HGEfGUqru6I0KfZXxTirx.QszGXOrCYnPET/zRsadb975exGMzlIy','isaac@omega.com','IOC','M');
+INSERT INTO Users VALUES (4, 'Android', 'Test User', 'androidTestUser', '$2a$10$lbT.g6IdbY390c/EDW8BeOSFcR9bihRbBQdCcc.HtVc428SUkvDsW', 'android@omega.org', 'IES JOAN MARAGALL', 'A');
 
 
 INSERT INTO centres VALUES (1,'IOC');

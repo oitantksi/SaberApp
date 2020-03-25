@@ -22,7 +22,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import omega.isaacbenito.saberapp.R
@@ -32,12 +31,8 @@ import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
 
 class StartActivity : AppCompatActivity() {
 
-    private val _tag = this.javaClass.name
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Log.d(this.javaClass.name, "launched")
 
         setContentView(R.layout.activity_start)
 
@@ -62,6 +57,6 @@ class StartActivity : AppCompatActivity() {
             } else {
                 startActivity(Intent(this, AuthActivity::class.java))
             }
-        }, 1000L)
+        }, 500L)
     }
 }

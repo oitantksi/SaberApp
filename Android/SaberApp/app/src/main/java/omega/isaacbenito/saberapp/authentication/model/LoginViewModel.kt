@@ -31,10 +31,9 @@ import omega.isaacbenito.saberapp.authentication.ui.EnterDataSuccess
 import javax.inject.Inject
 
 /**
+ * Model de la vista d'inici de sessió de l'aplicació
+ *
  * @author Isaac Benito
- *
- * Model de la vista de login d'usuari
- *
  */
 class LoginViewModel @Inject constructor() : ViewModel() {
 
@@ -56,8 +55,8 @@ class LoginViewModel @Inject constructor() : ViewModel() {
      * Crida al gestor d'autenticació per a que realitzi el login amb les credencials
      * facilitades per l'usuari.
      *
-     * @param userMail
-     * @param password
+     * @property email correu electrònic de l'usuari
+     * @property password contrassenya de l'usuari
      */
     fun login() {
         _loginState.value = authenticationManager.login(
@@ -69,22 +68,9 @@ class LoginViewModel @Inject constructor() : ViewModel() {
      * Valida les dades introduïdes per l'usuari segons els principis que aquestes han de complir
      * per a poder ser credencials d'inici de sessió de l'aplicació
      *
-     * @param userMail
-     * @param password
+     * @property email correu electrònic de l'usuari
+     * @property password contrassenya de l'usuari
      */
-//    fun validateInput(userMail: String, password: String) {
-//        if (userMail.isEmpty() && password.isEmpty()) {
-//            _enterDataState.value = EnterDataError(EnterDataError.INVALID_EMAIL_AND_PASSWORD)
-//        } else if (userMail.isEmpty()) {
-//            _enterDataState.value = EnterDataError(EnterDataError.INVALID_EMAIL)
-//        } else if (password.isEmpty()) {
-//            _enterDataState.value = EnterDataError(EnterDataError.INVALID_PASSWORD)
-//        } else if (!isValidEmail(userMail) || !isValidPassword(password)) {
-//            _enterDataState.value = EnterDataError(EnterDataError.WRONG_CREDENTIALS)
-//        } else {
-//            _enterDataState.value = EnterDataSuccess
-//        }
-//    }
     fun validateInput() {
         if (userMail.get() == null || userPassword.get() == null) {
             _enterDataState.value = EnterDataError(EnterDataError.INVALID_EMAIL_AND_PASSWORD)
@@ -111,6 +97,9 @@ class LoginViewModel @Inject constructor() : ViewModel() {
     val newUser: LiveData<Boolean>
         get() = _newUser
 
+    /**
+     * Estableix que es tracta d'un usuari nou.
+     */
     fun isNewUser() {
         _newUser.value = _newUser.value != true
     }

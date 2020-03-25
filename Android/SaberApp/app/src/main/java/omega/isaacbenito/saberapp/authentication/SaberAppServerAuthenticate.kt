@@ -17,9 +17,9 @@
 
 package omega.isaacbenito.saberapp.authentication
 
-import omega.isaacbenito.saberapp.api.SaberAppServer
-import omega.isaacbenito.saberapp.api.entities.UserCredentials
-import omega.isaacbenito.saberapp.api.entities.UserDto
+import omega.isaacbenito.saberapp.authentication.entities.UserCredentials
+import omega.isaacbenito.saberapp.authentication.entities.UserDto
+import omega.isaacbenito.saberapp.data.remote.server.SaberAppServer
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -28,18 +28,16 @@ class SaberAppServerAuthenticate @Inject constructor():
 
     @Inject lateinit var server: SaberAppServer
 
-    var token : String? = null
-
     override suspend fun logInUser(userCredentials: UserCredentials) : Response<Unit> {
-        return server.service.loginUser(userCredentials)
+        return server.apiService.loginUser(userCredentials)
     }
 
     override suspend fun registerUser(userDto: UserDto) : Response<Unit> {
-        return server.service.registerUser(userDto)
+        return server.apiService.registerUser(userDto)
     }
 
     override suspend fun unregisterUser(userMail: String): Response<Unit> {
-        return server.service.unregisterUser(userMail)
+        return server.apiService.unregisterUser(userMail)
     }
 
     override fun setAuthToken(authToken: String) {

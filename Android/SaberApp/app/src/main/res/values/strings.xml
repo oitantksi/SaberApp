@@ -50,6 +50,8 @@
     <!-- Network Availability -->
     <string name="no_network">No network connection</string>
 
+    <string name="name_format" translatable="false">%s %s</string>
+    <string name="nickname_format" translatable="false">\@%s</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="choose_centre">Choose your school</string>
@@ -65,6 +67,15 @@
     <string name="unregister">Unregister</string>
     <string name="change_password">Change Password</string>
     <string name="unregister_unknown_error">Unable to unregister due to an unknown error. Please try again later.</string>
+    <string name="user_profile">Profile</string>
+    <string name="user_centre_hint">School</string>
+    <string name="edit_name">Write your name</string>
+    <string name="edit_surname">Write your surname</string>
+    <string name="edit_nickname">Write your nickname</string>
+    <string name="edit_password">Write your new password</string>
+    <string name="edit_password_repeat">Repeat password</string>
+    <string name="done">DONE</string>
+    <string name="cancel">CANCEL</string>
 
 
 </resources>

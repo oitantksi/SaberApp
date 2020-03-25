@@ -10,6 +10,11 @@ import omega.isaacbenito.saberapp.authentication.model.RegDataViewModel
 import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
 import omega.isaacbenito.saberapp.di.ViewModelKey
 
+/**
+ * Mòdul que afegeix els models de les vistes del component d'autenticació en el gràfic de l'aplicació
+ *
+ * @author Isaac Benito
+ */
 @Module
 abstract class AuthModule {
 

@@ -21,17 +21,19 @@ import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
 import android.os.Build
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
-import omega.isaacbenito.saberapp.api.entities.UserCredentials
-import omega.isaacbenito.saberapp.api.entities.UserDto
+import omega.isaacbenito.saberapp.authentication.entities.UserCredentials
+import omega.isaacbenito.saberapp.authentication.entities.UserDto
 import omega.isaacbenito.saberapp.authentication.ui.AuthError
 import omega.isaacbenito.saberapp.authentication.ui.AuthState
 import omega.isaacbenito.saberapp.authentication.ui.AuthSuccess
-import omega.isaacbenito.saberapp.di.UserComponent
+import omega.isaacbenito.saberapp.user.di.UserComponent
 import omega.isaacbenito.saberapp.utils.NetworkUtils
+import timber.log.Timber
 import java.net.ConnectException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -41,10 +43,8 @@ import javax.inject.Singleton
  *
  * Es crea una única instància per a tota la aplicació.
  *
+ * @author Isaac Benito
  * @property userComponentFactory
- * @constructor
- * TODO
- *
  * @param context
  */
 @Singleton
@@ -52,8 +52,6 @@ class AuthenticationManager @Inject constructor(
     context: Context,
     private val userComponentFactory: UserComponent.Factory
 ) {
-
-    private val _tag = this.javaClass.name
 
     companion object {
         const val ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE"
@@ -83,7 +81,7 @@ class AuthenticationManager @Inject constructor(
     fun login(userMail: String, password: String): MutableLiveData<AuthState> {
         if (!AccountGlobals.isValidEmail(userMail) or !AccountGlobals.isValidPassword(password)) {
             _loginState.value = AuthError(AuthError.WRONG_CREDENTIALS_ERROR)
-        } else if (!networkUtils.isConnected) {
+        } else if (!networkUtils.isNetworkConnected) {
             _loginState.value = AuthError(AuthError.NO_INTERNET_ACCESS)
         } else {
             runBlocking {
@@ -107,19 +105,18 @@ class AuthenticationManager @Inject constructor(
             return if (response.isSuccessful) {
                 authToken = response.headers()["Authorization"].toString()
                 userMail = userCredentials.email
-                Log.d(
-                    _tag,
+                Timber.d(
                     "Authentication success. User $userMail logged in and obtained token $authToken"
                 )
-                addUser(userMail, userCredentials.password)
+                addUserToDeviceAccounts(userMail, userCredentials.password)
                 userJustLoggedIn()
                 AuthSuccess
             } else {
-                Log.d(_tag, "Authentication not successfull")
+                Timber.d("Authentication not successfull")
                 AuthError(AuthError.WRONG_CREDENTIALS_ERROR)
             }
         } catch (e: ConnectException) {
-            Log.d(_tag, "Authentication ConnectException message ${e.message}")
+            Timber.d("Authentication ConnectException message ${e.message}")
             return AuthError(AuthError.SERVER_UNREACHABLE_ERROR)
         }
     }
@@ -165,12 +162,13 @@ class AuthenticationManager @Inject constructor(
         return authState
     }
 
-    private fun addUser(userMail: String, password: String) {
+    private fun addUserToDeviceAccounts(userMail: String, password: String) {
         val account = Account(userMail, AccountGlobals.ACCOUNT_TYPE)
         accountManager.addAccountExplicitly(account, password, null)
     }
 
-    private fun removeUser(userMail: String) {
+    @SuppressWarnings("deprecation")
+    private fun removeUserFromDeviceAccounts(userMail: String) {
         val account = Account(userMail, AccountGlobals.ACCOUNT_TYPE)
         if (Build.VERSION.SDK_INT >= 22) {
             accountManager.removeAccount(account, null, null, null)
@@ -188,7 +186,7 @@ class AuthenticationManager @Inject constructor(
     }
 
     fun logoutUser(): LiveData<AuthState> {
-        removeUser(userMail)
+        removeUserFromDeviceAccounts(userMail)
         userComponent = null
         _authState.value = AuthSuccess
         return authState
@@ -226,18 +224,51 @@ class AuthenticationManager @Inject constructor(
             return false
         }
 
-        userMail = accounts[0].name
-        val password = accountManager.getPassword(accounts[0])
-
-        login(userMail, password)
+        userJustLoggedIn()
+        performServerLoginOnDeviceAuthenticatedUser(accounts[0])
 
         return true
     }
 
-    private fun userJustLoggedIn() {
-        userComponent = userComponentFactory.create()
-        serverAuthenticate.setAuthToken(authToken!!)
+    private fun performServerLoginOnDeviceAuthenticatedUser(account: Account) {
+        userMail = account.name
+        val password = accountManager.getPassword(account)
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+
+                Looper.prepare()
+
+                val handler = Handler(Looper.myLooper()!!)
+
+                handler.post(object : Runnable {
+                    override fun run() {
+                        runBlocking {
+                            serverLogin(
+                                UserCredentials(
+                                    userMail,
+                                    password
+                                )
+                            )
+                        }
+
+                        if (authToken == null) {
+                            handler.postDelayed(this, 15000L)
+                        } else {
+                            handler.removeCallbacks(this)
+                            Looper.myLooper()?.quit()
+                        }
+                    }
+                })
+
+                Looper.loop()
+            }
+        }
     }
 
-
+    private fun userJustLoggedIn() {
+        userComponent = userComponentFactory.create()
+        if (authToken != null) {
+            serverAuthenticate.setAuthToken(authToken!!)
+        }
+    }
 }

@@ -20,6 +20,7 @@ package omega.isaacbenito.saberapp
 import android.app.Application
 import omega.isaacbenito.saberapp.di.AppComponent
 import omega.isaacbenito.saberapp.di.DaggerAppComponent
+import timber.log.Timber
 
 open class SaberApp : Application() {
 
@@ -29,5 +30,9 @@ open class SaberApp : Application() {
 
     open fun initializeComponent(): AppComponent {
         return DaggerAppComponent.factory().create(applicationContext)
+    }
+
+    init {
+        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
     }
 }
