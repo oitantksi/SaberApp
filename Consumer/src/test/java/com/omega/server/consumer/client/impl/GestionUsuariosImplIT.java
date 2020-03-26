@@ -58,13 +58,9 @@ public class GestionUsuariosImplIT {
 		//tratamos de recuperar el usuario sin el mail modificado, ya no existirá
 		assertTrue((userDto.getPassword()).equals(userToModifyPassword.getPassword()));
 		
-		
-		
-		
-		
-		
-		
 	}
+	
+	
 
 
 		
