@@ -32,9 +32,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import omega.isaacbenito.saberapp.R
-import omega.isaacbenito.saberapp.api.entities.Centre
 import omega.isaacbenito.saberapp.authentication.model.RegCentreViewModel
 import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
+import omega.isaacbenito.saberapp.data.entities.Centre
 import omega.isaacbenito.saberapp.databinding.FragmentRegCentreBinding
 import omega.isaacbenito.saberapp.databinding.RegCentreItemBinding
 import omega.isaacbenito.saberapp.ui.MainActivity
@@ -149,7 +149,7 @@ class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
      */
     override fun onClickCentre(position: Int, centre: Centre) {
         binding.loadingSpinnerLayout.visibility = View.VISIBLE
-        registerViewModel.updateCentreData(centre.centre)
+        registerViewModel.updateCentreData(centre.name)
     }
 }
 
@@ -181,7 +181,7 @@ class CentreAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(centre: Centre) {
-            binding.centreTextView.text = centre.centre
+            binding.centreTextView.text = centre.name
 
             binding.setClickListener {
                 interaction.onClickCentre(adapterPosition, centre)

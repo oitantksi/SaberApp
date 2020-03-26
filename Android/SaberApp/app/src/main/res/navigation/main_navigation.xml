@@ -22,16 +22,38 @@
     app:startDestination="@id/userMainFragment">
 
 
+    <dialog
+        android:id="@+id/editProfileDialog"
+        android:name="omega.isaacbenito.saberapp.user.ui.EditProfileDialog"
+        android:label="EditProfileDialog">
+        <action
+            android:id="@+id/action_editProfileDialog_to_userProfileFragment"
+            app:destination="@id/userProfileFragment"
+            app:exitAnim="@anim/slide_out_down" />
+    </dialog>
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="omega.isaacbenito.saberapp.user.ui.UserProfileFragment"
+        android:label="@string/user_profile">
+        <action
+            android:id="@+id/action_userProfileFragment_to_editProfileDialog"
+            app:destination="@id/editProfileDialog"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_preguntaFragment"
+            app:destination="@id/preguntaFragment" />
+    </fragment>
     <fragment
         android:id="@+id/userMainFragment"
         android:name="omega.isaacbenito.saberapp.user.ui.UserMainFragment"
-        android:label="UserFragment" >
+        android:label="@string/app_name">
         <action
             android:id="@+id/action_userMainFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment" />
     </fragment>
     <fragment
-        android:id="@+id/userProfileFragment"
-        android:name="omega.isaacbenito.saberapp.user.ui.UserProfileFragment"
-        android:label="UserProfileFragment" />
+        android:id="@+id/preguntaFragment"
+        android:name="omega.isaacbenito.saberapp.jocpreguntes.PreguntaFragment"
+        android:label="PreguntaFragment" />
 </navigation>

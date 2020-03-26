@@ -19,6 +19,11 @@ package omega.isaacbenito.saberapp.authentication.di
 
 import javax.inject.Scope
 
+/**
+ * Àmbit dels components d'autenticació
+ *
+ * @author Isaac Benito
+ */
 @Scope
 @MustBeDocumented
 @Retention(value = AnnotationRetention.RUNTIME)

@@ -20,146 +20,403 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/user_profile_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/userPassword_change"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:text="@string/change_password"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@id/logout_button"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/userSchool" />
-
-        <Button
-            android:id="@+id/logout_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:text="@string/logout"
-            app:layout_constraintBottom_toTopOf="@id/unregister_button"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/userPassword_change" />
-
-        <Button
-            android:id="@+id/unregister_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:text="@string/unregister"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/logout_button" />
-
-        <ImageView
-            android:id="@+id/username_edit"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintLeft_toRightOf="@id/userName"
-            app:layout_constraintTop_toTopOf="@+id/userName"
-            app:srcCompat="@drawable/ic_edit_llapis" />
-
-        <ImageView
-            android:id="@+id/userNickname_edit"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintLeft_toRightOf="@id/userNickname"
-            app:layout_constraintTop_toTopOf="@+id/userNickname"
-            app:srcCompat="@drawable/ic_edit_llapis" />
-
-        <ImageView
-            android:id="@+id/userSchool_edit"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:layout_constraintLeft_toRightOf="@id/userSchool"
-            app:layout_constraintTop_toTopOf="@+id/userSchool"
-            app:srcCompat="@drawable/ic_edit_llapis" />
-
-        <TextView
-            android:id="@+id/userName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toTopOf="@id/userNickname"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_picture_cardView"
-            tools:text="Name Surname" />
-
-        <TextView
-            android:id="@+id/userNickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toTopOf="@id/userSchool"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/userName"
-            tools:text="Nickname" />
-
-        <TextView
-            android:id="@+id/userSchool"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toTopOf="@id/userPassword_change"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/userNickname"
-            tools:text="IES Joan Maragall" />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/profile_picture_cardView"
-            android:layout_width="82dp"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="41dp"
-            app:layout_constraintBottom_toTopOf="@id/userName"
+            android:layout_width="102dp"
+            android:layout_height="102dp"
+            android:layout_marginTop="@dimen/profile_userImage_marginVertical"
+            app:cardCornerRadius="51dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:cardCornerRadius="40dp">
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="50dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:srcCompat="@android:mipmap/sym_def_app_icon" />
+                    tools:srcCompat="@drawable/unknown_user_profile_picture" />
 
             </androidx.cardview.widget.CardView>
 
         </androidx.cardview.widget.CardView>
 
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/add_image_cardView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/profile_picture_cardView"
+            app:layout_constraintRight_toRightOf="@id/profile_picture_cardView">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/edit_profile_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@color/colorAccent"
+                android:src="@android:drawable/ic_menu_camera" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/email_data_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/school_data_layout">
+
+            <View
+                android:id="@+id/email_separator"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/email_layout" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/email_view"
+                android:layout_width="@dimen/profile_itemImage_size"
+                android:layout_height="@dimen/profile_itemImage_size"
+                android:tint="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="@id/email_layout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/email_layout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_dialog_email" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/email_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/profile_itemText_marginLeft"
+                android:onClick="@{() -> viewModel.onEditEmail()}"
+                android:paddingVertical="@dimen/profile_itemAlone_paddingVertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_email_hint"
+                    android:textColor="@android:color/primary_text_light"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/userEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{user.email}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/email"
+                    tools:text="email@email.com" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/password_data_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/email_data_layout">
+
+            <View
+                android:id="@+id/password_separator"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/password_layout" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/password_view"
+                android:layout_width="@dimen/profile_itemImage_size"
+                android:layout_height="@dimen/profile_itemImage_size"
+                app:layout_constraintBottom_toBottomOf="@id/password_layout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/password_layout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/password" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/password_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/profile_itemText_marginLeft"
+                android:onClick="@{() -> viewModel.onEditPassword()}"
+                android:paddingVertical="@dimen/profile_itemAlone_paddingVertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_password"
+                    android:textColor="@android:color/primary_text_light"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/logout_data_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/password_data_layout">
+
+            <View
+                android:id="@+id/logout_separator"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/logout_layout" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/logout_view"
+                android:layout_width="@dimen/profile_itemImage_size"
+                android:layout_height="@dimen/profile_itemImage_size"
+                android:tint="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="@id/logout_layout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/logout_layout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_logout" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/logout_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/profile_itemText_marginLeft"
+                android:onClick="@{() -> viewModel.onLogout()}"
+                android:paddingVertical="@dimen/profile_itemAlone_paddingVertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/logout"
+                    android:textColor="@android:color/primary_text_light"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/user_data_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/profile_userImage_marginVertical"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture_cardView">
+
+            <View
+                android:id="@+id/user_separator"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/userName_layout" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/user_view"
+                android:layout_width="@dimen/profile_itemImage_size"
+                android:layout_height="@dimen/profile_itemImage_size"
+                app:layout_constraintBottom_toBottomOf="@id/userName_layout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/userName_layout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/user" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/userSurname_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/profile_itemText_marginLeft"
+                android:onClick="@{() -> viewModel.onEditSurname()}"
+                android:paddingVertical="@dimen/profile_itemText_paddingVertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userName_layout">
+
+                <TextView
+                    android:id="@+id/surname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_surname_hint"
+                    android:textColor="@android:color/primary_text_light"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/userSurname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{user.surname}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/surname"
+                    tools:text="Name" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/userNickname_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/profile_itemText_marginLeft"
+                android:onClick="@{() -> viewModel.onEditNickname()}"
+                android:paddingVertical="@dimen/profile_itemText_paddingVertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userSurname_layout">
+
+                <TextView
+                    android:id="@+id/nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_nickname_hint"
+                    android:textColor="@android:color/primary_text_light"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/userNickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{user.nickname}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nickname"
+                    tools:text="Nickname" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/userName_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/profile_itemText_marginLeft"
+                android:onClick="@{() -> viewModel.onEditName()}"
+                android:paddingVertical="@dimen/profile_itemText_paddingVertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_name_hint"
+                    android:textColor="@android:color/primary_text_light"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{user.name}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/name"
+                    tools:text="Name" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/school_data_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/user_data_layout">
+
+            <View
+                android:id="@+id/school_separator"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/school_layout" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/school_view"
+                android:layout_width="@dimen/profile_itemImage_size"
+                android:layout_height="@dimen/profile_itemImage_size"
+                app:layout_constraintBottom_toBottomOf="@id/school_layout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/school_layout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/school_building" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/school_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/profile_itemText_marginLeft"
+                android:onClick="@{() -> viewModel.onEditCentre()}"
+                android:paddingVertical="@dimen/profile_itemText_paddingVertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/school"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_centre_hint"
+                    android:textColor="@android:color/primary_text_light"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/userSchool"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{user.centre}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/school"
+                    tools:text="IES Joan Maragall" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="omega.isaacbenito.saberapp.user.model.UserViewModel" />
+
+        <variable
+            name="user"
+            type="omega.isaacbenito.saberapp.data.entities.User" />
+    </data>
 </layout>

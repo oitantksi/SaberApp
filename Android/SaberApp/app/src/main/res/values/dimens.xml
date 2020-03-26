@@ -26,4 +26,10 @@
     <dimen name="editText_padding">10dp</dimen>
 
     <dimen name="login_chain_margin">10dp</dimen>
+    <dimen name="profile_itemImage_size">20dp</dimen>
+    <dimen name="profile_itemText_marginLeft">60dp</dimen>
+    <dimen name="profile_itemText_paddingVertical">5dp</dimen>
+    <dimen name="profile_itemAlone_paddingVertical">10dp</dimen>
+    <dimen name="profile_userImage_marginVertical">40dp</dimen>
+    <dimen name="edit_dialog_padding">16dp</dimen>
 </resources>

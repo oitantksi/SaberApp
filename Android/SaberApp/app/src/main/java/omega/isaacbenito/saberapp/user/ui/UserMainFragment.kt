@@ -25,32 +25,44 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.databinding.FragmentUserMainBinding
 import omega.isaacbenito.saberapp.ui.MainActivity
-import omega.isaacbenito.saberapp.user.model.UserMainViewModel
+import omega.isaacbenito.saberapp.user.model.UserViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 
 class UserMainFragment : Fragment() {
 
-    private val _tag = this.javaClass.name
-
     @Inject
-    lateinit var userMainViewModel: UserMainViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val userVM by viewModels<UserViewModel> { viewModelFactory }
 
     private lateinit var binding: FragmentUserMainBinding
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (activity as MainActivity).authManager.userComponent?.inject(this)
+
+        userVM.start((activity as MainActivity).authManager.userMail)
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        userMainViewModel.user.observe(this, Observer {
-            binding.userName.text = it.name
-            binding.userSchool.text = it.school
+        userVM.user.observe(this, Observer {
+            Timber.d(it?.toString() ?: "User is null")
+            binding.user = it
         })
-
     }
 
     override fun onCreateView(
@@ -59,13 +71,19 @@ class UserMainFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_main, container, false)
 
+        userVM.snackbarMessage.observe(viewLifecycleOwner, Observer {
+            Snackbar.make(binding.root, resources.getString(it), Snackbar.LENGTH_SHORT).show()
+        })
+
+        binding.viewModel = userVM
+        binding.user = userVM.user.value
+
         binding.profileLayout.setOnClickListener {
             this.findNavController().navigate(R.id.action_userMainFragment_to_userProfileFragment)
         }
 
         binding.preguntaDia.setOnClickListener {
-            //TODO Navigate to prgunta del dia
-            Toast.makeText(context, "Not iplemented yet", Toast.LENGTH_SHORT).show()
+            this.findNavController().navigate(R.id.action_userProfileFragment_to_preguntaFragment)
         }
 
         binding.preguntesAntigues.setOnClickListener {
@@ -80,13 +98,4 @@ class UserMainFragment : Fragment() {
 
         return binding.root
     }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        (activity as MainActivity).authManager.userComponent?.inject(this)
-
-    }
-
-
 }

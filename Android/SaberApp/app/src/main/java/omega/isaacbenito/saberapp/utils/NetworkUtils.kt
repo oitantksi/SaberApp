@@ -38,7 +38,7 @@ class NetworkUtils @Inject constructor(context: Context) {
 
         cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        @SuppressWarnings
+        @SuppressWarnings("deprecation")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cm.requestNetwork(
                 NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build(),
@@ -61,7 +61,7 @@ class NetworkUtils @Inject constructor(context: Context) {
         }
     }
 
-    var isConnected: Boolean = checkconnection()
+    var isNetworkConnected: Boolean = checkconnection()
 
     @SuppressWarnings
     private fun checkconnection() : Boolean {

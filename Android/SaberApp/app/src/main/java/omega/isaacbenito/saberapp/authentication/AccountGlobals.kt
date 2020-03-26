@@ -17,6 +17,8 @@
 
 package omega.isaacbenito.saberapp.authentication
 
+import java.util.*
+
 /**
  *  Classe estàtica que proporciona les característiques globals del tipus de compte de l'aplicació.
  *
@@ -127,6 +129,56 @@ class AccountGlobals {
             } else {
                 false
             }
+        }
+
+        /**
+         * Calcula la força de la contrassenya introduïda per l'usuari en base a la longitud,
+         * la quantitat de minúscules, majúscules, dígits i simbols.
+         *
+         * Es consideren característiques positives (sumen punts):
+         *  - La longitud (longitud * 4)
+         *  - La quantitat de minúscules (quantitat * 2)
+         *  - La quantitat de majúscules (quantitat * 2)
+         *  - La quantitat de dígits (quantitat * 4)
+         *  - La quantitat de simbols (quantitat * 6)
+         *
+         *  Es consideren característique negatives (resten punts):
+         *   - La quantitat de caràcters repetit al llarg de la contrassenya (quantitat)
+         *   - La quantitat de minúscules repetides al llarg de la contrassenya (quantitat * 2)
+         *   - La quantitat de majúscules repetides al llarg de la contrassenya (quantitat * 2)
+         *   - La quantitat de dígits repetits al llarg de la contrassenya (quantitat * 2)
+         *   - Les cadenes de dos o més minúscules consecutives (quantitat * 3)
+         *   - Les cadenes de dos o més majúscules consecutives (quantitat * 3)
+         *   - Les cadenes de dos o més dígits consecutius (quantitat * 3)
+         *
+         * Aquest mètode no s'usa actualment però està previst implementar-ne una
+         * visualització del resultat més endavant.
+         *
+         * @param password
+         * @return Valor de 0 a 100 representant la força de la contrassenya de l'usuari.
+         */
+        fun calculatePasswordStrength(password: String): Int {
+            val length = password.length * 4
+            val upper = (password.length - Regex("[A-Z]").findAll(password).count()) * 2
+            val lower = (password.length - Regex("[a-z]").findAll(password).count()) * 2
+            val numbers = Regex("[\\d]").findAll(password).count() * 4
+            val symbols = Regex("[ !#$%&()*+,\\-.:;<>?@\\[\\]{}^_|]").findAll(password).count() * 6
+            val repeatChar =
+                Regex("(.)\\1+").findAll(password.toLowerCase(Locale.getDefault())).count()
+            val repeatLower = Regex("([a-z])\\1+").findAll(password).count() * 2
+            val repeatUpper = Regex("([A-Z])\\1+").findAll(password).count() * 2
+            val repeatNumber = Regex("(\\d)\\1+").findAll(password).count() * 2
+            val lowerSequence = Regex("([a-z])\\1{2,}").findAll(password).count() * 3
+            val upperSequence = Regex("([A-Z])\\1{2,}").findAll(password).count() * 3
+            val digitSequence = Regex("(\\d)\\1{2,}").findAll(password).count() * 3
+
+            val additions = length + upper + lower + numbers + symbols
+            val deductions = (repeatChar + repeatLower + repeatUpper + repeatNumber
+                    + lowerSequence + upperSequence + digitSequence)
+
+            val score = additions - deductions
+
+            return if (score > 100) 100 else score
         }
     }
 }

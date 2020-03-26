@@ -23,8 +23,16 @@ import omega.isaacbenito.saberapp.authentication.ui.LoginFragment
 import omega.isaacbenito.saberapp.authentication.ui.RegCentreFragment
 import omega.isaacbenito.saberapp.authentication.ui.RegDataFragment
 
+/**
+ * Component que injecta les dependències a tots els fragment i activitats del mòdul d'autenticació
+ *
+ * @author Isaac Benito
+ */
 @AuthScope
-@Subcomponent(modules = [AuthModule::class])
+@Subcomponent(
+    modules = [
+        AuthModule::class]
+)
 interface AuthComponent {
 
     @Subcomponent.Factory
@@ -38,5 +46,4 @@ interface AuthComponent {
     fun inject(fragment: LoginFragment)
     fun inject(fragment: RegDataFragment)
     fun inject(fragment: RegCentreFragment)
-
 }

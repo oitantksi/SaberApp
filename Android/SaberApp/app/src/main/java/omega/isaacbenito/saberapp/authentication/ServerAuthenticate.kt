@@ -17,8 +17,8 @@
 
 package omega.isaacbenito.saberapp.authentication
 
-import omega.isaacbenito.saberapp.api.entities.UserCredentials
-import omega.isaacbenito.saberapp.api.entities.UserDto
+import omega.isaacbenito.saberapp.authentication.entities.UserCredentials
+import omega.isaacbenito.saberapp.authentication.entities.UserDto
 import retrofit2.Response
 
 /**

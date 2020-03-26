@@ -78,27 +78,37 @@
                 android:id="@+id/userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{String.format(@string/name_format, user.name, user.surname)}"
                 tools:text="Isaac Benito"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:layout_marginLeft="16dp"
-                app:layout_constraintBottom_toTopOf="@id/userSchool"
                 app:layout_constraintLeft_toRightOf="@id/profile_picture_cardView"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/profile_picture_cardView" />
+
+            <TextView
+                android:id="@+id/userNickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.format(@string/nickname_format, user.nickname)}"
+                android:textSize="15sp"
+                app:layout_constraintLeft_toLeftOf="@id/userName"
+                app:layout_constraintTop_toBottomOf="@id/userName"
+                tools:text="\@android" />
 
 
             <TextView
                 android:id="@+id/userSchool"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{user.centre}"
                 tools:text="IES Joan Maragall"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@id/profile_picture_cardView"
-                app:layout_constraintLeft_toLeftOf="@id/userName"
-                app:layout_constraintTop_toBottomOf="@id/userName" />
+                app:layout_constraintLeft_toLeftOf="@id/userName" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/profile_picture_cardView"
@@ -120,7 +130,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        tools:srcCompat="@drawable/unknown_user" />
+                        tools:srcCompat="@drawable/unknown_user_profile picture" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -183,4 +193,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="omega.isaacbenito.saberapp.user.model.UserViewModel" />
+
+        <variable
+            name="user"
+            type="omega.isaacbenito.saberapp.data.entities.User" />
+    </data>
 </layout>

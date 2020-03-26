@@ -23,16 +23,19 @@ import dagger.Component
 import dagger.Module
 import omega.isaacbenito.saberapp.authentication.AuthenticationManager
 import omega.isaacbenito.saberapp.authentication.di.AuthComponent
-import omega.isaacbenito.saberapp.authentication.di.ServerAuthenticateModule
+import omega.isaacbenito.saberapp.authentication.di.ServerAuthenticateBind
+import omega.isaacbenito.saberapp.data.di.DataModule
 import omega.isaacbenito.saberapp.ui.StartActivity
+import omega.isaacbenito.saberapp.user.di.UserComponent
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
-        DaggerViewModelFactoryModule::class,
         AppSubComponentsModule::class,
-        ServerAuthenticateModule::class]
+        DaggerViewModelFactoryModule::class,
+        ServerAuthenticateBind::class,
+        DataModule::class]
 )
 interface AppComponent {
 
@@ -44,13 +47,11 @@ interface AppComponent {
 
     // Expose SubComponents
     fun authComponent(): AuthComponent.Factory
-
-    fun authManager(): AuthenticationManager
-
     fun userComponent(): UserComponent.Factory
 
     fun inject(activity: StartActivity)
 
+    fun authManager(): AuthenticationManager
 }
 
 @Module(

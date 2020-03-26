@@ -49,8 +49,6 @@ import javax.inject.Inject
  */
 class RegDataFragment : Fragment() {
 
-    private val _tag = this.javaClass.name
-
     private lateinit var binding: FragmentRegDataBinding
 
     @Inject

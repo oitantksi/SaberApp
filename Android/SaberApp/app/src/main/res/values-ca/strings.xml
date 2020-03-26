@@ -49,4 +49,5 @@
     <string name="unregister">Esborrar compte</string>
     <string name="change_password">Canviar la contrassenya</string>
     <string name="unregister_unknown_error">No s\'ha pogut esborrar el compte per un error desconegut. Si us plau, torna-ho a provar més tard.</string>
+    <string name="user_profile">Profile</string>
 </resources>

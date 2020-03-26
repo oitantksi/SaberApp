@@ -46,8 +46,6 @@ import javax.inject.Inject
  */
 class LoginFragment : Fragment() {
 
-    private val _tag = this.javaClass.name
-
     private lateinit var binding: FragmentLoginBinding
 
     @Inject
@@ -116,7 +114,7 @@ class LoginFragment : Fragment() {
                 }
 
                 is EnterDataSuccess ->
-                    if (networkUtils.isConnected) {
+                    if (networkUtils.isNetworkConnected) {
                         loginViewModel.login()
                     } else {
                         Toast.makeText(context, R.string.no_network, Toast.LENGTH_LONG).show()

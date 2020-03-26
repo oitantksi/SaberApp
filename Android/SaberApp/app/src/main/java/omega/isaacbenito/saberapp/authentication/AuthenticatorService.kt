@@ -21,7 +21,13 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 
+/**
+ * Service used to provide a binding to AccountAuthenticator
+ *
+ * Needed to perform authentication from the device account manager
+ */
 class AuthenticatorService : Service() {
+
     override fun onBind(intent: Intent?): IBinder? {
 
         val authenticator = AccountAuthenticator(this)

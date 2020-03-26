@@ -26,12 +26,12 @@ import omega.isaacbenito.saberapp.authentication.ui.AuthState
 import javax.inject.Inject
 
 /**
- * @author Isaac Benito
- *
  * Model de la vista de l'activitat d'autenticació.
  *
  * Totes les activitats i fragments del mòdul d'autenticació comparteixen una única
  * instància d'aquesta classe.
+ *
+ * @author Isaac Benito1
  */
 @AuthScope
 class RegisterViewModel @Inject constructor() : ViewModel() {
@@ -95,8 +95,4 @@ class RegisterViewModel @Inject constructor() : ViewModel() {
         _registrationStatus.value = authenticationManager.registerUser(
             userName, userSurname, userNickname, email, password, centre).value
     }
-
-
-
-
 }
