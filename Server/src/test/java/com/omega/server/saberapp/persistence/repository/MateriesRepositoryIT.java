@@ -40,7 +40,7 @@ public class MateriesRepositoryIT {
 	 public void whenFindByNombre_thenReturnMateria() {
 	     // given
 	     String nombre = "Arte";
-	     materiesRepository.findByNombre(nombre);
+	     
 	   
 	  
 	     // when

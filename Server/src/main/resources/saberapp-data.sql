@@ -23,3 +23,5 @@ INSERT INTO aules VALUES (1, 'A');
 INSERT INTO aules VALUES (2, 'B');
 INSERT INTO aules VALUES (3, 'C');
 INSERT INTO aules VALUES (4, 'D');
+
+INSERT INTO preguntas VALUES (1,'País con más habitantes del mundo','EEUU','India','China','Rusia',3, TO_DATE('13-01-2020', 'DD-MM-YYYY'),1);

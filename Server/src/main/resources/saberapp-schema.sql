@@ -32,7 +32,7 @@ CREATE TABLE aules (
 );
 
 CREATE TABLE preguntas (
-	id INTEGER PRIMARY KEY,
+	id INTEGER auto_increment PRIMARY KEY,
 	pregunta VARCHAR not null,
 	respuesta1 VARCHAR,
 	respuesta2 VARCHAR,
@@ -43,6 +43,4 @@ CREATE TABLE preguntas (
 	materia_id INTEGER,
 	FOREIGN KEY (materia_id) 
     REFERENCES materies(id)
-	
-
 )
