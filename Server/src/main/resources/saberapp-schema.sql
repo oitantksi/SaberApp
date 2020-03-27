@@ -30,3 +30,19 @@ CREATE TABLE aules (
     id INTEGER PRIMARY KEY,
     aula CHAR
 );
+
+CREATE TABLE preguntas (
+	id INTEGER PRIMARY KEY,
+	pregunta VARCHAR not null,
+	respuesta1 VARCHAR,
+	respuesta2 VARCHAR,
+	respuesta3 VARCHAR,
+	respuesta4 VARCHAR,
+	respuesta_correcta INTEGER,
+	fecha_aparicion TIMESTAMP,
+	materia_id INTEGER,
+	FOREIGN KEY (materia_id) 
+    REFERENCES materies(id)
+	
+
+)

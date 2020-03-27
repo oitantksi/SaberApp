@@ -13,8 +13,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.omega.server.saberapp.entity.Centre;
+import com.omega.server.saberapp.entity.Materia;
 import com.omega.server.saberapp.entity.User;
 import com.omega.server.saberapp.persistence.repository.CentresRepository;
+import com.omega.server.saberapp.persistence.repository.MateriesRepository;
 import com.omega.server.saberapp.persistence.repository.UserRepository;
 import com.omega.server.saberapp.service.SaberAppServiceI;
 /**
@@ -31,6 +33,8 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 	 private BCryptPasswordEncoder bCryptPasswordEncoder;
 	 @Autowired 
 	 private CentresRepository centreRepository;
+	 @Autowired
+	 private MateriesRepository materiesRepository;
 	
 	@Override
 	public User getUser(String name) {
@@ -86,6 +90,11 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 	public List<Centre> getCentres(){
 			
 		return centreRepository.findAll();
+	}
+	
+	@Override
+	public List<Materia> getMateries(){		
+		return materiesRepository.findAll();	
 	}
 	@Override
 	public long deleteUser(String email){	

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.omega.server.saberapp.entity.Centre;
+import com.omega.server.saberapp.entity.Materia;
 import com.omega.server.saberapp.entity.User;
 
 /**
@@ -24,5 +25,5 @@ public interface SaberAppServiceI {
 	public long deleteUser(String email);
 	public User updateUser(User user);
 	public User updateUserPassword(String email, String oldPassword, String newPassword);
-
+	public List<Materia> getMateries();
 }

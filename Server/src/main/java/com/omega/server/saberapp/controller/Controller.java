@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.omega.server.consumer.dto.PasswordDto;
 import com.omega.server.consumer.dto.UserDto;
 import com.omega.server.saberapp.entity.Centre;
+import com.omega.server.saberapp.entity.Materia;
 import com.omega.server.saberapp.entity.User;
 import com.omega.server.saberapp.service.SaberAppServiceI;
 /**
@@ -121,6 +122,12 @@ public class Controller {
 	public List<Centre> getAllCentres(){
 		
 		return service.getCentres();
+		
+	}
+	@GetMapping("/materies")
+	public List<Materia> getAllMateries(){
+		
+		return service.getMateries();
 		
 	}
 	

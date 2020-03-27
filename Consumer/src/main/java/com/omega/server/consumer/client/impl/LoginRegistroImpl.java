@@ -16,7 +16,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.omega.server.consumer.client.LoginRegistroI;
 import com.omega.server.consumer.dto.CentreDto;
-import com.omega.server.consumer.dto.CentresListDto;
 import com.omega.server.consumer.dto.UserDto;
 
 @Service
