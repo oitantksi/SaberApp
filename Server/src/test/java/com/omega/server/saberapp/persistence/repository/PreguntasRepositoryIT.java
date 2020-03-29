@@ -1,8 +1,10 @@
 package com.omega.server.saberapp.persistence.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +29,16 @@ public class PreguntasRepositoryIT {
 		
 		assertEquals(pregunta.getPregunta(),salvada.getPregunta());
 			
+	}
+	
+	@Test
+	public void recuperarPreguntasPorMateria() {
+		Materia materia= materiesRepository.findByNombre("Historia");
+		
+		List<Pregunta> lista=preguntasRepository.findByMateria(materia);
+		
+		assertTrue(lista.size()>0);
+		
+		
 	}
 }
