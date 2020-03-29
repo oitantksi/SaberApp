@@ -22,6 +22,7 @@ import com.omega.server.consumer.dto.PasswordDto;
 import com.omega.server.consumer.dto.UserDto;
 import com.omega.server.saberapp.entity.Centre;
 import com.omega.server.saberapp.entity.Materia;
+import com.omega.server.saberapp.entity.Pregunta;
 import com.omega.server.saberapp.entity.User;
 import com.omega.server.saberapp.service.SaberAppServiceI;
 /**
@@ -105,11 +106,8 @@ public class Controller {
 	}
 	@PutMapping(path="/user/password/{email}")
 	public User putUserPassword(@PathVariable("email") String email,@RequestBody PasswordDto request) {
-		
-		
-	//TO-DO
-		return service.updateUserPassword(email, request.getOldPassword(),request.getNewPassword());
 	
+		return service.updateUserPassword(email, request.getOldPassword(),request.getNewPassword());
 		
 	}
 	@DeleteMapping(path ="/user/{email}")
@@ -128,6 +126,12 @@ public class Controller {
 	public List<Materia> getAllMateries(){
 		
 		return service.getMateries();
+		
+	}
+	@GetMapping("/preguntes/{materia}")
+	public List<Pregunta> getPreguntasByMateria(@PathVariable("materia") String materia){
+		
+		return service.getPreguntasByMateria(materia);
 		
 	}
 	

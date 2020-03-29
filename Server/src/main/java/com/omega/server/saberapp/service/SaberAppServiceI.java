@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.omega.server.saberapp.entity.Centre;
 import com.omega.server.saberapp.entity.Materia;
+import com.omega.server.saberapp.entity.Pregunta;
 import com.omega.server.saberapp.entity.User;
 
 /**
@@ -26,4 +27,5 @@ public interface SaberAppServiceI {
 	public User updateUser(User user);
 	public User updateUserPassword(String email, String oldPassword, String newPassword);
 	public List<Materia> getMateries();
+	public List<Pregunta> getPreguntasByMateria(String materia);
 }

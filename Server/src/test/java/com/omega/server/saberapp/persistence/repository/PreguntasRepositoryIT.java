@@ -33,7 +33,7 @@ public class PreguntasRepositoryIT {
 	
 	@Test
 	public void recuperarPreguntasPorMateria() {
-		Materia materia= materiesRepository.findByNombre("Historia");
+		Materia materia= materiesRepository.findByNombre("Geografia");
 		
 		List<Pregunta> lista=preguntasRepository.findByMateria(materia);
 		
