@@ -140,5 +140,13 @@ public class Controller {
 		return service.getAllPreguntas();
 		
 	}
+	@PostMapping(path = "/user", consumes = "application/json", produces = "application/json")
+	public Pregunta postPregunta( @Valid @RequestBody Pregunta request) {
+		
+		
+		
+		return service.createPregunta(request);
+		
+	}
 	
 }

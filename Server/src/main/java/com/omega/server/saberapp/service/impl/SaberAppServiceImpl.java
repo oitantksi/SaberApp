@@ -128,6 +128,13 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 		
 		return preguntasRepository.findAll();
 	}
+	@Override
+	public Pregunta createPregunta(Pregunta pregunta) {
+		
+		return preguntasRepository.save(pregunta);
+	}
+	
+	
 	
 	
 	

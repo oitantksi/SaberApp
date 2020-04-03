@@ -29,5 +29,5 @@ public interface SaberAppServiceI {
 	public List<Materia> getMateries();
 	public List<Pregunta> getPreguntasByMateria(String materia);
 	public List<Pregunta> getAllPreguntas();
-	
+	public Pregunta createPregunta(Pregunta pregunta);
 }
