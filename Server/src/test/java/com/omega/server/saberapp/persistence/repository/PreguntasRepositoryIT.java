@@ -41,4 +41,16 @@ public class PreguntasRepositoryIT {
 		
 		
 	}
+	
+	
+	@Test
+	public void recuperarTodasPreguntas() {
+		Materia materia= materiesRepository.findByNombre("Geografia");
+		
+		List<Pregunta> lista=preguntasRepository.findAll();
+		
+		assertTrue(lista.size()==16);
+		
+		
+	}
 }

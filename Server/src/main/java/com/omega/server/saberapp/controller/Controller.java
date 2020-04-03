@@ -134,5 +134,11 @@ public class Controller {
 		return service.getPreguntasByMateria(materia);
 		
 	}
+	@GetMapping("/preguntes/totes")
+	public List<Pregunta> getAllPreguntas(){
+		
+		return service.getAllPreguntas();
+		
+	}
 	
 }

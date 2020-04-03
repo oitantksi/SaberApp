@@ -123,5 +123,12 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 		Materia materiaEntity=materiesRepository.findByNombre(materia);
 		return preguntasRepository.findByMateria(materiaEntity);
 	}
+	@Override
+	public List<Pregunta> getAllPreguntas() {
+		
+		return preguntasRepository.findAll();
+	}
+	
+	
 	
 }

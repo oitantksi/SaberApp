@@ -28,4 +28,6 @@ public interface SaberAppServiceI {
 	public User updateUserPassword(String email, String oldPassword, String newPassword);
 	public List<Materia> getMateries();
 	public List<Pregunta> getPreguntasByMateria(String materia);
+	public List<Pregunta> getAllPreguntas();
+	
 }
