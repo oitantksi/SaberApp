@@ -43,4 +43,12 @@ CREATE TABLE preguntas (
 	materia_id INTEGER,
 	FOREIGN KEY (materia_id) 
     REFERENCES materies(id)
+);
+CREATE TABLE respuestas (
+	idPregunta INTEGER,
+	idAlumno INTEGER,
+	FOREIGN KEY (idPregunta) 
+    REFERENCES preguntas(id),
+    FOREIGN KEY (idAlumno) 
+    REFERENCES users(id)
 )
