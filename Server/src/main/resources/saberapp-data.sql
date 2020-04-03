@@ -40,3 +40,6 @@ INSERT INTO preguntas VALUES (14, 'Quin és el cosinus d''un angle de 90 graus',
 INSERT INTO preguntas VALUES (15, 'Quin és el valor aproximat del número "e"?', '5,445361', '1,142565', '2,718282', '3,141598', 3, CURDATE()+6,4);
 INSERT INTO preguntas VALUES (16, 'Amb 39 litres de gasolina el marcador d''un cotxe senyala 3/4 de dipòsit. Quina és la capacitat total del dipòsit?', '49 litres', '54 litres', '52 litres', '55 litres', 3, CURDATE()+8,4);
 INSERT INTO preguntas VALUES (3, 'Què diu el teorema del sinus?', 'En els tiangles equilaters, la longitud dels seus costats és proporcional als sinus dels angles oposats', 'En tot triangle, la longitud dels seus costats és proporcional als sinus dels angles oposats', 'En tot triangle, la longitud dels seus costats és proporcional als cosinus dels angles oposats', 'En els triagles rectangles, la longitud dels seus costats és proporcional als cosinus dels angles oposats', 2, CURDATE()-5,4);
+
+
+INSERT INTO respuestas VALUES (1,1,1,1);

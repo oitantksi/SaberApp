@@ -15,10 +15,12 @@ import org.springframework.stereotype.Service;
 import com.omega.server.saberapp.entity.Centre;
 import com.omega.server.saberapp.entity.Materia;
 import com.omega.server.saberapp.entity.Pregunta;
+import com.omega.server.saberapp.entity.Respuesta;
 import com.omega.server.saberapp.entity.User;
 import com.omega.server.saberapp.persistence.repository.CentresRepository;
 import com.omega.server.saberapp.persistence.repository.MateriesRepository;
 import com.omega.server.saberapp.persistence.repository.PreguntasRepository;
+import com.omega.server.saberapp.persistence.repository.RespuestasRepository;
 import com.omega.server.saberapp.persistence.repository.UserRepository;
 import com.omega.server.saberapp.service.SaberAppServiceI;
 /**
@@ -39,6 +41,8 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 	 private MateriesRepository materiesRepository;
 	 @Autowired
 	 private PreguntasRepository preguntasRepository;
+	 @Autowired
+	 private RespuestasRepository respuestasRepository;
 	
 	@Override
 	public User getUser(String name) {
@@ -132,6 +136,11 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 	public Pregunta createPregunta(Pregunta pregunta) {
 		
 		return preguntasRepository.save(pregunta);
+	}
+	@Override
+	public List<Respuesta> getAllRespuestasByAlumno(Long idAlumno) {
+		
+		return respuestasRepository.findByUser(idAlumno);
 	}
 	
 	

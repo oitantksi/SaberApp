@@ -45,10 +45,12 @@ CREATE TABLE preguntas (
     REFERENCES materies(id)
 );
 CREATE TABLE respuestas (
-	idPregunta INTEGER,
-	idAlumno INTEGER,
-	FOREIGN KEY (idPregunta) 
+	respuesta_id INTEGER auto_increment PRIMARY KEY,
+	respuesta INTEGER NOT NULL,
+	pregunta_id INTEGER,
+	alumno_id INTEGER,
+	FOREIGN KEY (pregunta_id) 
     REFERENCES preguntas(id),
-    FOREIGN KEY (idAlumno) 
+    FOREIGN KEY (alumno_id) 
     REFERENCES users(id)
 )

@@ -23,6 +23,7 @@ import com.omega.server.consumer.dto.UserDto;
 import com.omega.server.saberapp.entity.Centre;
 import com.omega.server.saberapp.entity.Materia;
 import com.omega.server.saberapp.entity.Pregunta;
+import com.omega.server.saberapp.entity.Respuesta;
 import com.omega.server.saberapp.entity.User;
 import com.omega.server.saberapp.service.SaberAppServiceI;
 /**
@@ -148,5 +149,12 @@ public class Controller {
 		return service.createPregunta(request);
 		
 	}
+	@GetMapping("/respuestes/alumno/{idAlumno}")
+	public List<Respuesta> getAllRepuestasAlumno(@PathVariable("{idAlumno}") Long idAlumno){
+		
+		return service.getAllRespuestasByAlumno(idAlumno);
+		
+	}
+	
 	
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.omega.server.saberapp.entity.Centre;
 import com.omega.server.saberapp.entity.Materia;
 import com.omega.server.saberapp.entity.Pregunta;
+import com.omega.server.saberapp.entity.Respuesta;
 import com.omega.server.saberapp.entity.User;
 
 /**
@@ -30,4 +31,5 @@ public interface SaberAppServiceI {
 	public List<Pregunta> getPreguntasByMateria(String materia);
 	public List<Pregunta> getAllPreguntas();
 	public Pregunta createPregunta(Pregunta pregunta);
+	public List<Respuesta> getAllRespuestasByAlumno(Long idAlumno) ;
 }
