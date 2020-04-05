@@ -149,7 +149,7 @@ public class Controller {
 		return service.createPregunta(request);
 		
 	}
-	@GetMapping("/respuestes/alumno/{idAlumno}")
+	@GetMapping("/respostes/alumno/{idAlumno}")
 	public List<Respuesta> getAllRepuestasAlumno(@PathVariable("{idAlumno}") Long idAlumno){
 		
 		return service.getAllRespuestasByAlumno(idAlumno);

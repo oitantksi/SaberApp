@@ -1,6 +1,7 @@
 package com.omega.server.saberapp.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -33,6 +34,9 @@ public class Respuesta implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="alumno_id")
 	User user;
+	
+	@Column(name="fecha_respuesta")
+	Timestamp fechaRespuesta;
 	
 	public Long getId() {
 		return id;

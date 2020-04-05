@@ -42,4 +42,4 @@ INSERT INTO preguntas VALUES (16, 'Amb 39 litres de gasolina el marcador d''un c
 INSERT INTO preguntas VALUES (3, 'Què diu el teorema del sinus?', 'En els tiangles equilaters, la longitud dels seus costats és proporcional als sinus dels angles oposats', 'En tot triangle, la longitud dels seus costats és proporcional als sinus dels angles oposats', 'En tot triangle, la longitud dels seus costats és proporcional als cosinus dels angles oposats', 'En els triagles rectangles, la longitud dels seus costats és proporcional als cosinus dels angles oposats', 2, CURDATE()-5,4);
 
 
-INSERT INTO respuestas VALUES (1,1,1,1);
+INSERT INTO respuestas VALUES (1,1,1,1,CURDATE());

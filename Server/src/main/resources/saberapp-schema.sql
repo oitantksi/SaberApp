@@ -49,6 +49,7 @@ CREATE TABLE respuestas (
 	respuesta INTEGER NOT NULL,
 	pregunta_id INTEGER,
 	alumno_id INTEGER,
+	fecha_respuesta TIMESTAMP,
 	FOREIGN KEY (pregunta_id) 
     REFERENCES preguntas(id),
     FOREIGN KEY (alumno_id) 
