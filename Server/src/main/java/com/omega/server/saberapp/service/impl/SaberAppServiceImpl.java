@@ -139,8 +139,8 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 	}
 	@Override
 	public List<Respuesta> getAllRespuestasByAlumno(Long idAlumno) {
-		
-		return respuestasRepository.findByUser(idAlumno);
+		User userEntity=userRepository.findById(idAlumno).get();
+		return respuestasRepository.findByUser(userEntity);
 	}
 	@Override
 	public Respuesta createRespuesta(Respuesta respuesta) {

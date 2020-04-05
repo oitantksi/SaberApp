@@ -150,12 +150,12 @@ public class Controller {
 		
 	}
 	@GetMapping("/respostes/alumno/{idAlumno}")
-	public List<Respuesta> getAllRepuestasAlumno(@PathVariable("{idAlumno}") Long idAlumno){
+	public List<Respuesta> getAllRepuestasAlumno(@PathVariable("idAlumno") Long idAlumno){
 		
 		return service.getAllRespuestasByAlumno(idAlumno);
 		
 	}
-	@PostMapping(path = "/respostes/alumno/{idAlumno}", consumes = "application/json", produces = "application/json")
+	@PostMapping(path = "/respostes/alumno", consumes = "application/json", produces = "application/json")
 	public Respuesta postRespuesta(@RequestBody Respuesta request) {
 		
 		return service.createRespuesta(request);
