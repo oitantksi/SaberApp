@@ -155,6 +155,9 @@ public class Controller {
 		return service.getAllRespuestasByAlumno(idAlumno);
 		
 	}
-	
-	
+	@PostMapping(path = "/respostes/alumno/{idAlumno}", consumes = "application/json", produces = "application/json")
+	public Respuesta postRespuesta(@RequestBody Respuesta request) {
+		
+		return service.createRespuesta(request);
+	}
 }

@@ -142,7 +142,11 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 		
 		return respuestasRepository.findByUser(idAlumno);
 	}
-	
+	@Override
+	public Respuesta createRespuesta(Respuesta respuesta) {
+		return respuestasRepository.save(respuesta);
+		
+	}
 	
 	
 	

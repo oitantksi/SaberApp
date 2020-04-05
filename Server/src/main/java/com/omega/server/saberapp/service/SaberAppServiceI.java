@@ -32,4 +32,5 @@ public interface SaberAppServiceI {
 	public List<Pregunta> getAllPreguntas();
 	public Pregunta createPregunta(Pregunta pregunta);
 	public List<Respuesta> getAllRespuestasByAlumno(Long idAlumno) ;
+	public Respuesta createRespuesta(Respuesta respuesta); 
 }
