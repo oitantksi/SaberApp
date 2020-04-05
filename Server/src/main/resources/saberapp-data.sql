@@ -43,3 +43,7 @@ INSERT INTO preguntas VALUES (3, 'Què diu el teorema del sinus?', 'En els tiang
 
 
 INSERT INTO respuestas VALUES (1,1,1,1,CURDATE());
+INSERT INTO respuestas VALUES (2,4,6,4,CURDATE()-4); -- Resposta correcta en data
+INSERT INTO respuestas VALUES (3,1,12,4,CURDATE()-6); -- Resposta incorrecta en data
+INSERT INTO respuestas VALUES (4,2,7,4,CURDATE()-1); -- Resposta correcta fora de data
+INSERT INTO respuestas VALUES (5,4,9,4,CURDATE()-1); -- Resposta incorrecta fora de data
