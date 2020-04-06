@@ -70,4 +70,11 @@ public class Respuesta implements Serializable {
 		this.respuesta = respuesta;
 	}
 
+        public Timestamp getFechaRespuesta() {
+            return fechaRespuesta;
+        }
+
+        public void setFechaRespuesta(Timestamp fechaRespuesta) {
+            this.fechaRespuesta = fechaRespuesta;
+        }
 }
