@@ -11,7 +11,7 @@ import com.omega.server.saberapp.entity.User;
 
 public interface RespuestasRepository  extends CrudRepository<Respuesta, Long>{
 		public List<Respuesta> findAll();
-		public List<Respuesta> findByUser(User user);
+		public List<Respuesta> findByUserId(Long userId);
 		
 }
 
