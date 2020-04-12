@@ -8,11 +8,29 @@ public class PreguntaDto {
 	String pregunta;	
 	String respuesta1;
 	String respuesta2;
+	
 	String respuesta3 ;
 	String respuesta4;
 	Integer respuesta_correcta;
 	Timestamp fecha_aparicion;
 	MateriaDto materia;
+	
+	public PreguntaDto() {
+		
+	}
+	public PreguntaDto(Long id, String pregunta, String respuesta1, String respuesta2, String respuesta3,
+			String respuesta4, Integer respuesta_correcta, Timestamp fecha_aparicion, MateriaDto materia) {
+		super();
+		this.id = id;
+		this.pregunta = pregunta;
+		this.respuesta1 = respuesta1;
+		this.respuesta2 = respuesta2;
+		this.respuesta3 = respuesta3;
+		this.respuesta4 = respuesta4;
+		this.respuesta_correcta = respuesta_correcta;
+		this.fecha_aparicion = fecha_aparicion;
+		this.materia = materia;
+	}
 	public Long getId() {
 		return id;
 	}

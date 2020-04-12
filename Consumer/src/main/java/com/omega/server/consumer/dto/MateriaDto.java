@@ -6,6 +6,12 @@ public class MateriaDto {
 
 	String nombre;
 
+	public MateriaDto(Long id, String nombre) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+	}
+
 	public Long getId() {
 		return id;
 	}
