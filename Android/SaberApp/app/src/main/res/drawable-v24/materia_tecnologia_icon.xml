@@ -1,0 +1,58 @@
+<!--
+  ~ This file is part of SaberApp.
+  ~
+  ~     SaberApp is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     SaberApp is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="12.7"
+    android:viewportHeight="12.7">
+  <path
+      android:pathData="m6.3501,11.6669c-1.0817,0 -1.9588,-2.3805 -1.9588,-5.3167 0,-2.9366 0.8771,-5.317 1.9588,-5.317 1.0817,0 1.9587,2.3804 1.9587,5.317 0,2.9362 -0.877,5.3167 -1.9587,5.3167m0,-11.6669c-1.2922,0 -2.3395,2.8431 -2.3395,6.3502 0,3.5068 1.0473,6.3498 2.3395,6.3498 1.2922,0 2.3395,-2.843 2.3395,-6.3498 0,-3.5071 -1.0473,-6.3502 -2.3395,-6.3502"
+      android:strokeWidth="0.23203322"
+      android:fillColor="#f2f2f2"
+      android:fillAlpha="1"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"/>
+  <path
+      android:pathData="m1.0331,6.3502c0,-1.0819 2.3805,-1.9588 5.3169,-1.9588 2.9363,0 5.317,0.877 5.317,1.9588 0,1.0817 -2.3807,1.9588 -5.317,1.9588 -2.9363,0 -5.3169,-0.8771 -5.3169,-1.9588m11.6668,0c0,-1.2919 -2.8428,-2.3394 -6.3499,-2.3394 -3.5069,0 -6.3499,1.0472 -6.3499,2.3394 0,1.2921 2.843,2.3394 6.3499,2.3394 3.5071,0 6.3499,-1.047 6.3499,-2.3394"
+      android:strokeWidth="0.23203322"
+      android:fillColor="#f2f2f2"
+      android:fillAlpha="1"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"/>
+  <path
+      android:pathData="m2.5903,10.1098c-0.7648,-0.7651 0.2984,-3.0685 2.3747,-5.1447 2.0764,-2.0763 4.3799,-3.1395 5.1447,-2.3747 0.765,0.7649 -0.2981,3.0685 -2.3747,5.1447 -2.0763,2.0764 -4.3796,3.1396 -5.1447,2.3747m8.25,-8.2498c-0.9137,-0.9136 -3.6647,0.356 -6.1444,2.8359 -2.4799,2.4798 -3.7495,5.2306 -2.8359,6.1443 0.9137,0.9137 3.6645,-0.356 6.1443,-2.8359 2.4799,-2.4798 3.7495,-5.2307 2.8361,-6.1443"
+      android:strokeWidth="0.23203322"
+      android:fillColor="#f2f2f2"
+      android:fillAlpha="1"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"/>
+  <path
+      android:pathData="m2.5903,2.5902c0.7651,-0.765 3.0685,0.2982 5.1447,2.3745 2.0766,2.0766 3.1396,4.3799 2.3744,5.145 -0.7645,0.7648 -3.068,-0.2984 -5.1444,-2.3748 -2.0763,-2.0763 -3.1395,-4.3796 -2.3747,-5.1447m8.2498,8.2499c0.9136,-0.9136 -0.356,-3.6645 -2.8359,-6.1444 -2.4798,-2.4799 -5.2306,-3.7495 -6.1443,-2.8359 -0.9136,0.9137 0.356,3.6647 2.8359,6.1444 2.4798,2.4798 5.2306,3.7496 6.1443,2.8359"
+      android:strokeWidth="0.23203322"
+      android:fillColor="#f2f2f2"
+      android:fillAlpha="1"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"/>
+  <path
+      android:pathData="m7.3376,6.3502c0,-0.5412 -0.4386,-0.98 -0.9801,-0.98 -0.5411,0 -0.9797,0.4388 -0.9797,0.98 0,0.5411 0.4386,0.9798 0.9797,0.9798 0.5415,0 0.9801,-0.4388 0.9801,-0.9798"
+      android:strokeWidth="0.23203322"
+      android:fillColor="#f2f2f2"
+      android:fillAlpha="1"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"/>
+</vector>
