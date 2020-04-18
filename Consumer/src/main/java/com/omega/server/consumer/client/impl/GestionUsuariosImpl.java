@@ -53,7 +53,7 @@ public class GestionUsuariosImpl implements GestionUsuariosI {
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    headers.set("Authorization", token);
-	    PasswordDto passwordDto=new PasswordDto(nuevoPassword, nuevoPassword);
+	    PasswordDto passwordDto=new PasswordDto(nuevoPassword, passwordAnterior);
 	    Map<String, String> params = new HashMap<String, String>();
 	    params.put("email", email);
 		HttpEntity<PasswordDto> entity = new HttpEntity<PasswordDto>(passwordDto,headers);

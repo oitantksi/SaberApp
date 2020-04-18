@@ -3,6 +3,7 @@ package com.omega.server.saberapp.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,7 +39,7 @@ public class Pregunta implements Serializable {
 	Integer respuesta_correcta;
 	@Column
 	Timestamp fecha_aparicion;
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name="materia_id")
 	Materia materia;
 	

@@ -15,11 +15,13 @@ import org.springframework.stereotype.Service;
 import com.omega.server.saberapp.entity.Centre;
 import com.omega.server.saberapp.entity.Materia;
 import com.omega.server.saberapp.entity.Pregunta;
+import com.omega.server.saberapp.entity.Puntuacion;
 import com.omega.server.saberapp.entity.Respuesta;
 import com.omega.server.saberapp.entity.User;
 import com.omega.server.saberapp.persistence.repository.CentresRepository;
 import com.omega.server.saberapp.persistence.repository.MateriesRepository;
 import com.omega.server.saberapp.persistence.repository.PreguntasRepository;
+import com.omega.server.saberapp.persistence.repository.PuntuacionRepository;
 import com.omega.server.saberapp.persistence.repository.RespuestasRepository;
 import com.omega.server.saberapp.persistence.repository.UserRepository;
 import com.omega.server.saberapp.service.SaberAppServiceI;
@@ -43,6 +45,8 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 	 private PreguntasRepository preguntasRepository;
 	 @Autowired
 	 private RespuestasRepository respuestasRepository;
+	 @Autowired
+	 private PuntuacionRepository puntuacionRepository;
 	
 	@Override
 	public User getUser(String name) {
@@ -113,9 +117,10 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 	@Override
 	public User updateUserPassword(String email, String oldPassword, String newPassword) {
 		User user=getUserByEmail(email);
-		String userOldPasswordEncrypt=bCryptPasswordEncoder.encode(oldPassword);
+
 		//validación si el password antiguo es correcto guardamos el nuevo
-		if(bCryptPasswordEncoder.encode(oldPassword).equals(user.getPassword())) {
+		
+		if(bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
 			user.setPassword(bCryptPasswordEncoder.encode(newPassword));
 			return userRepository.save(user);
 		}else {
@@ -146,6 +151,11 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 	public Respuesta createRespuesta(Respuesta respuesta) {
 		return respuestasRepository.save(respuesta);
 		
+	}
+	@Override
+	public List<Puntuacion> getPuntuaciones(){
+		
+		return puntuacionRepository.findAll();
 	}
 	
 	

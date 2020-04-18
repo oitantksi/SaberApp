@@ -23,6 +23,7 @@ import com.omega.server.consumer.dto.UserDto;
 import com.omega.server.saberapp.entity.Centre;
 import com.omega.server.saberapp.entity.Materia;
 import com.omega.server.saberapp.entity.Pregunta;
+import com.omega.server.saberapp.entity.Puntuacion;
 import com.omega.server.saberapp.entity.Respuesta;
 import com.omega.server.saberapp.entity.User;
 import com.omega.server.saberapp.service.SaberAppServiceI;
@@ -88,7 +89,13 @@ public class Controller {
 		
 		return service.createUser(user);
 		
-	}
+	} 
+	/**
+	 * Modifica usuario a excepción de password
+	 * @param email
+	 * @param request
+	 * @return
+	 */
 	@PutMapping(path="/user/{email}")
 	public User putUser(@PathVariable("email") String email,@RequestBody UserDto request) {
 		User user=service.getUserByEmail(email);
@@ -101,10 +108,18 @@ public class Controller {
 		user.setRol(request.getRol());   
 		
 	
+		
 		return service.updateUser(user);
 	
 		
 	}
+	
+	/**
+	 * Actualización del mail de usuario
+	 * @param email
+	 * @param request
+	 * @return
+	 */
 	@PutMapping(path="/user/password/{email}")
 	public User putUserPassword(@PathVariable("email") String email,@RequestBody PasswordDto request) {
 	
@@ -159,6 +174,13 @@ public class Controller {
 	public Respuesta postRespuesta(@RequestBody Respuesta request) {
 		
 		return service.createRespuesta(request);
+	}
+	
+	@GetMapping(path="/puntuacions")
+	public List<Puntuacion> getPuntuaciones(){
+		
+		
+		return service.getPuntuaciones();
 	}
 	
 	

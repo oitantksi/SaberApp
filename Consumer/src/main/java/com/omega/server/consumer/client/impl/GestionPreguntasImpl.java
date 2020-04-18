@@ -45,7 +45,7 @@ public class GestionPreguntasImpl implements GestionPreguntasI{
 		String uri="http://localhost:8080/preguntes/{materia}";
 
 	    RestTemplate restTemplate = new RestTemplate();
-	    HttpHeaders headers = new HttpHeaders();
+  	    HttpHeaders headers = new HttpHeaders();
 	    headers.set("Authorization", token);
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    

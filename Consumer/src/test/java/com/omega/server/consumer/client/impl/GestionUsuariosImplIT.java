@@ -53,10 +53,33 @@ public class GestionUsuariosImplIT {
 		userDto = loginRegistro.registraUsuario(datosUsuario);
 		//Nuevos datos del usuario a modificar
 		UserDto userToModifyPassword= new UserDto()	;	
+		UserDto usuarioAntesModificarPassword=loginRegistro.findUsuarioByEmail(email, token);
 		//actualizamos el usuario
-		userDto= gestionUsuarios.actualizarPasswordUsuario(email, "JaimePasswordOld", "JaimePasswordNew", token);
+		userToModifyPassword= gestionUsuarios.actualizarPasswordUsuario(email, "JaimePasswordOld", "JaimePasswordNew", token);
+		UserDto usuarioRecuperado=loginRegistro.findUsuarioByEmail(email, token);
 		//tratamos de recuperar el usuario sin el mail modificado, ya no existirá
-		assertTrue((userDto.getPassword()).equals(userToModifyPassword.getPassword()));
+		assertTrue((usuarioRecuperado.getPassword()).equals(userToModifyPassword.getPassword()));
+		assertTrue(!(usuarioAntesModificarPassword.getPassword()).equals(userToModifyPassword.getPassword()));
+		
+	}
+	@Test
+	public void whenUpdateUserPasswordFalse_thenReturnNull() {
+		
+		String token=loginRegistro.login("master@omega.com", "omega");
+		UserDto datosUsuario=new UserDto(null, "Arnau", "Perez", "arnauperez@omega.com", "Arnau", "ArnauPasswordOld", "IOC", 'A');
+		String email= "arnauperez@omega.com";
+		//Usurio que se registra
+		UserDto userDto=new UserDto();
+		userDto = loginRegistro.registraUsuario(datosUsuario);
+		//Nuevos datos del usuario a modificar
+		UserDto userToModifyPassword= new UserDto()	;	
+		UserDto usuarioAntesModificarPassword=loginRegistro.findUsuarioByEmail(email, token);
+		//actualizamos el usuario
+		userToModifyPassword= gestionUsuarios.actualizarPasswordUsuario(email, "ArnauPasswordOldFalse", "ArnauPasswordNew", token);
+		UserDto usuarioRecuperado=loginRegistro.findUsuarioByEmail(email, token);
+		//tratamos de recuperar el usuario sin el mail modificado, ya no existirá
+		assertTrue(userToModifyPassword==null);
+
 		
 	}
 	

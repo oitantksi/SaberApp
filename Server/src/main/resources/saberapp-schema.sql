@@ -54,4 +54,14 @@ CREATE TABLE respuestas (
     REFERENCES preguntas(id),
     FOREIGN KEY (alumno_id) 
     REFERENCES users(id)
-)
+);
+CREATE TABLE puntuacion (
+	alumno_id INTEGER,
+	materia_id INTEGER,
+	puntos INTEGER,
+	FOREIGN KEY (alumno_id) 
+    REFERENCES users(id),
+    FOREIGN KEY (materia_id) 
+    REFERENCES materies(id),
+    PRIMARY KEY(alumno_id,materia_id)
+);
