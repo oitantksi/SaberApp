@@ -23,12 +23,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidEmail
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidPassword
-import omega.isaacbenito.saberapp.authentication.AuthenticationManager
-import omega.isaacbenito.saberapp.authentication.ui.AuthState
-import omega.isaacbenito.saberapp.authentication.ui.EnterDataError
-import omega.isaacbenito.saberapp.authentication.ui.EnterDataState
-import omega.isaacbenito.saberapp.authentication.ui.EnterDataSuccess
+import omega.isaacbenito.saberapp.authentication.AuthResult
+import omega.isaacbenito.saberapp.authentication.EnterDataResult
+import omega.isaacbenito.saberapp.authentication.impl.AuthenticationManagerImpl
 import javax.inject.Inject
+import omega.isaacbenito.saberapp.authentication.EnterDataResult.Error as EnterDataError
+import omega.isaacbenito.saberapp.authentication.EnterDataResult.Success as EnterDataSuccess
 
 /**
  * Model de la vista d'inici de sessió de l'aplicació
@@ -38,14 +38,14 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor() : ViewModel() {
 
     @Inject
-    lateinit var authenticationManager: AuthenticationManager
+    lateinit var authenticationManager: AuthenticationManagerImpl
 
-    private var _loginState = MutableLiveData<AuthState>()
-    val loginState: LiveData<AuthState>
+    private var _loginState = MutableLiveData<AuthResult>()
+    val loginResult: LiveData<AuthResult>
         get() = _loginState
 
-    private val _enterDataState = MutableLiveData<EnterDataState>()
-    val enterDataState: LiveData<EnterDataState>
+    private val _enterDataState = MutableLiveData<EnterDataResult>()
+    val enterDataResult: LiveData<EnterDataResult>
         get() = _enterDataState
 
     val userMail = ObservableField<String>()
@@ -55,8 +55,6 @@ class LoginViewModel @Inject constructor() : ViewModel() {
      * Crida al gestor d'autenticació per a que realitzi el login amb les credencials
      * facilitades per l'usuari.
      *
-     * @property email correu electrònic de l'usuari
-     * @property password contrassenya de l'usuari
      */
     fun login() {
         _loginState.value = authenticationManager.login(
@@ -68,8 +66,6 @@ class LoginViewModel @Inject constructor() : ViewModel() {
      * Valida les dades introduïdes per l'usuari segons els principis que aquestes han de complir
      * per a poder ser credencials d'inici de sessió de l'aplicació
      *
-     * @property email correu electrònic de l'usuari
-     * @property password contrassenya de l'usuari
      */
     fun validateInput() {
         if (userMail.get() == null || userPassword.get() == null) {

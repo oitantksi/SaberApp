@@ -23,19 +23,18 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryLigth</item>
+
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorError">@color/colorAccent_wrong</item>
 
         <item name="android:windowBackground">@color/color_background</item>
 
     </style>
 
-    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
-
-    </style>
-
-    <style name="EditProfileDialog" parent="Theme.AppCompat.Dialog">
+    <style name="FooterDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
         <item name="android:windowExitAnimation">@anim/slide_out_down</item>
     </style>
-
 </resources>

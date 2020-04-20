@@ -17,7 +17,6 @@
 
 package omega.isaacbenito.saberapp.authentication.ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,16 +26,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import dagger.android.support.DaggerFragment
 import omega.isaacbenito.saberapp.R
+import omega.isaacbenito.saberapp.authentication.AuthResult
+import omega.isaacbenito.saberapp.authentication.EnterDataResult
 import omega.isaacbenito.saberapp.authentication.model.LoginViewModel
 import omega.isaacbenito.saberapp.databinding.FragmentLoginBinding
 import omega.isaacbenito.saberapp.ui.MainActivity
 import omega.isaacbenito.saberapp.utils.NetworkUtils
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -44,7 +46,7 @@ import javax.inject.Inject
  *
  * Vista de login de l'aplicació
  */
-class LoginFragment : Fragment() {
+class LoginFragment : DaggerFragment() {
 
     private lateinit var binding: FragmentLoginBinding
 
@@ -80,41 +82,27 @@ class LoginFragment : Fragment() {
          * el motiu per el qual no són vàlides per a no proveir d'eines per a intentar
          * falsejar unes credencials.
          */
-        loginViewModel.enterDataState.observe(this, Observer {
+        loginViewModel.enterDataResult.observe(this, Observer {
             when (it) {
-                is EnterDataError -> {
+                is EnterDataResult.Error -> {
                     binding.loginAccountMail.text.clear()
                     binding.loginAccountPassword.text.clear()
 
-                    when (it.errorCode) {
-                        EnterDataError.INVALID_EMAIL -> {
-                            binding.loginAccountMail.setHintTextColor(
-                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
-                            )
-                            binding.loginWrongEmail.visibility = View.VISIBLE
-                        }
-                        EnterDataError.INVALID_PASSWORD -> {
-                            binding.loginAccountPassword.setHintTextColor(
-                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
-                            )
-                            binding.loginWrongPassword.visibility = View.VISIBLE
-                        }
-                        EnterDataError.INVALID_EMAIL_AND_PASSWORD -> {
-                            binding.loginAccountMail.setHintTextColor(
-                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
-                            )
-                            binding.loginWrongEmail.visibility = View.VISIBLE
-                            binding.loginAccountPassword.setHintTextColor(
-                                ContextCompat.getColor(context!!, android.R.color.holo_red_light)
-                            )
-                            binding.loginWrongPassword.visibility = View.VISIBLE
-                        }
-                        else -> binding.loginWrongCredentials.visibility = View.VISIBLE
-                    }
+                    binding.loginWrongCredentials.visibility = View.VISIBLE
+
+                    binding.loginAccountMail.setHintTextColor(
+                        ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                    )
+                    binding.loginWrongEmail.visibility = View.VISIBLE
+                    binding.loginAccountPassword.setHintTextColor(
+                        ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+                    )
+                    binding.loginWrongPassword.visibility = View.VISIBLE
                 }
 
-                is EnterDataSuccess ->
-                    if (networkUtils.isNetworkConnected) {
+                is EnterDataResult.Success ->
+                    if (networkUtils.isNetworkConnected()) {
+                        Timber.d("Call login")
                         loginViewModel.login()
                     } else {
                         Toast.makeText(context, R.string.no_network, Toast.LENGTH_LONG).show()
@@ -130,15 +118,15 @@ class LoginFragment : Fragment() {
          *
          * En cas contrari mostra un missatge especificant l'error
          */
-        loginViewModel.loginState.observe(this, Observer { loginState ->
-            when (loginState) {
-                is AuthSuccess ->
+        loginViewModel.loginResult.observe(this, Observer { result: AuthResult ->
+            when (result) {
+                is AuthResult.Success ->
                     startActivity(Intent(context, MainActivity::class.java))
-                is AuthError ->
-                    when (loginState.error) {
-                        AuthError.WRONG_CREDENTIALS_ERROR ->
+                is AuthResult.Error ->
+                    when (result.error) {
+                        AuthResult.Error.WRONG_CREDENTIALS_ERROR ->
                             binding.loginWrongCredentials.visibility = View.VISIBLE
-                        AuthError.SERVER_UNREACHABLE_ERROR ->
+                        AuthResult.Error.SERVER_UNREACHABLE_ERROR ->
                             Toast.makeText(
                                 context, R.string.server_unreachable,
                                 Toast.LENGTH_SHORT
@@ -178,20 +166,7 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-    /**
-     * Es crida quan s'associa el fragment a l'activitat que el conté.
-     *
-     * @param context
-     */
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        /**
-         * Usa l'instància del component d'autenticació de l'AuthActivity per a ingressar els
-         * objectes de l'esquma de l'aplicació en els camps marcats amb l'anotació
-         * @Inject
-         */
-        (activity as AuthActivity).authComponent.inject(this)
-    }
+
 
     /**
      * Es crida quan l'usuari polsa el botó de login.

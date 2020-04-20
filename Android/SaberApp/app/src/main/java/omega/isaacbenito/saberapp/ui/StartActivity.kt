@@ -24,25 +24,37 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import dagger.android.AndroidInjection
 import omega.isaacbenito.saberapp.R
-import omega.isaacbenito.saberapp.SaberApp
+import omega.isaacbenito.saberapp.authentication.AuthenticationManager
 import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
+import omega.isaacbenito.saberapp.data.prefs.PrefStorage
+import javax.inject.Inject
 
 
 class StartActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var authManager: AuthenticationManager
+
+    @Inject
+    lateinit var prefs: PrefStorage
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_start)
 
         supportActionBar?.hide()
 
-        val authManager = (application as SaberApp).appComponent.authManager()
-
         Handler().postDelayed( {
             if (authManager.userIsLoggedIn()) {
-                val intent = Intent(this, MainActivity::class.java)
+                prefs.setCurrentUserName(authManager.getUserAccountIdentifier())
+
+                startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                val intent = Intent(this, AuthActivity::class.java)
                 if (Build.VERSION.SDK_INT >= 21) {
                     val logo = findViewById<View>(R.id.start_applogo)
                     val options = ActivityOptions
@@ -54,8 +66,8 @@ class StartActivity : AppCompatActivity() {
                 } else {
                     startActivity(intent)
                 }
-            } else {
-                startActivity(Intent(this, AuthActivity::class.java))
+
+
             }
         }, 500L)
     }

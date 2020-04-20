@@ -27,33 +27,33 @@ abstract class UserDao {
     @Query("SELECT * FROM users WHERE email=:userMail")
     abstract fun get(userMail: String): LiveData<User>
 
-    @Query("SELECT email FROM users")
-    abstract suspend fun getAllUsersEmail(): List<String>
+    @Query("SELECT id FROM users WHERE email=:userMail")
+    abstract fun getUserId(userMail: String): Long
 
     @Query(value = "SELECT * FROM users")
     abstract fun getAll(): LiveData<List<User>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract suspend fun insert(user: User): Long
+    abstract fun insert(user: User): Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract suspend fun insert(userList: List<User>): List<Long>
+    abstract fun insert(userList: List<User>): List<Long>
 
     @Update
-    abstract suspend fun update(user: User)
+    abstract fun update(user: User)
 
     @Update
-    abstract suspend fun update(userList: List<User>)
+    abstract fun update(userList: List<User>)
 
     @Transaction
-    open suspend fun save(user: User) {
+    open fun save(user: User) {
         if (insert(user) == -1L) {
             update(user)
         }
     }
 
     @Transaction
-    open suspend fun save(userList: List<User>) {
+    open fun save(userList: List<User>) {
         val updateList = mutableListOf<User>()
         userList.forEach {
             if (insert(it) == -1L) {
@@ -66,7 +66,7 @@ abstract class UserDao {
     }
 
     @Transaction
-    open suspend fun save(vararg users: User) {
+    open fun save(vararg users: User) {
         val updateList = mutableListOf<User>()
         for (user in users) {
             if (insert(user) == -1L) {

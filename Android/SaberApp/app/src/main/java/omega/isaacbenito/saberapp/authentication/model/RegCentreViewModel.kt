@@ -17,15 +17,15 @@
 
 package omega.isaacbenito.saberapp.authentication.model
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
+import omega.isaacbenito.saberapp.R
+import omega.isaacbenito.saberapp.data.Result.Error
 import omega.isaacbenito.saberapp.data.Result.Success
 import omega.isaacbenito.saberapp.data.entities.Centre
 import omega.isaacbenito.saberapp.data.remote.server.SaberAppServer
 import omega.isaacbenito.saberapp.data.repos.CentreRepository
+import java.net.ConnectException
 import javax.inject.Inject
 
 /**
@@ -41,9 +41,14 @@ class RegCentreViewModel @Inject constructor(
     @Inject
     lateinit var server: SaberAppServer
 
-    private val _centres = MutableLiveData<List<Centre>>()
-    val centres: LiveData<List<Centre>>
-        get() = _centres
+    private val _centres = MediatorLiveData<List<Centre>>()
+    val centres: LiveData<List<Centre>> = _centres
+
+    private val _dataLoading = MutableLiveData<Boolean>()
+    val dataLoading: LiveData<Boolean> = _dataLoading
+
+    private val _snackbarText = MutableLiveData<Int>()
+    val snackbarMessage: LiveData<Int> = _snackbarText
 
     init {
         fetchCentres()
@@ -53,14 +58,22 @@ class RegCentreViewModel @Inject constructor(
      * Recupera els centres del repositori de centres.
      */
     private fun fetchCentres() {
+        _dataLoading.value = true
         viewModelScope.launch {
-            val fetchResult = centreRepo.getCentres(true)
-
-            when (fetchResult) {
-                is Success -> _centres.value = fetchResult.data.value
-                else -> _centres.value = emptyList()
+            when (val fetchResult = centreRepo.getCentres(true)) {
+                is Success -> {
+                    _centres.addSource(fetchResult.data) {_centres.value = it }
+                    _dataLoading.value = false
+                }
+                is Error -> when (fetchResult.exception) {
+                    is ConnectException -> showSnackbarMessage(R.string.server_unreachable)
+                    else -> throw UnknownError(fetchResult.exception.message)
+                }
             }
-
         }
+    }
+
+    private fun showSnackbarMessage(stringResource: Int) {
+        _snackbarText.value = stringResource
     }
 }

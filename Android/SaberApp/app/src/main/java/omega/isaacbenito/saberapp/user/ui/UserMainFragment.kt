@@ -17,44 +17,34 @@
 
 package omega.isaacbenito.saberapp.user.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import dagger.android.support.DaggerFragment
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.databinding.FragmentUserMainBinding
-import omega.isaacbenito.saberapp.ui.MainActivity
+import omega.isaacbenito.saberapp.jocpreguntes.model.JocPreguntesViewModel
 import omega.isaacbenito.saberapp.user.model.UserViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
 
-class UserMainFragment : Fragment() {
+class UserMainFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val userVM by viewModels<UserViewModel> { viewModelFactory }
+    private val jocVM by viewModels<JocPreguntesViewModel> { viewModelFactory }
 
     private lateinit var binding: FragmentUserMainBinding
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        (activity as MainActivity).authManager.userComponent?.inject(this)
-
-        userVM.start((activity as MainActivity).authManager.userMail)
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,17 +73,24 @@ class UserMainFragment : Fragment() {
         }
 
         binding.preguntaDia.setOnClickListener {
-            this.findNavController().navigate(R.id.action_userProfileFragment_to_preguntaFragment)
+            jocVM.setup(JocPreguntesViewModel.ACTION_CURRENT)
+            this.findNavController().navigate(
+                UserMainFragmentDirections.actionUserMainFragmentToPreguntaFragment()
+            )
         }
 
         binding.preguntesAntigues.setOnClickListener {
-            //TODO Navigate to preguntes antigues
-            Toast.makeText(context, "Not iplemented yet", Toast.LENGTH_SHORT).show()
+            jocVM.setup(JocPreguntesViewModel.ACTION_OLD)
+            this.findNavController().navigate(
+                UserMainFragmentDirections.actionUserMainFragmentToPreguntesFragment()
+            )
         }
 
         binding.revisarRespostes.setOnClickListener {
-            //TODO Navigate to revisar respostes
-            Toast.makeText(context, "Not iplemented yet", Toast.LENGTH_SHORT).show()
+            jocVM.setup(JocPreguntesViewModel.ACTION_REVIEW)
+            this.findNavController().navigate(
+                UserMainFragmentDirections.actionUserMainFragmentToPreguntesFragment()
+            )
         }
 
         return binding.root

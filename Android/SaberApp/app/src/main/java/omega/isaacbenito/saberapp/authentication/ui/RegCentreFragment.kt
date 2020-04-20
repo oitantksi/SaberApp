@@ -17,27 +17,28 @@
 
 package omega.isaacbenito.saberapp.authentication.ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import dagger.android.support.DaggerFragment
 import omega.isaacbenito.saberapp.R
+import omega.isaacbenito.saberapp.authentication.AuthResult
 import omega.isaacbenito.saberapp.authentication.model.RegCentreViewModel
 import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
 import omega.isaacbenito.saberapp.data.entities.Centre
 import omega.isaacbenito.saberapp.databinding.FragmentRegCentreBinding
-import omega.isaacbenito.saberapp.databinding.RegCentreItemBinding
 import omega.isaacbenito.saberapp.ui.MainActivity
+import omega.isaacbenito.saberapp.user.ui.CentreAdapter
 import javax.inject.Inject
 
 /**
@@ -48,7 +49,7 @@ import javax.inject.Inject
  * Implementa el gestor d'interacció de l'adaptador de la llista de la vista.
  *
  */
-class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
+class RegCentreFragment : DaggerFragment(), CentreAdapter.Interaction {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -69,31 +70,9 @@ class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /**
-         * Crea un lligam amb el model de la vista i n'observa els canvis succeïts en la variable
-         * d'estat de l'autenticació.
-         *
-         * En cas que l'autenticació sigui exitosa llança l'activitat principal de l'aplicació.
-         */
-        registerViewModel.registrationStatus.observe(this, Observer {
-            when (it) {
-                is AuthSuccess -> startActivity(Intent(context, MainActivity::class.java))
-                is AuthError ->
-                    when (it.error) {
-                        AuthError.NO_INTERNET_ACCESS ->
-                            Toast.makeText(context, R.string.no_network, Toast.LENGTH_SHORT).show()
-                        AuthError.SERVER_UNREACHABLE_ERROR ->
-                            Toast.makeText(context, R.string.server_unreachable, Toast.LENGTH_SHORT)
-                                .show()
-                    }
-            }
-        })
-
         regCentreViewModel.centres.observe(this, Observer {
             centreAdapter.submitList(it)
         })
-
-
     }
 
     /**
@@ -113,6 +92,38 @@ class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_reg_centre, container, false)
 
+        /**
+         * Crea un lligam amb el model de la vista i n'observa els canvis succeïts en la variable
+         * d'estat de l'autenticació.
+         *
+         * En cas que l'autenticació sigui exitosa llança l'activitat principal de l'aplicació.
+         */
+        registerViewModel.registrationStatus.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is AuthResult.Success -> startActivity(Intent(context, MainActivity::class.java))
+                is AuthResult.Error ->
+                    when (it.error) {
+                        AuthResult.Error.NO_INTERNET_ACCESS ->
+                            Snackbar.make(binding.root, R.string.no_network, Snackbar.LENGTH_SHORT).show()
+                        AuthResult.Error.SERVER_UNREACHABLE_ERROR ->
+                            Snackbar.make(binding.root, R.string.server_unreachable, Snackbar.LENGTH_SHORT)
+                                .show()
+                    }
+            }
+        })
+
+        regCentreViewModel.dataLoading.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                binding.loadingSpinnerLayout.visibility = View.VISIBLE
+            } else {
+                binding.loadingSpinnerLayout.visibility = View.GONE
+            }
+        })
+
+        regCentreViewModel.snackbarMessage.observe(viewLifecycleOwner, Observer {
+            Snackbar.make(binding.root, resources.getString(it), Snackbar.LENGTH_SHORT).show()
+        })
+
         centreAdapter = CentreAdapter(this)
 
 
@@ -127,21 +138,6 @@ class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
     }
 
     /**
-     * Es crida quan s'associa el fragment a l'activitat que el conté.
-     *
-     * @param context
-     */
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        /**
-         * Usa l'instància del component d'autenticació de l'AuthActivity per a ingressar els
-         * objectes de l'esquma de l'aplicació en els camps marcats amb l'anotació
-         * @Inject
-         */
-        (activity as AuthActivity).authComponent.inject(this)
-    }
-
-    /**
      * Es crida quan l'usuari selecciona un centre educatiu.
      *
      * Envia les dades del centre al model de la vista de registre per a procedir al
@@ -152,80 +148,4 @@ class RegCentreFragment : Fragment(), CentreAdapter.Interaction {
         registerViewModel.updateCentreData(centre.name)
     }
 }
-
-/**
- * @author Isaac Benito
- *
- * Proporcionen una enquadernació del conjunt de dades de centres educatius
- * per a visualitzar-les dins el RecyclerView.
- *
- * @property interaction listener que gestiona la interacció en polsar un centre.
- */
-class CentreAdapter(
-    private val interaction: Interaction
-) : ListAdapter<Centre, CentreAdapter.CentreVH>(CentreDiffCallback()) {
-
-    /**
-     * @author Isaac Benito
-     *
-     * Estableix el lligam entre les dades i la vista en la que es mostren cada un
-     * dels elements de la llista
-     *
-     * @property binding lligam al recurs de vista dels ítems de la llista
-     * @property interaction listener que gestiona la interacció en seleccionar
-     *      un item de la llista.
-     */
-    class CentreVH(
-        private val binding: RegCentreItemBinding,
-        private val interaction: Interaction
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(centre: Centre) {
-            binding.centreTextView.text = centre.name
-
-            binding.setClickListener {
-                interaction.onClickCentre(adapterPosition, centre)
-            }
-
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CentreVH {
-        return CentreVH(
-            RegCentreItemBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            ), interaction
-        )
-    }
-
-    override fun onBindViewHolder(holder: CentreVH, position: Int) {
-        val centre = getItem(position)
-        holder.bind(centre)
-    }
-
-
-    /**
-     * @author Isaac Benito
-     *
-     * Interficie que defineix les interaccions possibles amb els items de la llista.
-     *
-     */
-    interface Interaction {
-        fun onClickCentre(position: Int, centre: Centre)
-    }
-}
-
-
-private class CentreDiffCallback : DiffUtil.ItemCallback<Centre>() {
-
-    override fun areItemsTheSame(oldItem: Centre, newItem: Centre): Boolean {
-        return oldItem.id == newItem.id
-    }
-
-    override fun areContentsTheSame(oldItem: Centre, newItem: Centre): Boolean {
-        return oldItem == newItem
-    }
-}
-
-
 

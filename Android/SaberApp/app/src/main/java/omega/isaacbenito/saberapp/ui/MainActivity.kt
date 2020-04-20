@@ -28,11 +28,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
+import dagger.android.AndroidInjection
 import omega.isaacbenito.saberapp.R
-import omega.isaacbenito.saberapp.SaberApp
-import omega.isaacbenito.saberapp.authentication.AuthenticationManager
 import omega.isaacbenito.saberapp.databinding.ActivityMainBinding
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,10 +39,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    lateinit var authManager: AuthenticationManager
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        authManager = (application as SaberApp).appComponent.authManager()
+        AndroidInjection.inject(this);
 
         super.onCreate(savedInstanceState)
 
@@ -52,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             this,
             R.layout.activity_main
         )
+
 
         drawerLayout = binding.drawerLayout
 

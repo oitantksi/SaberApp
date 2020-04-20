@@ -7,10 +7,10 @@ import omega.isaacbenito.saberapp.data.AppRemoteDataSource
 import omega.isaacbenito.saberapp.data.Result
 import omega.isaacbenito.saberapp.data.Result.Error
 import omega.isaacbenito.saberapp.data.Result.Success
-import omega.isaacbenito.saberapp.data.entities.Centre
-import omega.isaacbenito.saberapp.data.entities.User
+import omega.isaacbenito.saberapp.data.entities.*
 import omega.isaacbenito.saberapp.data.remote.server.SaberAppServer
 import retrofit2.HttpException
+import retrofit2.Response
 import java.net.ConnectException
 
 /**
@@ -25,12 +25,39 @@ class SaberAppRemoteDataSource(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AppRemoteDataSource {
 
-    override suspend fun getAllCentres(): Result<List<Centre>> = withContext(ioDispatcher) {
+    /**
+     * Realitza una crida al servidor per a emmagatzemar dades en un fil d'IO i evalua la resposta.
+     *
+     * @param serverPostAction crida a realitzar al servidor
+     * @return [Success] en cas que la resposta del servidor sigui satisfactoria
+     * [Error] en cas contrari o en cas que es produeixi una [ConnectException]
+     */
+    private suspend fun postData(serverPostAction: suspend () -> Response<Unit>) : Result<Nothing?> = withContext(ioDispatcher){
         return@withContext try {
-            val response = server.apiService.getCentres()
+            val response = serverPostAction()
+            if (response.isSuccessful) {
+                Success(data = null)
+            } else {
+                Error(HttpException(response))
+            }
+        } catch (exception: ConnectException) {
+            Error(exception)
+        }
+    }
 
+    /**
+     * Realitza una crida al servidor per a obtenir dades en un fil d'IO i evalua la resposta.
+     *
+     * @param T classe de les dades a obtindre
+     * @param serverGetAction crida a realitzar al servidor
+     * @return [Success] embolcallant un objecte [T] en cas que la resposta del servidor
+     * sigui satisfactoria [Error] en cas contrari o en cas que es produeixi una [ConnectException]
+     */
+    private suspend fun <T: Any> getData(serverGetAction: suspend () -> Response<out T>) : Result<out T> = withContext(ioDispatcher) {
+        return@withContext try {
+            val response = serverGetAction()
             if (response.isSuccessful && response.body() != null) {
-                Success(response.body()!!)
+                Success((response.body()!!) as T)
             } else {
                 Error(Exception(response.message()))
             }
@@ -39,29 +66,32 @@ class SaberAppRemoteDataSource(
         }
     }
 
-    override suspend fun getUser(email: String): Result<User> = withContext(ioDispatcher) {
-        return@withContext try {
-            val response = server.apiService.getUser(email)
-            if (response.isSuccessful && response.body() != null) {
-                Success(response.body()!!)
-            } else {
-                Error(Exception(response.message()))
-            }
-        } catch (exception: ConnectException) {
-            Error(exception)
-        }
+    override suspend fun getAllCentres(): Result<List<Centre>>
+            = getData { server.apiService.getCentres() }
+
+    override suspend fun getUser(email: String): Result<User>
+            = getData { server.apiService.getUser(email) }
+
+    override suspend fun updateUser(userEmail: String, user: User): Result<Nothing?>
+            = postData { server.apiService.updateUser(userEmail, user) }
+
+    override suspend fun updatePassword(
+        userEmail: String,
+        oldPassword: String,
+        newPassword: String
+    ) : Result<Nothing?> = postData {
+        server.apiService.updatePassword(userEmail, User.UpdatePasswordDto(oldPassword, newPassword))
     }
 
-    override suspend fun updateUser(user: User): Result<Nothing?> = withContext(ioDispatcher) {
-        try {
-            val response = server.apiService.updateUser(user.email, user)
-            if (response.isSuccessful) {
-                return@withContext Success(data = null)
-            } else {
-                return@withContext Error(HttpException(response))
-            }
-        } catch (exception: ConnectException) {
-            return@withContext Error(exception)
-        }
-    }
+    override suspend fun getMateries(): Result<List<Materia>>
+            = getData { server.apiService.getMateries() }
+
+    override suspend fun getPreguntes(): Result<List<Pregunta.ServerQuest>>
+            = getData { server.apiService.getPreguntes() }
+
+    override suspend fun getRespostes(userId: Long): Result<List<Resposta>>
+            = getData { server.apiService.getRespostesAlumne(userId) }
+
+    override suspend fun setResposta(resposta: Resposta): Result<Nothing?>
+            = postData { server.apiService.postResposta(resposta.getDto()) }
 }

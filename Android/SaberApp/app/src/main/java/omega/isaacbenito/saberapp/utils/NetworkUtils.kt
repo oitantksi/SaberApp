@@ -18,10 +18,9 @@
 package omega.isaacbenito.saberapp.utils
 
 import android.content.Context
-import android.net.*
-import android.net.ConnectivityManager.NetworkCallback
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
-import androidx.lifecycle.MutableLiveData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,46 +28,17 @@ import javax.inject.Singleton
 @Singleton
 class NetworkUtils @Inject constructor(context: Context) {
 
-    private var cm: ConnectivityManager
+    private var cm: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-    private val _isNetworkConnected = MutableLiveData<Boolean>()
-
-    init {
-        _isNetworkConnected.value = true
-
-        cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        @SuppressWarnings("deprecation")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            cm.requestNetwork(
-                NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build(),
-                object : NetworkCallback() {
-                    override fun onAvailable(network: Network) {
-                        super.onAvailable(network)
-                        _isNetworkConnected.postValue(true)
-                    }
-
-                    override fun onLost(network: Network) {
-                        super.onLost(network)
-                        _isNetworkConnected.postValue(false)
-                    }
-
-                    override fun onUnavailable() {
-                        super.onUnavailable()
-                        _isNetworkConnected.postValue(false)
-                    }
-                }, 1000)
+    @Suppress("deprecation")
+    fun isNetworkConnected() : Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val networkCapabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+            (networkCapabilities != null
+                    && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED))
+        } else {
+            cm.activeNetworkInfo?.isConnected ?: false
         }
-    }
-
-    var isNetworkConnected: Boolean = checkconnection()
-
-    @SuppressWarnings
-    private fun checkconnection() : Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
-            _isNetworkConnected.value = activeNetwork?.isConnectedOrConnecting == true
-        }
-        return _isNetworkConnected.value!!
     }
 }

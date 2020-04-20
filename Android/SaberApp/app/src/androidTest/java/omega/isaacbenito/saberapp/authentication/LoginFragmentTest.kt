@@ -1,32 +1,42 @@
 package omega.isaacbenito.saberapp.authentication
 
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
-import junit.framework.TestCase.fail
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
-import omega.isaacbenito.saberapp.utils.TestUtils.Companion.getFragmentIntent
-import omega.isaacbenito.saberapp.utils.TestUtils.Companion.waitForViewWithId
+import omega.isaacbenito.saberapp.utils.TestUtils.Companion.waitFor
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
 class LoginFragmentTest {
 
     private val rightUserMail = "isaac@omega.com"
     private val rightUserPassword = "Abr@kd4bra!"
 
+    @Inject
+    lateinit var authManager: AuthenticationManager
+
     @get:Rule
     private val activityRule = ActivityTestRule(AuthActivity::class.java)
 
-    private val testedFragment = R.id.loginFragment
-
     private fun launchFragment() {
-        activityRule.launchActivity(getFragmentIntent(testedFragment))
+        activityRule.launchActivity(
+            NavDeepLinkBuilder(
+                InstrumentationRegistry.getInstrumentation().targetContext
+            )
+                .setGraph(R.navigation.auth_navigation)
+                .setComponentName(AuthActivity::class.java)
+                .setDestination(R.id.loginFragment)
+                .createTaskStackBuilder().intents[0]
+        )
     }
 
     private fun setCredentials(userMail: String, password: String) {
@@ -170,16 +180,20 @@ class LoginFragmentTest {
         setCredentials(rightUserMail, rightUserPassword)
 
         //Then
-
-        if (waitForViewWithId(R.id.userMainFragment, 5000)) {
-            fail()
-        }
-
+        waitFor(
+            {onView(withId(R.id.userMainFragment)).check(matches(isDisplayed()))},
+            5000
+        )
     }
 
     @After
     fun finishActivity() {
         activityRule.finishActivity()
+    }
+
+    @After
+    fun logout() {
+        authManager.logout(rightUserMail)
     }
 }
 

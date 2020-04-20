@@ -17,10 +17,7 @@
 
 package omega.isaacbenito.saberapp.data.remote.server
 
-import omega.isaacbenito.saberapp.authentication.entities.UserCredentials
-import omega.isaacbenito.saberapp.authentication.entities.UserDto
-import omega.isaacbenito.saberapp.data.entities.Centre
-import omega.isaacbenito.saberapp.data.entities.User
+import omega.isaacbenito.saberapp.data.entities.*
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -32,10 +29,10 @@ import retrofit2.http.*
 interface ApiServerService {
 
     @POST("/login")
-    suspend fun loginUser(@Body userCredentials: UserCredentials): Response<Unit>
+    suspend fun loginUser(@Body userCredentials: User.AuthCredentials): Response<Unit>
 
     @POST("/user")
-    suspend fun registerUser(@Body user: UserDto): Response<Unit>
+    suspend fun registerUser(@Body user: User.Dto): Response<Unit>
 
     @DELETE("/user/{email}")
     suspend fun unregisterUser(@Path("email") userMail: String): Response<Unit>
@@ -46,7 +43,24 @@ interface ApiServerService {
     @PUT("/user/{email}")
     suspend fun updateUser(@Path("email") userMail: String, @Body user: User): Response<Unit>
 
+    @PUT("/user/password/{email}")
+    suspend fun updatePassword(@Path("email") userMail: String, @Body passwordDto: User.UpdatePasswordDto): Response<Unit>
+
     @GET("/centres")
     suspend fun getCentres(): Response<List<Centre>>
 
+    @GET("/materies")
+    suspend fun getMateries() : Response<List<Materia>>
+
+    @GET("/preguntes/{materia}")
+    suspend fun getPreguntesByMateria(@Path("materia") materia: String) : Response<List<Pregunta.ServerQuest>>
+
+    @GET("/preguntes/totes")
+    suspend fun getPreguntes() : Response<List<Pregunta.ServerQuest>>
+
+    @GET("/respostes/alumno/{idAlumno}")
+    suspend fun getRespostesAlumne(@Path("idAlumno") idAlumne: Long) : Response<List<Resposta>>
+
+    @POST("/respostes/alumno")
+    suspend fun postResposta(@Body resposta: Resposta.Dto) : Response<Unit>
 }

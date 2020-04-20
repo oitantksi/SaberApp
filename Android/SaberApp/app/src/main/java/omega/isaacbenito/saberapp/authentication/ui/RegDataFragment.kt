@@ -17,27 +17,27 @@
 
 package omega.isaacbenito.saberapp.authentication.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import dagger.android.support.DaggerFragment
 import omega.isaacbenito.saberapp.R
+import omega.isaacbenito.saberapp.authentication.EnterDataResult
+import omega.isaacbenito.saberapp.authentication.EnterDataResult.Error.Companion.INVALID_EMAIL
+import omega.isaacbenito.saberapp.authentication.EnterDataResult.Error.Companion.INVALID_NAME
+import omega.isaacbenito.saberapp.authentication.EnterDataResult.Error.Companion.INVALID_NICKNAME
+import omega.isaacbenito.saberapp.authentication.EnterDataResult.Error.Companion.INVALID_PASSWORD
+import omega.isaacbenito.saberapp.authentication.EnterDataResult.Error.Companion.INVALID_PASSWORD_REPEAT
+import omega.isaacbenito.saberapp.authentication.EnterDataResult.Error.Companion.INVALID_SURNAME
 import omega.isaacbenito.saberapp.authentication.model.RegDataViewModel
 import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
-import omega.isaacbenito.saberapp.authentication.ui.EnterDataError.Companion.INVALID_EMAIL
-import omega.isaacbenito.saberapp.authentication.ui.EnterDataError.Companion.INVALID_NAME
-import omega.isaacbenito.saberapp.authentication.ui.EnterDataError.Companion.INVALID_NICKNAME
-import omega.isaacbenito.saberapp.authentication.ui.EnterDataError.Companion.INVALID_PASSWORD
-import omega.isaacbenito.saberapp.authentication.ui.EnterDataError.Companion.INVALID_PASSWORD_REPEAT
-import omega.isaacbenito.saberapp.authentication.ui.EnterDataError.Companion.INVALID_SURNAME
 import omega.isaacbenito.saberapp.databinding.FragmentRegDataBinding
 import javax.inject.Inject
 
@@ -47,7 +47,7 @@ import javax.inject.Inject
  * Vista de recollida de dades per al registre de l'aplicació.
  *
  */
-class RegDataFragment : Fragment() {
+class RegDataFragment : DaggerFragment() {
 
     private lateinit var binding: FragmentRegDataBinding
 
@@ -75,9 +75,9 @@ class RegDataFragment : Fragment() {
          *
          * En cas contrari mostra un missatge d'error explicant el motiu.
          */
-        regDataViewModel.enterDetailsState.observe(this, Observer {
+        regDataViewModel.enterDetailsResult.observe(this, Observer {
             when (it) {
-                is EnterDataSuccess -> {
+                is EnterDataResult.Success -> {
                     val userName = binding.registerName.text.toString()
                     val userSurname = binding.registerSurname.text.toString()
                     val userNickname = binding.registerNickname.text.toString()
@@ -91,16 +91,11 @@ class RegDataFragment : Fragment() {
                     this.findNavController()
                         .navigate(R.id.action_regDataFragment_to_regCentreFragment)
                 }
-                is EnterDataError -> {
-
-                    binding.registerName.text.clear()
-                    binding.registerSurname.text.clear()
-                    binding.registerNickname.text.clear()
-                    binding.registerAccountMail.text.clear()
-                    binding.registerAccountPassword.text.clear()
+                is EnterDataResult.Error -> {
 
                     when (it.errorCode) {
                         INVALID_NAME -> {
+                            binding.registerName.text.clear()
                             binding.registerName.setHintTextColor(
                                 ContextCompat.getColor(context!!, android.R.color.holo_red_light)
                             )
@@ -108,6 +103,7 @@ class RegDataFragment : Fragment() {
                             binding.regWrongNameView.visibility = View.VISIBLE
                         }
                         INVALID_SURNAME -> {
+                            binding.registerSurname.text.clear()
                             binding.registerSurname.setHintTextColor(
                                 ContextCompat.getColor(context!!, android.R.color.holo_red_light)
                             )
@@ -115,6 +111,7 @@ class RegDataFragment : Fragment() {
                             binding.regWrongSurnameView.visibility = View.VISIBLE
                         }
                         INVALID_NICKNAME -> {
+                            binding.registerNickname.text.clear()
                             binding.registerNickname.setHintTextColor(
                                 ContextCompat.getColor(context!!, android.R.color.holo_red_light)
                             )
@@ -122,6 +119,7 @@ class RegDataFragment : Fragment() {
                             binding.regWrongNicknameView.visibility = View.VISIBLE
                         }
                         INVALID_EMAIL -> {
+                            binding.registerAccountMail.text.clear()
                             binding.regWrongMailText.visibility = View.VISIBLE
                             binding.regWrongMailView.visibility = View.VISIBLE
                             binding.registerAccountMail.setHintTextColor(
@@ -129,6 +127,8 @@ class RegDataFragment : Fragment() {
                             )
                         }
                         INVALID_PASSWORD -> {
+                            binding.registerAccountPassword.text.clear()
+                            binding.registerAccountPasswordRepeat.text.clear()
                             binding.registerAccountPassword.setHintTextColor(
                                 ContextCompat.getColor(context!!, android.R.color.holo_red_light)
                             )
@@ -136,6 +136,8 @@ class RegDataFragment : Fragment() {
                             binding.regWrongPasswordView.visibility = View.VISIBLE
                         }
                         INVALID_PASSWORD_REPEAT -> {
+                            binding.registerAccountPassword.text.clear()
+                            binding.registerAccountPasswordRepeat.text.clear()
                             binding.registerAccountPasswordRepeat.setHintTextColor(
                                 ContextCompat.getColor(context!!, android.R.color.holo_red_light)
                             )
@@ -177,26 +179,6 @@ class RegDataFragment : Fragment() {
 
         return binding.root
     }
-
-    /**
-     * Es crida quan s'associa el fragment a l'activitat que el conté.
-     *
-     * @param context
-     */
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        /**
-         * Usa l'instància del component d'autenticació de l'AuthActivity per a ingressar els
-         * objectes de l'esquma de l'aplicació en els camps marcats amb l'anotació
-         * @Inject
-         */
-        (activity as AuthActivity).authComponent.inject(this)
-    }
-
-
-
-
-
 }
 
 
