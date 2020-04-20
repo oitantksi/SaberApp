@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/sourcecode_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SOURCE CODE"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/sourcecode_title"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:id="@+id/sourcecode_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sourcecode"
+        android:autoLink="web"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/sourcecode_title"/>
+
+    <TextView
+        android:id="@+id/problems_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/info_problems_title"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/sourcecode_text"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/problems_title"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:id="@+id/problems_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/info_problems"
+        android:autoLink="web"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/problems_title"/>
+
+    <TextView
+        android:id="@+id/translate_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/translation_title"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/problems_text"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toBottomOf="@id/translate_title"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:id="@+id/translate_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/translation"
+        android:autoLink="email"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/translate_title"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
