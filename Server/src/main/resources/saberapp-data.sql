@@ -41,11 +41,12 @@ INSERT INTO preguntas VALUES (15, 'Quin és el valor aproximat del número "e"?'
 INSERT INTO preguntas VALUES (16, 'Amb 39 litres de gasolina el marcador d''un cotxe senyala 3/4 de dipòsit. Quina és la capacitat total del dipòsit?', '49 litres', '54 litres', '52 litres', '55 litres', 3, CURDATE()+8,4);
 INSERT INTO preguntas VALUES (3, 'Què diu el teorema del sinus?', 'En els tiangles equilaters, la longitud dels seus costats és proporcional als sinus dels angles oposats', 'En tot triangle, la longitud dels seus costats és proporcional als sinus dels angles oposats', 'En tot triangle, la longitud dels seus costats és proporcional als cosinus dels angles oposats', 'En els triagles rectangles, la longitud dels seus costats és proporcional als cosinus dels angles oposats', 2, CURDATE()-5,4);
 
-
 INSERT INTO respuestas VALUES (1,1,1,1,CURDATE());
 
+INSERT INTO puntuacion VALUES (1,1, 3);
 
 -- Usuaris varis per a jugar amb les puntuacions
+
 INSERT INTO Users VALUES (5, 'Joan', 'Test User', 'joan', 'dummy', 'joan@omega.org', 'IES JOAN MARAGALL', 'A');
 INSERT INTO Users VALUES (6, 'Maria', 'Test User', 'maria', 'dummy', 'maria@omega.org', 'IES JOAN MARAGALL', 'A');
 INSERT INTO Users VALUES (7, 'Carla', 'Test User', 'carla', 'dummy', 'carla@omega.org', 'IES JOAN MARAGALL', 'A');
@@ -157,57 +158,53 @@ INSERT INTO respuestas VALUES (72,3,2,25,CURDATE()-2);
 INSERT INTO respuestas VALUES (73,1,2,29,CURDATE()-2);
 INSERT INTO respuestas VALUES (74,1,2,31,CURDATE()-2);
 
-INSERT INTO respuestas VALUES (2,1,14,4,CURDATE()-1);
-INSERT INTO respuestas VALUES (2,2,14,5,CURDATE()-1);
-INSERT INTO respuestas VALUES (2,1,14,6,CURDATE()-1);
-INSERT INTO respuestas VALUES (2,1,14,9,CURDATE()-1);
-INSERT INTO respuestas VALUES (2,1,14,16,CURDATE()-1);
-INSERT INTO respuestas VALUES (2,1,14,18,CURDATE()-1);
-INSERT INTO respuestas VALUES (2,4,14,19,CURDATE()-1);
-INSERT INTO respuestas VALUES (2,3,14,24,CURDATE()-1);
-INSERT INTO respuestas VALUES (2,4,14,26,CURDATE()-1);
-INSERT INTO respuestas VALUES (2,1,14,28,CURDATE()-1);
-INSERT INTO respuestas VALUES (2,1,14,31,CURDATE()-1);
-
-
-INSERT INTO puntuacion VALUES (1,1, 3);
+INSERT INTO respuestas VALUES (75,1,14,4,CURDATE()-1);
+INSERT INTO respuestas VALUES (76,2,14,5,CURDATE()-1);
+INSERT INTO respuestas VALUES (77,1,14,6,CURDATE()-1);
+INSERT INTO respuestas VALUES (78,1,14,9,CURDATE()-1);
+INSERT INTO respuestas VALUES (79,1,14,16,CURDATE()-1);
+INSERT INTO respuestas VALUES (80,1,14,18,CURDATE()-1);
+INSERT INTO respuestas VALUES (81,4,14,19,CURDATE()-1);
+INSERT INTO respuestas VALUES (82,3,14,24,CURDATE()-1);
+INSERT INTO respuestas VALUES (83,4,14,26,CURDATE()-1);
+INSERT INTO respuestas VALUES (84,1,14,28,CURDATE()-1);
+INSERT INTO respuestas VALUES (85,1,14,31,CURDATE()-1);
 
 -- Puntuacions dacord amb les respostes introduïdes
 
-INSERT INTO puntuacion VALUES (4,1,13)
-INSERT INTO puntuacion VALUES (6,1,5)
-INSERT INTO puntuacion VALUES (8,1,18)
-INSERT INTO puntuacion VALUES (12,1,5)
-INSERT INTO puntuacion VALUES (13,1,5)
-INSERT INTO puntuacion VALUES (16,1,10)
-INSERT INTO puntuacion VALUES (20,1,5)
-INSERT INTO puntuacion VALUES (24,1,5)
-INSERT INTO puntuacion VALUES (25,1,5)
-INSERT INTO puntuacion VALUES (29,1,13)
-INSERT INTO puntuacion VALUES (31,1,8)
-INSERT INTO puntuacion VALUES (33,1,5)
-INSERT INTO puntuacion VALUES (6,2,4)
-INSERT INTO puntuacion VALUES (15,2,4)
-INSERT INTO puntuacion VALUES (16,2,9)
-INSERT INTO puntuacion VALUES (17,2,5)
-INSERT INTO puntuacion VALUES (18,2,4)
-INSERT INTO puntuacion VALUES (20,2,9)
-INSERT INTO puntuacion VALUES (23,2,4)
-INSERT INTO puntuacion VALUES (25,2,5)
-INSERT INTO puntuacion VALUES (27,2,9)
-INSERT INTO puntuacion VALUES (32,2,4)
-INSERT INTO puntuacion VALUES (4,4,9)
-INSERT INTO puntuacion VALUES (5,4,5)
-INSERT INTO puntuacion VALUES (6,4,4)
-INSERT INTO puntuacion VALUES (7,4,5)
-INSERT INTO puntuacion VALUES (9,4,4)
-INSERT INTO puntuacion VALUES (13,4,5)
-INSERT INTO puntuacion VALUES (14,4,5)
-INSERT INTO puntuacion VALUES (16,4,4)
-INSERT INTO puntuacion VALUES (18,4,4)
-INSERT INTO puntuacion VALUES (25,4,5)
-INSERT INTO puntuacion VALUES (26,4,5)
-INSERT INTO puntuacion VALUES (28,4,4)
-INSERT INTO puntuacion VALUES (31,4,4)
-
+INSERT INTO puntuacion VALUES (4,1,13);
+INSERT INTO puntuacion VALUES (6,1,5);
+INSERT INTO puntuacion VALUES (8,1,18);
+INSERT INTO puntuacion VALUES (12,1,5);
+INSERT INTO puntuacion VALUES (13,1,5);
+INSERT INTO puntuacion VALUES (16,1,10);
+INSERT INTO puntuacion VALUES (20,1,5);
+INSERT INTO puntuacion VALUES (24,1,5);
+INSERT INTO puntuacion VALUES (25,1,5);
+INSERT INTO puntuacion VALUES (29,1,13);
+INSERT INTO puntuacion VALUES (31,1,8);
+INSERT INTO puntuacion VALUES (33,1,5);
+INSERT INTO puntuacion VALUES (6,2,4);
+INSERT INTO puntuacion VALUES (15,2,4);
+INSERT INTO puntuacion VALUES (16,2,9);
+INSERT INTO puntuacion VALUES (17,2,5);
+INSERT INTO puntuacion VALUES (18,2,4);
+INSERT INTO puntuacion VALUES (20,2,9);
+INSERT INTO puntuacion VALUES (23,2,4);
+INSERT INTO puntuacion VALUES (25,2,5);
+INSERT INTO puntuacion VALUES (27,2,9);
+INSERT INTO puntuacion VALUES (32,2,4);
+INSERT INTO puntuacion VALUES (4,4,9);
+INSERT INTO puntuacion VALUES (5,4,5);
+INSERT INTO puntuacion VALUES (6,4,4);
+INSERT INTO puntuacion VALUES (7,4,5);
+INSERT INTO puntuacion VALUES (9,4,4);
+INSERT INTO puntuacion VALUES (13,4,5);
+INSERT INTO puntuacion VALUES (14,4,5);
+INSERT INTO puntuacion VALUES (16,4,4);
+INSERT INTO puntuacion VALUES (18,4,4);
+INSERT INTO puntuacion VALUES (25,4,5);
+INSERT INTO puntuacion VALUES (26,4,5);
+INSERT INTO puntuacion VALUES (28,4,4);
+INSERT INTO puntuacion VALUES (31,4,4);
 

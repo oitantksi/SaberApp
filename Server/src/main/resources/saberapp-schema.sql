@@ -55,6 +55,7 @@ CREATE TABLE respuestas (
     FOREIGN KEY (alumno_id) 
     REFERENCES users(id)
 );
+
 CREATE TABLE puntuacion (
 	alumno_id INTEGER,
 	materia_id INTEGER,
