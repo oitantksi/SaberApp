@@ -24,6 +24,7 @@ public interface SaberAppServiceI {
 	public User createUser(User user);
 	public String login(String nickname, String password);
 	public User getUserByEmail(String email);
+	public List<User> getAllUsers();
 	public List<Centre> getCentres();
 	public long deleteUser(String email);
 	public User updateUser(User user);

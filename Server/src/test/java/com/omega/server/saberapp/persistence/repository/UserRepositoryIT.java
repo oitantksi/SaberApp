@@ -2,7 +2,7 @@ package com.omega.server.saberapp.persistence.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +24,17 @@ public class UserRepositoryIT {
 		assertEquals(found.getName(), "montse", "Ha encontrado el usuario con email: "+email);
 		
 	}
+//	@Test
+//	public void whenDeleteByEmail_thenReturnLong() {
+//		String email="ramon@omega.com";
+//		Long num= userRepository.deleteByEmail(email);
+//		 assertEquals(1, num);
+//		
+//	}
 	@Test
-	public void whenDeleteByEmail_thenReturnLong() {
-		String email="ramon@omega.com";
-		Long num= userRepository.deleteByEmail(email);
-		 assertEquals(1, num);
+	public void foundAllUsers() {
 		
+		List<User> users=userRepository.findAll();
+		assertEquals(5, users.size());
 	}
 }

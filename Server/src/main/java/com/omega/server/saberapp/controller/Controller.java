@@ -51,8 +51,12 @@ public class Controller {
 		return userObject;
 		
 	}
-	
-	@GetMapping("/user/id/{id}")
+	@GetMapping("/user/all")
+	public List<User> getAllUsers(){
+		
+		return service.getAllUsers();
+	}
+	@GetMapping("/user /id/{id}")
 	public User getUserBy(@PathVariable("id") Long id) {
 		
 		Optional<User> user=service.getUserById(id);
