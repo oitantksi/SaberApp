@@ -1,46 +1,72 @@
 package omega.isaacbenito.saberapp.authentication
 
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.LargeTest
-import androidx.test.rule.ActivityTestRule
-import junit.framework.TestCase
+import androidx.test.platform.app.InstrumentationRegistry
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
-import omega.isaacbenito.saberapp.authentication.ui.CentreAdapter
 import omega.isaacbenito.saberapp.ui.MainActivity
-import omega.isaacbenito.saberapp.utils.TestUtils
-import omega.isaacbenito.saberapp.utils.TestUtils.Companion.waitForViewWithText
+import omega.isaacbenito.saberapp.user.ui.CentreAdapter
+import omega.isaacbenito.saberapp.utils.TestUtils.Companion.waitFor
+import omega.isaacbenito.saberapp.utils.TestUtils.Companion.waitForRecyclerViewToFill
 import org.junit.After
+import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
 @LargeTest
 class RegisterFlowTest {
 
+    @Inject
+    lateinit var authManager: AuthenticationManager
+
     @get:Rule
-    private val activityRule = ActivityTestRule(AuthActivity::class.java)
+    private val activityRule = IntentsTestRule(AuthActivity::class.java)
 
-    private val testedFragment = R.id.regDataFragment
-
-    private fun launchFragment() {
-        activityRule.launchActivity(TestUtils.getFragmentIntent(testedFragment))
-    }
-
-    private val rigthName = "Name"
-    private val rigthSurname = "First Second"
-    private val rigthNickname = "yabadabadoo"
-    private val rigthUserMail = "email@email.com"
-    private val rigthPassword = "Just@F8P4ssword!"
+    private val rightName = "Name"
+    private val rightSurname = "First Second"
+    private val rightNickname = "yabadabadoo"
+    private val rightUserMail = "email@email.com"
+    private val rightPassword = "Just@F8P4ssword!"
     private val centre = 1
     private val role = 'A'
+
+    companion object {
+        @BeforeClass
+        fun setup() {
+            Intents.init()
+        }
+    }
+
+    @After
+    fun unregister() {
+        authManager.unregister(rightUserMail)
+    }
+
+
+    private fun launchFragment() {
+        activityRule.launchActivity(
+            NavDeepLinkBuilder(
+                InstrumentationRegistry.getInstrumentation().targetContext
+            )
+                .setGraph(R.navigation.auth_navigation)
+                .setComponentName(AuthActivity::class.java)
+                .setDestination(R.id.regDataFragment)
+                .createTaskStackBuilder().intents[0]
+        )
+    }
 
     private fun setRegDataInput(
         userName: String,
@@ -92,11 +118,11 @@ class RegisterFlowTest {
         //When
         setRegDataInput(
             emptyName,
-            rigthSurname,
-            rigthNickname,
-            rigthUserMail,
-            rigthPassword,
-            rigthPassword
+            rightSurname,
+            rightNickname,
+            rightUserMail,
+            rightPassword,
+            rightPassword
         )
         onView(withId(R.id.register_submitData)).perform(click())
 
@@ -113,12 +139,12 @@ class RegisterFlowTest {
 
         //When
         setRegDataInput(
-            rigthName,
+            rightName,
             emptySurname,
-            rigthNickname,
-            rigthUserMail,
-            rigthPassword,
-            rigthPassword
+            rightNickname,
+            rightUserMail,
+            rightPassword,
+            rightPassword
         )
         onView(withId(R.id.register_submitData)).perform(click())
 
@@ -135,12 +161,12 @@ class RegisterFlowTest {
 
         //When
         setRegDataInput(
-            rigthName,
-            rigthSurname,
+            rightName,
+            rightSurname,
             emptyNickname,
-            rigthUserMail,
-            rigthPassword,
-            rigthPassword
+            rightUserMail,
+            rightPassword,
+            rightPassword
         )
         onView(withId(R.id.register_submitData)).perform(click())
 
@@ -157,12 +183,12 @@ class RegisterFlowTest {
 
         //When
         setRegDataInput(
-            rigthName,
-            rigthSurname,
-            rigthNickname,
+            rightName,
+            rightSurname,
+            rightNickname,
             emptyMail,
-            rigthPassword,
-            rigthPassword
+            rightPassword,
+            rightPassword
         )
         onView(withId(R.id.register_submitData)).perform(click())
 
@@ -179,12 +205,12 @@ class RegisterFlowTest {
 
         //When
         setRegDataInput(
-            rigthName,
-            rigthSurname,
-            rigthNickname,
-            rigthUserMail,
+            rightName,
+            rightSurname,
+            rightNickname,
+            rightUserMail,
             emptyPassword,
-            rigthPassword
+            rightPassword
         )
         onView(withId(R.id.register_submitData)).perform(click())
 
@@ -201,11 +227,11 @@ class RegisterFlowTest {
 
         //When
         setRegDataInput(
-            rigthName,
-            rigthSurname,
-            rigthNickname,
-            rigthUserMail,
-            rigthPassword,
+            rightName,
+            rightSurname,
+            rightNickname,
+            rightUserMail,
+            rightPassword,
             emptyPasswordRepeat
         )
         onView(withId(R.id.register_submitData)).perform(click())
@@ -224,11 +250,11 @@ class RegisterFlowTest {
         //When
         setRegDataInput(
             wrongName,
-            rigthSurname,
-            rigthNickname,
-            rigthUserMail,
-            rigthPassword,
-            rigthPassword
+            rightSurname,
+            rightNickname,
+            rightUserMail,
+            rightPassword,
+            rightPassword
         )
         onView(withId(R.id.register_submitData)).perform(click())
 
@@ -247,12 +273,12 @@ class RegisterFlowTest {
 
         //When
         setRegDataInput(
-            rigthName,
+            rightName,
             wrongSurname,
-            rigthNickname,
-            rigthUserMail,
-            rigthPassword,
-            rigthPassword
+            rightNickname,
+            rightUserMail,
+            rightPassword,
+            rightPassword
         )
         onView(withId(R.id.register_submitData)).perform(click())
 
@@ -271,12 +297,12 @@ class RegisterFlowTest {
 
         //When
         setRegDataInput(
-            rigthName,
-            rigthSurname,
+            rightName,
+            rightSurname,
             wrongNickname,
-            rigthUserMail,
-            rigthPassword,
-            rigthPassword
+            rightUserMail,
+            rightPassword,
+            rightPassword
         )
         onView(withId(R.id.register_submitData)).perform(click())
 
@@ -295,12 +321,12 @@ class RegisterFlowTest {
 
         //When
         setRegDataInput(
-            rigthName,
-            rigthSurname,
-            rigthNickname,
+            rightName,
+            rightSurname,
+            rightNickname,
             wrongMail,
-            rigthPassword,
-            rigthPassword
+            rightPassword,
+            rightPassword
         )
         onView(withId(R.id.register_submitData)).perform(click())
 
@@ -319,12 +345,12 @@ class RegisterFlowTest {
 
         //When
         setRegDataInput(
-            rigthName,
-            rigthSurname,
-            rigthNickname,
-            rigthUserMail,
+            rightName,
+            rightSurname,
+            rightNickname,
+            rightUserMail,
             wrongPassword,
-            rigthPassword
+            rightPassword
         )
         onView(withId(R.id.register_submitData)).perform(click())
 
@@ -343,11 +369,11 @@ class RegisterFlowTest {
 
         //When
         setRegDataInput(
-            rigthName,
-            rigthSurname,
-            rigthNickname,
-            rigthUserMail,
-            rigthPassword,
+            rightName,
+            rightSurname,
+            rightNickname,
+            rightUserMail,
+            rightPassword,
             wrongPasswordRepeat
         )
         onView(withId(R.id.register_submitData)).perform(click())
@@ -359,26 +385,30 @@ class RegisterFlowTest {
     }
 
     @Test
-    fun registerFlow_rigthCredentials_mainActivityLaunched() {
+    fun registerFlow_rightCredentials_mainActivityLaunched() {
         launchFragment()
 
         //Given input is all right
         setRegDataInput(
-            rigthName,
-            rigthSurname,
-            rigthNickname,
-            rigthUserMail,
-            rigthPassword,
-            rigthPassword
+            rightName,
+            rightSurname,
+            rightNickname,
+            rightUserMail,
+            rightPassword,
+            rightPassword
         )
 
         //When register button clicked
         onView(withId(R.id.register_submitData)).perform(click())
 
         //Then select school fragment is shown
-        if (!waitForViewWithText("IOC", 5000)) {
-            TestCase.fail()
-        }
+        waitFor(
+            {onView(withId(R.id.centre_list)).check(matches(isDisplayed()))},
+            2000
+        )
+
+        //Given schools are shown
+        waitForRecyclerViewToFill(activityRule.activity, R.id.centre_list, 5000)
 
         //When a school is chosen
         onView(withId(R.id.centre_list)).perform(
@@ -389,7 +419,8 @@ class RegisterFlowTest {
         )
 
         //Then MainActivity is launched
-        intended(hasComponent(MainActivity::javaClass.name))
+        waitFor({intended(hasComponent(MainActivity::class.java.name))}, 5000)
+
     }
 
     @After

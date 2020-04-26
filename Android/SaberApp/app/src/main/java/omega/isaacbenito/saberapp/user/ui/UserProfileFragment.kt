@@ -18,7 +18,6 @@
 package omega.isaacbenito.saberapp.user.ui
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -26,28 +25,23 @@ import android.view.*
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.android.support.DaggerFragment
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
-import omega.isaacbenito.saberapp.authentication.ui.AuthState
-import omega.isaacbenito.saberapp.authentication.ui.CentreAdapter
 import omega.isaacbenito.saberapp.data.entities.Centre
 import omega.isaacbenito.saberapp.databinding.DialogEditProfileBinding
 import omega.isaacbenito.saberapp.databinding.FragmentUserProfileBinding
-import omega.isaacbenito.saberapp.ui.MainActivity
 import omega.isaacbenito.saberapp.user.model.UserViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
-class UserProfileFragment : Fragment() {
+class UserProfileFragment : DaggerFragment(), CentreAdapter.Interaction {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -58,19 +52,19 @@ class UserProfileFragment : Fragment() {
 
     private lateinit var editDialog: Dialog
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        (activity as MainActivity).authManager.userComponent?.inject(this)
-
-        userVM.start((activity as MainActivity).authManager.userMail)
-    }
+    private lateinit var centreAdapter: CentreAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         userVM.user.observe(this, Observer {
             binding.user = userVM.user.value
+        })
+
+        userVM.logoutEvent.observe(this, Observer {
+            if (it) {
+                startActivity(Intent(context, AuthActivity::class.java))
+            }
         })
     }
 
@@ -86,7 +80,9 @@ class UserProfileFragment : Fragment() {
         userVM.editEvent.observe(viewLifecycleOwner, Observer {
             Timber.d("Edit code: $it")
             if (it == UserViewModel.EDIT_FINISHED) {
-                editDialog.cancel()
+                if (::editDialog.isInitialized) {
+                    editDialog.dismiss()
+                }
             } else {
                 showEditDialog(it)
             }
@@ -101,22 +97,14 @@ class UserProfileFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUnauthObserver(owner: LifecycleOwner, authState: LiveData<AuthState>) {
-        authState.observe(owner, Observer {
-            startActivity(Intent(context, AuthActivity::class.java))
-        })
-    }
-
     private fun showEditDialog(dialogType: Int) {
         val editViewBinding = DataBindingUtil.inflate<DialogEditProfileBinding>(
             layoutInflater, R.layout.dialog_edit_profile, null, false
         )
 
-        editViewBinding.firstEditText = ""
-        editViewBinding.secondEditText = ""
         editViewBinding.viewModel = userVM
 
-        editDialog = Dialog(context!!, R.style.EditProfileDialog).apply {
+        editDialog = Dialog(context!!, R.style.FooterDialog).apply {
             setContentView(editViewBinding.root)
             window?.setGravity(Gravity.BOTTOM)
             window?.setBackgroundDrawable(
@@ -127,40 +115,39 @@ class UserProfileFragment : Fragment() {
                     )
                 )
             )
-            window?.setWindowAnimations(R.style.EditProfileDialog)
+            window?.setWindowAnimations(R.style.FooterDialog)
             window?.setLayout(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT
             )
+            setCanceledOnTouchOutside(false)
         }
 
         when (dialogType) {
             UserViewModel.EDIT_NAME -> {
                 editViewBinding.editTitleFirst.text = resources.getString(R.string.edit_name)
-                editViewBinding.firstEditText = userVM.user.value?.name
             }
             UserViewModel.EDIT_SURNAME -> {
                 editViewBinding.editTitleFirst.text = resources.getString(R.string.edit_surname)
-                editViewBinding.firstEditText = userVM.user.value?.surname
             }
             UserViewModel.EDIT_NICKNAME -> {
                 editViewBinding.editTitleFirst.text = resources.getString(R.string.edit_nickname)
-                editViewBinding.firstEditText = userVM.user.value?.nickname
             }
             UserViewModel.EDIT_MAIL -> {
                 editViewBinding.editTitleFirst.text = resources.getString(R.string.edit_nickname)
-                editViewBinding.firstEditText = userVM.user.value?.email
             }
             UserViewModel.EDIT_PASSWORD -> {
-                editViewBinding.editTitleFirst.text = resources.getString(R.string.edit_password)
+                editViewBinding.editTitleFirst.text = resources.getString(R.string.old_password)
                 editViewBinding.editTitleSecond.visibility = View.VISIBLE
                 editViewBinding.editTitleSecond.text =
-                    resources.getString(R.string.edit_password_repeat)
+                    resources.getString(R.string.edit_password)
                 editViewBinding.secondEditProfileEditText.visibility = View.VISIBLE
+                editViewBinding.editTitleThird.visibility = View.VISIBLE
+                editViewBinding.editTitleThird.text =
+                    resources.getString(R.string.edit_password_repeat)
+                editViewBinding.thirdEditProfileEditText.visibility = View.VISIBLE
             }
             UserViewModel.EDIT_CENTRE -> {
-                userVM.getCentres()
-
                 editViewBinding.editProfileDone.visibility = View.INVISIBLE
                 editViewBinding.firstEditProfileEditText.visibility = View.GONE
                 editViewBinding.editTitleFirst.text = resources.getString(R.string.choose_centre)
@@ -178,11 +165,7 @@ class UserProfileFragment : Fragment() {
                 )
                 constraints.applyTo(editViewBinding.editProfileLayout)
 
-                val adapter = CentreAdapter(object : CentreAdapter.Interaction {
-                    override fun onClickCentre(position: Int, centre: Centre) {
-                        userVM.editUser(dialogType, centre.name)
-                    }
-                })
+                val adapter = CentreAdapter(this)
 
                 editViewBinding.editProfileListView.let {
                     it.setHasFixedSize(true)
@@ -191,7 +174,7 @@ class UserProfileFragment : Fragment() {
                     it.addItemDecoration(DividerItemDecoration(context, VERTICAL))
                 }
 
-                userVM.centres.observe(viewLifecycleOwner, Observer {
+                userVM.centreList.observe(viewLifecycleOwner, Observer {
                     adapter.submitList(it)
                 })
             }
@@ -200,6 +183,7 @@ class UserProfileFragment : Fragment() {
         return editDialog.show()
     }
 
-
-
+    override fun onClickCentre(position: Int, centre: Centre) {
+        userVM.onEditAction(UserViewModel.ACTION_DONE, centre)
+    }
 }

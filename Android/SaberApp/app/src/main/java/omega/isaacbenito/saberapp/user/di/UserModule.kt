@@ -3,9 +3,12 @@ package omega.isaacbenito.saberapp.user.di
 import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
+import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
-import omega.isaacbenito.saberapp.di.ViewModelKey
+import omega.isaacbenito.saberapp.di.viewModel.ViewModelKey
 import omega.isaacbenito.saberapp.user.model.UserViewModel
+import omega.isaacbenito.saberapp.user.ui.UserMainFragment
+import omega.isaacbenito.saberapp.user.ui.UserProfileFragment
 
 @Module
 abstract class UserModule {
@@ -14,7 +17,11 @@ abstract class UserModule {
     @Binds
     @IntoMap
     @ViewModelKey(UserViewModel::class)
-    abstract fun bindUserMainViewModel(viewModel: UserViewModel): ViewModel
+    abstract fun bindUserViewModel(viewModel: UserViewModel): ViewModel
 
+    @ContributesAndroidInjector()
+    internal abstract fun userMainFragment() : UserMainFragment
 
+    @ContributesAndroidInjector()
+    internal abstract fun userProfileFragment() : UserProfileFragment
 }

@@ -18,10 +18,8 @@
 package omega.isaacbenito.saberapp.authentication.di
 
 import dagger.Subcomponent
+import dagger.android.AndroidInjector
 import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
-import omega.isaacbenito.saberapp.authentication.ui.LoginFragment
-import omega.isaacbenito.saberapp.authentication.ui.RegCentreFragment
-import omega.isaacbenito.saberapp.authentication.ui.RegDataFragment
 
 /**
  * Component que injecta les dependències a tots els fragment i activitats del mòdul d'autenticació
@@ -29,21 +27,9 @@ import omega.isaacbenito.saberapp.authentication.ui.RegDataFragment
  * @author Isaac Benito
  */
 @AuthScope
-@Subcomponent(
-    modules = [
-        AuthModule::class]
-)
-interface AuthComponent {
+@Subcomponent(modules = [AuthBinds::class])
+interface AuthComponent : AndroidInjector<AuthActivity> {
 
     @Subcomponent.Factory
-    interface Factory {
-        fun create(): AuthComponent
-    }
-
-    // Expose activities and fragments
-    fun inject(activity: AuthActivity)
-
-    fun inject(fragment: LoginFragment)
-    fun inject(fragment: RegDataFragment)
-    fun inject(fragment: RegCentreFragment)
+    interface Factory: AndroidInjector.Factory<AuthActivity>
 }

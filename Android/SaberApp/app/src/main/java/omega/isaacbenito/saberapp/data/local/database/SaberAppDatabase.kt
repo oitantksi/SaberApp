@@ -19,19 +19,26 @@ package omega.isaacbenito.saberapp.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import omega.isaacbenito.saberapp.data.entities.Centre
-import omega.isaacbenito.saberapp.data.entities.User
-import omega.isaacbenito.saberapp.data.local.database.dao.CentreDao
-import omega.isaacbenito.saberapp.data.local.database.dao.UserDao
+import androidx.room.TypeConverters
+import omega.isaacbenito.saberapp.data.entities.*
+import omega.isaacbenito.saberapp.data.local.database.dao.*
 
 @Database(
     entities = [
         User::class,
-        Centre::class],
-    version = 4, exportSchema = true
+        Centre::class,
+        Materia::class,
+        Pregunta::class,
+        Resposta::class
+    ],
+    version = 14, exportSchema = true
 )
+@TypeConverters(Converters::class)
 abstract class SaberAppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
     abstract fun centreDao(): CentreDao
+    abstract fun preguntaDao(): PreguntaDao
+    abstract fun materiaDao(): MateriaDao
+    abstract fun respostaDao(): RespostaDao
 }

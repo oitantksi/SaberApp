@@ -18,13 +18,26 @@
 
 <resources>
     <color name="colorPrimary">#80CC33</color>
+    <color name="colorPrimaryLigth">#b4ff67</color>
     <color name="colorPrimaryDark">#5d9922</color>
     <color name="colorAccent">#6a7ecc</color>
+
+    <color name="colorSecondary">#8033CC</color>
 
     <color name="colorAccent_wrong">#EB1E1E</color>
 
     <color name="color_nav_header_background">#FFF99e</color>
-    <color name="color_background">#E0deff</color>
+
     <color name="color_overlay_background">#80555555</color>
     <color name="transparent">#00000000</color>
+
+    <color name="materia_geografia">#FF8CFACF</color>
+    <color name="materia_matematiques">#FFFA9E8C</color>
+    <color name="materia_història">#FFFAEE7F</color>
+    <color name="materia_art">#FFB29DFA</color>
+
+    <color name="colorMateriaHeading">#323332</color>
+
+    <color name="resposta_seleccionada">#66FFFFFF</color>
+    <color name="color_background">#EBEBEB</color>
 </resources>

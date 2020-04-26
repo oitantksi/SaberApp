@@ -1,56 +1,50 @@
 package omega.isaacbenito.saberapp.utils
 
-import android.content.Intent
+import android.app.Activity
 import android.os.SystemClock
 import android.view.WindowManager
-import androidx.navigation.NavDeepLinkBuilder
-import androidx.test.espresso.Espresso.onView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.Root
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.platform.app.InstrumentationRegistry
-import omega.isaacbenito.saberapp.R
-import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 class TestUtils {
 
     companion object {
 
-        fun getFragmentIntent(destinationId: Int): Intent {
-            return NavDeepLinkBuilder(
-                InstrumentationRegistry.getInstrumentation().targetContext
+        fun waitFor(action: () -> Unit, timeout: Int) {
+            val endTime = SystemClock.uptimeMillis() + timeout
+            var catchedException = Exception()
+            while (SystemClock.uptimeMillis() <= endTime) {
+                try {
+                    action()
+                    return
+                } catch (e: Exception) {
+                    catchedException = e
+                }
+            }
+
+            throw catchedException
+        }
+
+        fun waitForRecyclerViewToFill(activity: Activity, recyclerViewId: Int, timeout: Int) {
+
+            val recyclerView: RecyclerView
+            try {
+                recyclerView = activity.findViewById(recyclerViewId)
+            } catch (e: NoMatchingViewException) {
+                throw e
+            }
+
+            waitFor(
+                {if (recyclerView.childCount == 0) {throw Exception("No childs found")}},
+                timeout
             )
-                .setGraph(R.navigation.auth_navigation)
-                .setComponentName(AuthActivity::class.java)
-                .setDestination(destinationId)
-                .createTaskStackBuilder().intents[0]
-        }
-
-        fun waitForViewWithId(id: Int, timeout: Int): Boolean {
-            val endTime = SystemClock.uptimeMillis() + timeout
-            while (SystemClock.uptimeMillis() <= endTime) {
-                try {
-                    onView(withId(id)).check(matches(isDisplayed()))
-                    return true
-                } catch (e: NoMatchingViewException) {
-                }
-            }
-            return false
-        }
-
-        fun waitForViewWithText(text: String, timeout: Int): Boolean {
-            val endTime = SystemClock.uptimeMillis() + timeout
-            while (SystemClock.uptimeMillis() <= endTime) {
-                try {
-                    onView(withText(text)).check(matches(isDisplayed()))
-                    return true
-                } catch (e: NoMatchingViewException) {
-                }
-            }
-            return false
         }
     }
 
@@ -73,4 +67,21 @@ class TestUtils {
             description?.appendText("is toast")
         }
     }
+}
+
+@Throws(InterruptedException::class)
+fun <T> LiveData<T>.waitForValue(): T {
+    val data = arrayOfNulls<Any>(1)
+    val latch = CountDownLatch(1)
+    val observer = object : Observer<T> {
+        override fun onChanged(o: T?) {
+            data[0] = o
+            latch.countDown()
+            this@waitForValue.removeObserver(this)
+        }
+    }
+    this.observeForever(observer)
+    latch.await(2, TimeUnit.SECONDS)
+
+    return data[0] as T
 }

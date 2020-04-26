@@ -17,8 +17,7 @@
 
 package omega.isaacbenito.saberapp.authentication
 
-import omega.isaacbenito.saberapp.authentication.entities.UserCredentials
-import omega.isaacbenito.saberapp.authentication.entities.UserDto
+import omega.isaacbenito.saberapp.data.entities.User
 import retrofit2.Response
 
 /**
@@ -27,9 +26,9 @@ import retrofit2.Response
  */
 interface ServerAuthenticate {
 
-    suspend fun logInUser(userCredentials: UserCredentials) : Response<Unit>
+    suspend fun logInUser(userCredentials: User.AuthCredentials) : Response<Unit>
 
-    suspend fun registerUser(userDto: UserDto) : Response<Unit>
+    suspend fun registerUser(userDto: User.Dto) : Response<Unit>
 
     suspend fun unregisterUser(userMail: String): Response<Unit>
 

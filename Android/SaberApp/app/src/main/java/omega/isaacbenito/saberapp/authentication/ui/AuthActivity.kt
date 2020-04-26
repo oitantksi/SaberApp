@@ -22,10 +22,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import omega.isaacbenito.saberapp.R
-import omega.isaacbenito.saberapp.SaberApp
-import omega.isaacbenito.saberapp.authentication.di.AuthComponent
 import omega.isaacbenito.saberapp.databinding.ActivityAuthBinding
+import javax.inject.Inject
+
 
 /**
  * @author Isaac Benito
@@ -33,14 +37,18 @@ import omega.isaacbenito.saberapp.databinding.ActivityAuthBinding
  * Activitat que gestiona el flux de registre i/o login de l'usuari.
  *
  */
-class AuthActivity : AppCompatActivity() {
+class AuthActivity : AppCompatActivity(), HasAndroidInjector {
+
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     private lateinit var binding : ActivityAuthBinding
 
-
-    lateinit var authComponent: AuthComponent
-
     private lateinit var navController: NavController
+
+    override fun androidInjector(): AndroidInjector<Any?>? {
+        return androidInjector
+    }
 
     /**
      * Es crida quan es crea l'activitat.
@@ -54,9 +62,7 @@ class AuthActivity : AppCompatActivity() {
          * objectes de l'esquma de l'aplicació en els camps marcats amb l'anotació
          * @Inject.
          */
-        authComponent = (application as SaberApp).appComponent
-            .authComponent().create()
-        authComponent.inject(this)
+        AndroidInjection.inject(this)
 
         super.onCreate(savedInstanceState)
 
@@ -77,43 +83,7 @@ class AuthActivity : AppCompatActivity() {
     override fun onBackPressed() {}
 }
 
-/**
- * @author Isaac Benito
- *
- * Classe sellada que facilita la comunicació de l'estat del procés d'autorització
- * entre les diferents activitats i models del mòdul
- *
- */
-sealed class AuthState
-object AuthSuccess : AuthState()
-data class AuthError(val error: Int) : AuthState() {
-    companion object {
-        const val SERVER_UNREACHABLE_ERROR = 0
-        const val NO_INTERNET_ACCESS = 1
-        const val WRONG_CREDENTIALS_ERROR = 2
-    }
-}
 
-/**
- * @author Isaac Benito
- *
- * Classe sellada que facilita la comunicació de la validesa de les dades introduïdes
- * entre les diferents activitats i models del mòdul
- *
- */
-sealed class EnterDataState
-object EnterDataSuccess : EnterDataState()
-data class EnterDataError(val errorCode: Int) : EnterDataState() {
-    companion object {
-        const val WRONG_CREDENTIALS = 0
-        const val INVALID_EMAIL = 1
-        const val INVALID_PASSWORD = 2
-        const val INVALID_EMAIL_AND_PASSWORD = 3
-        const val INVALID_PASSWORD_REPEAT = 4
-        const val INVALID_NAME = 5
-        const val INVALID_SURNAME = 6
-        const val INVALID_NICKNAME = 7
-    }
-}
+
 
 

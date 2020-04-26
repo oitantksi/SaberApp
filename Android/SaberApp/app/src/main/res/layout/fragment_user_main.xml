@@ -130,7 +130,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        tools:srcCompat="@drawable/unknown_user_profile picture" />
+                        app:srcCompat="@drawable/unknown_user_profile_picture" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -151,45 +151,81 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/actions"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:padding="@dimen/main_layout_padding"
             app:layout_constraintTop_toBottomOf="@id/scoreCardView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
-            <Button
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/preguntaDia"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/prgunta_dia"
-                android:layout_marginHorizontal="20dp"
+                android:layout_height="50dp"
+                app:cardCornerRadius="25dp"
+                android:backgroundTint="@color/colorPrimary"
                 app:layout_constraintBottom_toTopOf="@id/preguntesAntigues"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="spread" />
+                app:layout_constraintVertical_chainStyle="spread" >
 
-            <Button
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="@string/prgunta_dia"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/preguntesAntigues"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/preguntes_antigues"
-                android:layout_marginHorizontal="20dp"
+                android:layout_height="50dp"
+                app:cardCornerRadius="25dp"
+                android:backgroundTint="@color/colorPrimary"
                 app:layout_constraintBottom_toTopOf="@id/revisarRespostes"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/preguntaDia" />
+                app:layout_constraintTop_toBottomOf="@+id/preguntaDia" >
 
-            <Button
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="@string/preguntes_antigues"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/revisarRespostes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/revisar_respostes"
-                android:layout_marginHorizontal="20dp"
+                android:layout_height="50dp"
+                app:cardCornerRadius="25dp"
+                android:backgroundTint="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/preguntesAntigues" />
+                app:layout_constraintTop_toBottomOf="@+id/preguntesAntigues" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="@string/revisar_respostes"/>
+
+            </androidx.cardview.widget.CardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

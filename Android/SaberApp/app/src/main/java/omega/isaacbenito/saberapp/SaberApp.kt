@@ -17,22 +17,36 @@
 
 package omega.isaacbenito.saberapp
 
-import android.app.Application
-import omega.isaacbenito.saberapp.di.AppComponent
+import androidx.work.Configuration
+import androidx.work.WorkManager
+import androidx.work.WorkerFactory
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
+import dagger.android.DispatchingAndroidInjector
 import omega.isaacbenito.saberapp.di.DaggerAppComponent
 import timber.log.Timber
+import javax.inject.Inject
 
-open class SaberApp : Application() {
 
-    val appComponent: AppComponent by lazy {
-        initializeComponent()
-    }
+open class SaberApp : DaggerApplication() {
 
-    open fun initializeComponent(): AppComponent {
-        return DaggerAppComponent.factory().create(applicationContext)
-    }
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+
+    @Inject
+    lateinit var workerFactory: WorkerFactory
 
     init {
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        // register ours custom factory to WorkerManager
+        WorkManager.initialize(this, Configuration.Builder().setWorkerFactory(workerFactory).build())
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.factory().create(applicationContext)
     }
 }

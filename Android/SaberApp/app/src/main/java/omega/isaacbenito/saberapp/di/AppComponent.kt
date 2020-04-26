@@ -20,24 +20,32 @@ package omega.isaacbenito.saberapp.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import dagger.Module
-import omega.isaacbenito.saberapp.authentication.AuthenticationManager
-import omega.isaacbenito.saberapp.authentication.di.AuthComponent
-import omega.isaacbenito.saberapp.authentication.di.ServerAuthenticateBind
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
+import omega.isaacbenito.saberapp.SaberApp
+import omega.isaacbenito.saberapp.authentication.di.AuthModule
 import omega.isaacbenito.saberapp.data.di.DataModule
-import omega.isaacbenito.saberapp.ui.StartActivity
-import omega.isaacbenito.saberapp.user.di.UserComponent
+import omega.isaacbenito.saberapp.di.viewModel.ViewModelFactoryModule
+import omega.isaacbenito.saberapp.di.worker.WorkerFactoryModule
+import omega.isaacbenito.saberapp.jocpreguntes.di.JocPreguntesModule
+import omega.isaacbenito.saberapp.user.di.UserModule
+import omega.isaacbenito.saberapp.utils.NetworkUtils
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
-        AppSubComponentsModule::class,
-        DaggerViewModelFactoryModule::class,
-        ServerAuthenticateBind::class,
-        DataModule::class]
+        AndroidSupportInjectionModule::class,
+        AppModule::class,
+        ViewModelFactoryModule::class,
+        WorkerFactoryModule::class,
+        DataModule::class,
+        AuthModule::class,
+        UserModule::class,
+        JocPreguntesModule::class
+    ]
 )
-interface AppComponent {
+interface AppComponent : AndroidInjector<SaberApp> {
 
     @Component.Factory
     interface Factory {
@@ -45,18 +53,6 @@ interface AppComponent {
         fun create(@BindsInstance context: Context): AppComponent
     }
 
-    // Expose SubComponents
-    fun authComponent(): AuthComponent.Factory
-    fun userComponent(): UserComponent.Factory
-
-    fun inject(activity: StartActivity)
-
-    fun authManager(): AuthenticationManager
+    fun networkUtils(): NetworkUtils
 }
 
-@Module(
-    subcomponents = [
-        AuthComponent::class,
-        UserComponent::class]
-)
-object AppSubComponentsModule

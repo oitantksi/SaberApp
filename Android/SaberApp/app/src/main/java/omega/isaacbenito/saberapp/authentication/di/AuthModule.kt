@@ -1,45 +1,33 @@
 package omega.isaacbenito.saberapp.authentication.di
 
-import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
+import dagger.android.AndroidInjector
+import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
-import omega.isaacbenito.saberapp.authentication.model.LoginViewModel
-import omega.isaacbenito.saberapp.authentication.model.RegCentreViewModel
-import omega.isaacbenito.saberapp.authentication.model.RegDataViewModel
-import omega.isaacbenito.saberapp.authentication.model.RegisterViewModel
-import omega.isaacbenito.saberapp.di.ViewModelKey
+import omega.isaacbenito.saberapp.authentication.AuthenticationManager
+import omega.isaacbenito.saberapp.authentication.ServerAuthenticate
+import omega.isaacbenito.saberapp.authentication.impl.AuthenticationManagerImpl
+import omega.isaacbenito.saberapp.authentication.impl.ServerAuthenticateImpl
+import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
 
 /**
  * Mòdul que afegeix els models de les vistes del component d'autenticació en el gràfic de l'aplicació
  *
  * @author Isaac Benito
  */
-@Module
+@Module(subcomponents = [AuthComponent::class])
 abstract class AuthModule {
 
-    @SuppressWarnings("unused")
     @Binds
     @IntoMap
-    @ViewModelKey(LoginViewModel::class)
-    abstract fun bindLoginViewModel(viewModel: LoginViewModel): ViewModel
+    @ClassKey(AuthActivity::class)
+    abstract fun bindYourAndroidInjectorFactory(factory: AuthComponent.Factory?): AndroidInjector.Factory<*>?
 
-    @SuppressWarnings("unused")
     @Binds
-    @IntoMap
-    @ViewModelKey(RegDataViewModel::class)
-    abstract fun bindRegDataViewModel(viewModel: RegDataViewModel): ViewModel
+    abstract fun authManagerBind(authManager: AuthenticationManagerImpl) : AuthenticationManager
 
-    @SuppressWarnings("unused")
     @Binds
-    @IntoMap
-    @ViewModelKey(RegCentreViewModel::class)
-    abstract fun bindRegCentreViewModel(viewModel: RegCentreViewModel): ViewModel
-
-    @SuppressWarnings("unused")
-    @Binds
-    @IntoMap
-    @ViewModelKey(RegisterViewModel::class)
-    abstract fun bindRegisterViewModel(viewModel: RegisterViewModel): ViewModel
+    abstract fun provideServerAuthenticate(server: ServerAuthenticateImpl): ServerAuthenticate
 
 }

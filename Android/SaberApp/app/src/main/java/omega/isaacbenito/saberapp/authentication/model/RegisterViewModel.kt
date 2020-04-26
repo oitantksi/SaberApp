@@ -20,9 +20,10 @@ package omega.isaacbenito.saberapp.authentication.model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import omega.isaacbenito.saberapp.authentication.AuthenticationManager
+import omega.isaacbenito.saberapp.authentication.AuthResult
 import omega.isaacbenito.saberapp.authentication.di.AuthScope
-import omega.isaacbenito.saberapp.authentication.ui.AuthState
+import omega.isaacbenito.saberapp.authentication.impl.AuthenticationManagerImpl
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -36,7 +37,7 @@ import javax.inject.Inject
 @AuthScope
 class RegisterViewModel @Inject constructor() : ViewModel() {
 
-    @Inject lateinit var authenticationManager: AuthenticationManager
+    @Inject lateinit var authenticationManager: AuthenticationManagerImpl
 
     private lateinit var userName: String
     private lateinit var userSurname: String
@@ -81,8 +82,8 @@ class RegisterViewModel @Inject constructor() : ViewModel() {
         registerUser()
     }
 
-    private val _registrationStatus = MutableLiveData<AuthState>()
-    val registrationStatus : LiveData<AuthState>
+    private val _registrationStatus = MutableLiveData<AuthResult>()
+    val registrationStatus : LiveData<AuthResult>
         get() = _registrationStatus
 
     /**
@@ -92,7 +93,8 @@ class RegisterViewModel @Inject constructor() : ViewModel() {
      * Obte un valor d'estat de l'autenticació que desa per a que pugui ser observat.
      */
     private fun registerUser() {
-        _registrationStatus.value = authenticationManager.registerUser(
+        Timber.d(userName, userSurname, userNickname, email, password, centre)
+        _registrationStatus.value = authenticationManager.register(
             userName, userSurname, userNickname, email, password, centre).value
     }
 }

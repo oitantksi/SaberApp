@@ -20,19 +20,17 @@
 
     <item
         android:id="@+id/rulesFragment"
-        android:title="@string/menu_saberapp_rules" />
+        android:title="@string/menu_saberapp_rules"
+        android:icon="@drawable/rules"/>
+
     <item
         android:id="@+id/aboutFragment"
-        android:title="@string/menu_about_saberapp" />
+        android:title="@string/menu_about_saberapp"
+        android:icon="@drawable/about"/>
 
     <item
-        android:id="@+id/logout"
-        android:title="@string/logout"
-        android:icon="@drawable/ic_logout"/>
-
-    <item
-        android:id="@+id/settings"
+        android:id="@+id/settingsFragment"
         android:title="@string/settings"
-        android:icon="@drawable/ic_settings_24px"/>
+        android:icon="@drawable/settings"/>
 
 </menu>

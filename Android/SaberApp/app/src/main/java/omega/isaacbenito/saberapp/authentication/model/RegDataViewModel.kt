@@ -25,10 +25,10 @@ import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isVali
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidNameOrSurname
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidNickname
 import omega.isaacbenito.saberapp.authentication.AccountGlobals.Companion.isValidPassword
-import omega.isaacbenito.saberapp.authentication.ui.EnterDataError
-import omega.isaacbenito.saberapp.authentication.ui.EnterDataState
-import omega.isaacbenito.saberapp.authentication.ui.EnterDataSuccess
+import omega.isaacbenito.saberapp.authentication.EnterDataResult
 import javax.inject.Inject
+import omega.isaacbenito.saberapp.authentication.EnterDataResult.Error as EnterDataError
+import omega.isaacbenito.saberapp.authentication.EnterDataResult.Success as EnterDataSuccess
 
 /**
  * Model de la vista de recollida de dades per al registre de l'usuari
@@ -44,8 +44,8 @@ class RegDataViewModel @Inject constructor() : ViewModel() {
     val userPassword = ObservableField<String>()
     val userPasswordRepeat = ObservableField<String>()
 
-    private val _enterDataState = MutableLiveData<EnterDataState>()
-    val enterDetailsState: LiveData<EnterDataState>
+    private val _enterDataState = MutableLiveData<EnterDataResult>()
+    val enterDetailsResult: LiveData<EnterDataResult>
         get() = _enterDataState
 
 

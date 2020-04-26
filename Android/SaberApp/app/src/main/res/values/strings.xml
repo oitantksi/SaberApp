@@ -16,8 +16,14 @@
   ~     along with SaberApp.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
+<!DOCTYPE resources [
+    <!ENTITY appname "SaberApp">
+    <!ENTITY version "1.0.0">
+    ]>
+
 <resources>
     <string name="app_name" translatable="false">SaberApp</string>
+    <string name="app_version" translatable="false">1.0.0</string>
 
     <!--  Transitions  -->
     <string name="start_login_logo_transition" translatable="false">start_login_logo_transition</string>
@@ -53,7 +59,6 @@
     <string name="name_format" translatable="false">%s %s</string>
     <string name="nickname_format" translatable="false">\@%s</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="choose_centre">Choose your school</string>
     <string name="prgunta_dia">Today\'s Question</string>
     <string name="preguntes_antigues">Old questions</string>
@@ -72,10 +77,38 @@
     <string name="edit_name">Write your name</string>
     <string name="edit_surname">Write your surname</string>
     <string name="edit_nickname">Write your nickname</string>
-    <string name="edit_password">Write your new password</string>
+    <string name="edit_password">New password</string>
     <string name="edit_password_repeat">Repeat password</string>
     <string name="done">DONE</string>
     <string name="cancel">CANCEL</string>
+    <string name="old_password">Old password</string>
+    <string name="filter">Filter</string>
+    <string name="save_answer">Do you want to save the answer?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="sourcecode">"This project is allocated in https://github.com/oitantksi/SaberApp</string>
+    <string name="info_problems">You can report errors, propose improvements and apply for characteristics on the issu traking system of this GitHub project: https://github.com/oitantksi/SaberApp/issues</string>
+    <string name="info_problems_title">ISSUES</string>
+    <string name="translation_title">TRANSLATION</string>
+    <string name="translation">To help us translate this app to your language please contact us on: translate@omega.org</string>
+    <string name="version_title">VERSION</string>
+    <string name="version">You are currently using <b>v&version;</b></string>
+    <string name="developer_title">DEVELOPERS</string>
+    <string name="developer">Isaac Benito, Montserrat Camps, Ramón Hernández</string>
+    <string name="credits">CREDITS</string>
+    <string name="contributing">CONTRIBUTING</string>
+    <string name="mantainers_title">MANTAINERS</string>
+    <string name="mantainers">Isaac Benito</string>
+    <string name="testers_title">TESTERS</string>
+    <string name="testers">Isaac Benito</string>
+    <string name="translators_title">TRANSLATORS</string>
+    <string name="translators">Isaac Benito</string>
+    <string name="license_title">APP LICENSE</string>
+    <string name="license">This app is lincensed under <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License v3.0</a></string>
+    <string name="view_license">VIEW LICENSE</string>
+    <string name="icons_title">ICONS</string>
+    <string name="icons">App icon made by Montserrat Camps.\n\nTo create this project we\'ve used many resources from:\n\n\t- <a href="https://www.freepik.es/">Freepik</a>\n\n\t- <a href="https://www.flaticon.com/">Flaticon</a>\n\n\t- <a href="https://material.io/resources/icons/">Android Material Design Icons</a></string>
+    <string name="licensing">LICENSE</string>
 
 
 </resources>
