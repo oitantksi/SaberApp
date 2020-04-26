@@ -45,6 +45,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.authorizeRequests().antMatchers(HttpMethod.POST, Constants.LOGIN_URL).permitAll()
 			.antMatchers("/h2-console/**").permitAll()
 			.antMatchers(HttpMethod.POST, "/user").permitAll()
+			.antMatchers(HttpMethod.POST, "/user/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/user/image/**").permitAll()
 			.antMatchers(HttpMethod.GET, "/centres").permitAll()
 			.anyRequest().authenticated().and()
 				.addFilter(new JWTAuthenticationFilter(authenticationManager()))
