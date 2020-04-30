@@ -29,9 +29,10 @@ import omega.isaacbenito.saberapp.data.local.database.dao.*
         Centre::class,
         Materia::class,
         Pregunta::class,
-        Resposta::class
+        Resposta::class,
+        Score::class
     ],
-    version = 14, exportSchema = true
+    version = 16, exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class SaberAppDatabase : RoomDatabase() {
@@ -41,4 +42,5 @@ abstract class SaberAppDatabase : RoomDatabase() {
     abstract fun preguntaDao(): PreguntaDao
     abstract fun materiaDao(): MateriaDao
     abstract fun respostaDao(): RespostaDao
+    abstract fun scoreDao(): ScoreDao
 }

@@ -14,7 +14,7 @@ import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.data.entities.PreguntaAmbResposta
 import omega.isaacbenito.saberapp.databinding.DialogPreguntaConfirmationBindingImpl
 import omega.isaacbenito.saberapp.databinding.FragmentPreguntaBinding
-import omega.isaacbenito.saberapp.jocpreguntes.model.JocPreguntesViewModel
+import omega.isaacbenito.saberapp.jocpreguntes.model.JocPreguntesVM
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,7 +25,7 @@ class PreguntaFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val jocVM by viewModels<JocPreguntesViewModel> { viewModelFactory }
+    private val jocVM by viewModels<JocPreguntesVM> { viewModelFactory }
 
     private lateinit var currentPregunta: PreguntaAmbResposta
 
@@ -84,19 +84,19 @@ class PreguntaFragment : DaggerFragment() {
 
         binding.preguntaMateriaIcon.setImageDrawable(ContextCompat.getDrawable(context!!,
             when (pregunta.materia) {
-                JocPreguntesViewModel.MATERIA_GEOGRAFIA -> R.drawable.materia_geografia_icon_carved
-                JocPreguntesViewModel.MATERIA_HISTORIA -> R.drawable.materia_historia_icon_carved
-                JocPreguntesViewModel.MATERIA_ARTS -> R.drawable.materia_arts_icon_carved
-                JocPreguntesViewModel.MATERIA_MATES -> R.drawable.materia_mates_icon_carved
+                JocPreguntesVM.MATERIA_GEOGRAFIA -> R.drawable.materia_geografia_icon_carved
+                JocPreguntesVM.MATERIA_HISTORIA -> R.drawable.materia_historia_icon_carved
+                JocPreguntesVM.MATERIA_ARTS -> R.drawable.materia_arts_icon_carved
+                JocPreguntesVM.MATERIA_MATES -> R.drawable.materia_mates_icon_carved
                 else -> R.drawable.applogo
             }))
 
         val materiaColor = ContextCompat.getColor(context!!,
             when (pregunta.materia) {
-                JocPreguntesViewModel.MATERIA_GEOGRAFIA -> R.color.materia_geografia
-                JocPreguntesViewModel.MATERIA_HISTORIA -> R.color.materia_història
-                JocPreguntesViewModel.MATERIA_ARTS -> R.color.materia_art
-                JocPreguntesViewModel.MATERIA_MATES -> R.color.materia_matematiques
+                JocPreguntesVM.MATERIA_GEOGRAFIA -> R.color.materia_geografia
+                JocPreguntesVM.MATERIA_HISTORIA -> R.color.materia_història
+                JocPreguntesVM.MATERIA_ARTS -> R.color.materia_art
+                JocPreguntesVM.MATERIA_MATES -> R.color.materia_matematiques
                 else -> R.color.colorAccent
             })
 

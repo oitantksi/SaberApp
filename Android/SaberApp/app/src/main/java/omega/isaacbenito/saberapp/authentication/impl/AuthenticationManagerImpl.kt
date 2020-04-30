@@ -97,21 +97,17 @@ open class AuthenticationManagerImpl @Inject constructor(
             Timber.d("Performing server login")
             runBlocking {
                 _loginState.value = withContext(Dispatchers.IO) {
-                    val result =  serverLogin(
+                    return@withContext serverLogin(
                         User.AuthCredentials(
                             userMail,
                             password
                         )
                     )
-                    when(_loginState.value) {
-                        is Success -> _authState.value = LoggedIn
-                        else -> _authState.value = LoggedOut
-                    }
-
-                    return@withContext result
                 }
-
-
+            }
+            when (_loginState.value) {
+                is Success -> _authState.value = LoggedIn
+                else -> _authState.value = LoggedOut
             }
         }
 

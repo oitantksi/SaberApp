@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_userMainFragment_to_preguntesFragment"
             app:destination="@id/preguntesFragment" />
+        <action
+            android:id="@+id/action_userMainFragment_to_scoreFragment"
+            app:destination="@id/scoreFragment" />
     </fragment>
     <fragment
         android:id="@+id/preguntaFragment"
@@ -60,4 +63,8 @@
         android:id="@+id/aboutFragment"
         android:name="omega.isaacbenito.saberapp.ui.AboutFragment"
         android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/scoreFragment"
+        android:name="omega.isaacbenito.saberapp.jocpreguntes.ui.ScoreFragment"
+        android:label="ScoreFragment" />
 </navigation>

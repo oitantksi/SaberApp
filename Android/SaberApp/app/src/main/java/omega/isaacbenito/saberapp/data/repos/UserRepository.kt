@@ -44,6 +44,8 @@ interface UserRepository {
      */
     suspend fun getUser(userMail: String, forceUpdate: Boolean): Result<LiveData<User>>
 
+    suspend fun getUser(userId: Long): Result<User>
+
     suspend fun getUserId(userMail: String): Result<Long>
 
     suspend fun updateUser(userEmail: String, user: User)

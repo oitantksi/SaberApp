@@ -30,7 +30,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.databinding.FragmentUserMainBinding
-import omega.isaacbenito.saberapp.jocpreguntes.model.JocPreguntesViewModel
+import omega.isaacbenito.saberapp.jocpreguntes.model.JocPreguntesVM
 import omega.isaacbenito.saberapp.user.model.UserViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -42,7 +42,7 @@ class UserMainFragment : DaggerFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val userVM by viewModels<UserViewModel> { viewModelFactory }
-    private val jocVM by viewModels<JocPreguntesViewModel> { viewModelFactory }
+    private val jocVM by viewModels<JocPreguntesVM> { viewModelFactory }
 
     private lateinit var binding: FragmentUserMainBinding
 
@@ -50,8 +50,14 @@ class UserMainFragment : DaggerFragment() {
         super.onCreate(savedInstanceState)
 
         userVM.user.observe(this, Observer {
-            Timber.d(it?.toString() ?: "User is null")
             binding.user = it
+        })
+
+        userVM.userScore.observe(this, Observer {
+            Timber.d("Score changed: $it")
+            if (it != null) {
+                binding.userScore = it
+            }
         })
     }
 
@@ -73,23 +79,30 @@ class UserMainFragment : DaggerFragment() {
         }
 
         binding.preguntaDia.setOnClickListener {
-            jocVM.setup(JocPreguntesViewModel.ACTION_CURRENT)
+            jocVM.setup(JocPreguntesVM.ACTION_CURRENT)
             this.findNavController().navigate(
                 UserMainFragmentDirections.actionUserMainFragmentToPreguntaFragment()
             )
         }
 
         binding.preguntesAntigues.setOnClickListener {
-            jocVM.setup(JocPreguntesViewModel.ACTION_OLD)
+            jocVM.setup(JocPreguntesVM.ACTION_OLD)
             this.findNavController().navigate(
                 UserMainFragmentDirections.actionUserMainFragmentToPreguntesFragment()
             )
         }
 
         binding.revisarRespostes.setOnClickListener {
-            jocVM.setup(JocPreguntesViewModel.ACTION_REVIEW)
+            jocVM.setup(JocPreguntesVM.ACTION_REVIEW)
             this.findNavController().navigate(
                 UserMainFragmentDirections.actionUserMainFragmentToPreguntesFragment()
+            )
+        }
+
+        binding.scoreCardView.setOnClickListener {
+            jocVM.setup(JocPreguntesVM.ACTION_REVIEW)
+            this.findNavController().navigate(
+                UserMainFragmentDirections.actionUserMainFragmentToScoreFragment()
             )
         }
 

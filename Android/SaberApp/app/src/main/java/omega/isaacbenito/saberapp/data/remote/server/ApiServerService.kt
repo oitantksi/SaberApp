@@ -63,4 +63,7 @@ interface ApiServerService {
 
     @POST("/respostes/alumno")
     suspend fun postResposta(@Body resposta: Resposta.Dto) : Response<Unit>
+
+    @GET("/puntuacions")
+    suspend fun getPuntuacions(): Response<List<Score.Dto>>
 }

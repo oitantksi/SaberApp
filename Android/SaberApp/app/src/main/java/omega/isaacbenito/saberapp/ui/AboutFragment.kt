@@ -11,7 +11,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import omega.isaacbenito.saberapp.R
-import omega.isaacbenito.saberapp.databinding.FragmentAboutBinding
+import omega.isaacbenito.saberapp.databinding.FragmentPagerTopBinding
 
 
 private val about_pages = listOf(
@@ -33,14 +33,14 @@ private val about_titles = listOf(
  **/
 class AboutFragment : Fragment() {
 
-    private lateinit var binding: FragmentAboutBinding
+    private lateinit var binding: FragmentPagerTopBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pager_top, container, false)
 
         return binding.root
     }
@@ -48,7 +48,8 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.pager.adapter = AboutPagerAdapter(this)
 
-        TabLayoutMediator(binding.tabLayout, binding.pager,
+        TabLayoutMediator(
+            binding.topTabLayout, binding.pager,
             TabConfigurationStrategy { tab: TabLayout.Tab, position: Int ->
                 tab.setText(about_titles.get(position)
                 )

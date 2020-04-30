@@ -28,6 +28,7 @@ import omega.isaacbenito.saberapp.data.entities.Centre
 import omega.isaacbenito.saberapp.data.entities.User
 import omega.isaacbenito.saberapp.data.prefs.PrefStorage
 import omega.isaacbenito.saberapp.data.repos.CentreRepository
+import omega.isaacbenito.saberapp.data.repos.JocPreguntesRepository
 import omega.isaacbenito.saberapp.data.repos.UserRepository
 import timber.log.Timber
 import java.net.ConnectException
@@ -38,6 +39,7 @@ import javax.inject.Singleton
 class UserViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val centreRepository: CentreRepository,
+    private val jocPreguntesRepository: JocPreguntesRepository,
     private val authManager: AuthenticationManager,
     private val prefs: PrefStorage
 ) : ViewModel() {
@@ -56,6 +58,9 @@ class UserViewModel @Inject constructor(
 
     private val _user = MediatorLiveData<User>()
     val user: LiveData<User> = _user
+
+    private val _userScore = MediatorLiveData<Int>()
+    val userScore: LiveData<Int> = _userScore
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -93,15 +98,27 @@ class UserViewModel @Inject constructor(
     private fun loadUser(forceUpdate: Boolean) {
         _dataLoading.value = true
         viewModelScope.launch {
-            when (val loadResult = userRepository.getUser(userMail, forceUpdate)) {
+            when (val userLoadResult = userRepository.getUser(userMail, forceUpdate)) {
                 is Result.Success -> {
-                    _user.addSource(loadResult.data) {_user.value = it }
+                    _user.addSource(userLoadResult.data) { _user.value = it }
                     _dataLoading.value = false
                 }
                 is Result.Error -> {
-                    when (loadResult.exception) {
+                    when (userLoadResult.exception) {
                         is ConnectException -> showSnackbarMessage(R.string.server_unreachable)
-                        else -> throw UnknownError(loadResult.exception.message)
+                        else -> throw UnknownError(userLoadResult.exception.message)
+                    }
+                }
+            }
+
+            when (val scoreLoadResult = jocPreguntesRepository.getUserScore(userMail)) {
+                is Result.Success -> _userScore.addSource(scoreLoadResult.data) {
+                    _userScore.value = it
+                }
+                is Result.Error -> {
+                    when (scoreLoadResult.exception) {
+                        is ConnectException -> showSnackbarMessage(R.string.server_unreachable)
+                        else -> throw UnknownError(scoreLoadResult.exception.message)
                     }
                 }
             }

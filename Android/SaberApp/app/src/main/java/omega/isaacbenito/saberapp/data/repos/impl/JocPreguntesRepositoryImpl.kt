@@ -3,14 +3,15 @@ package omega.isaacbenito.saberapp.data.repos.impl
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.work.*
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import omega.isaacbenito.saberapp.data.AppLocalDataSource
 import omega.isaacbenito.saberapp.data.AppRemoteDataSource
 import omega.isaacbenito.saberapp.data.Result
 import omega.isaacbenito.saberapp.data.di.DataModule
-import omega.isaacbenito.saberapp.data.entities.Materia
-import omega.isaacbenito.saberapp.data.entities.Pregunta
-import omega.isaacbenito.saberapp.data.entities.PreguntaAmbResposta
-import omega.isaacbenito.saberapp.data.entities.Resposta
+import omega.isaacbenito.saberapp.data.entities.*
 import omega.isaacbenito.saberapp.data.repos.JocPreguntesRepository
 import omega.isaacbenito.saberapp.data.workers.JocPreguntesWorker
 import omega.isaacbenito.saberapp.data.workers.JocPreguntesWorker.Companion.PREGUNTA_ID
@@ -36,11 +37,7 @@ class JocPreguntesRepositoryImpl @Inject constructor (
 
     override suspend fun getPreguntesAmbRespostaByUser(userAccountIdentifier: String): Result<LiveData<List<PreguntaAmbResposta>>> {
 
-        val userId = when(val result = localDataSource.getUserId(userAccountIdentifier)) {
-            is Result.Success -> result.data
-            is Result.Error -> throw result.exception
-            else -> throw IllegalStateException()
-        }
+        val userId = getUserId(userAccountIdentifier)
 
         when (val remoteResult = remoteDataSource.getPreguntes()) {
             is Result.Success -> {
@@ -71,15 +68,18 @@ class JocPreguntesRepositoryImpl @Inject constructor (
         return localDataSource.getPreguntes()
     }
 
-
     override suspend fun getMateries(): Result<LiveData<List<Materia>>> {
+        updateMateries()
+
+        return localDataSource.getMateries()
+    }
+
+    private suspend fun updateMateries() {
         when(val remoteResult = remoteDataSource.getMateries()) {
             is Result.Success -> localDataSource.updateMateries(remoteResult.data)
             is Result.Error -> Timber.d("No s'han pogut recuperar les materies del servidor")
             else -> throw IllegalStateException()
         }
-
-        return localDataSource.getMateries()
     }
 
     override suspend fun setResposta(resposta: Resposta): Result<Unit> {
@@ -120,5 +120,56 @@ class JocPreguntesRepositoryImpl @Inject constructor (
         }
 
         return Result.Error(Exception())
+    }
+
+    override suspend fun getUserScore(userAccountIdentifier: String): Result<LiveData<Int>> {
+
+        val userId = getUserId(userAccountIdentifier)
+
+        updateRemoteScores()
+
+        return localDataSource.getUserScore(userId)
+    }
+
+    override suspend fun getScores(): Result<LiveData<List<ScoreWithUserAndMateria>>> {
+
+        updateRemoteScores()
+
+        return localDataSource.getScores()
+    }
+
+    private suspend fun updateRemoteScores() = withContext(Dispatchers.IO) {
+        val updateJobs = arrayListOf<Deferred<Unit>>()
+        updateJobs.add(async { updateUsers() })
+        updateJobs.add(async { updateMateries() })
+        updateJobs.forEach { it.await() }
+        when (val remoteResult = remoteDataSource.getPuntuacions()) {
+            is Result.Success -> {
+                Timber.d("Saving scores: ${remoteResult.data.map { Score.fromDto(it) }}")
+                localDataSource.saveScores(remoteResult.data.map { Score.fromDto(it) })
+            }
+            is Result.Error -> Timber.w(
+                "No s'han pogut recuperar les puntuacions del servidor:\n${remoteResult.exception}"
+            )
+
+            else -> throw IllegalStateException()
+        }
+    }
+
+    private suspend fun updateUsers() {
+//        when(val remoteResult = remoteDataSource.g) {
+//            is Result.Success -> localDataSource.updateMateries(remoteResult.data)
+//            is Result.Error -> Timber.d("No s'han pogut recuperar les materies del servidor")
+//            else -> throw IllegalStateException()
+//        }
+        //TODO updateUsers()
+    }
+
+    private suspend fun getUserId(userAccountIdentifier: String): Long {
+        return when (val result = localDataSource.getUserId(userAccountIdentifier)) {
+            is Result.Success -> result.data
+            is Result.Error -> throw result.exception
+            else -> throw IllegalStateException()
+        }
     }
 }

@@ -104,7 +104,7 @@ class UserProfileFragment : DaggerFragment(), CentreAdapter.Interaction {
 
         editViewBinding.viewModel = userVM
 
-        editDialog = Dialog(context!!, R.style.FooterDialog).apply {
+        editDialog = Dialog(requireContext(), R.style.FooterDialog).apply {
             setContentView(editViewBinding.root)
             window?.setGravity(Gravity.BOTTOM)
             window?.setBackgroundDrawable(

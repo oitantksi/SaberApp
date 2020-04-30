@@ -43,7 +43,7 @@ INSERT INTO preguntas VALUES (3, 'Què diu el teorema del sinus?', 'En els tiang
 
 INSERT INTO respuestas VALUES (1,1,1,1,CURDATE());
 
-INSERT INTO puntuacion VALUES (1,1, 3);
+-- INSERT INTO puntuacion VALUES (1,1, 3);
 
 -- Usuaris varis per a jugar amb les puntuacions
 

@@ -11,7 +11,7 @@ interface AppLocalDataSource {
 
     suspend fun getUser(email: String): Result<LiveData<User>>
 
-//    suspend fun getUser(id: Long) : Result<User>
+    suspend fun getUser(id: Long): Result<User>
 
     suspend fun getUserId(email: String) : Result<Long>
 
@@ -38,4 +38,10 @@ interface AppLocalDataSource {
     suspend fun saveResposta(resposta: Resposta) : Result<Unit>
 
     suspend fun getResposta(userId: Long, preguntaId: Long) : Result<Resposta>
+
+    suspend fun saveScores(scores: List<Score>): Result<Unit>
+
+    suspend fun getUserScore(userId: Long): Result<LiveData<Int>>
+
+    suspend fun getScores(): Result<LiveData<List<ScoreWithUserAndMateria>>>
 }

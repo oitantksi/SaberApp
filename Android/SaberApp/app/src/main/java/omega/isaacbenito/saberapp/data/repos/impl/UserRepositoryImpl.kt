@@ -76,6 +76,10 @@ class UserRepositoryImpl @Inject constructor(
         return localDataSource.getUser(userMail)
     }
 
+    override suspend fun getUser(userId: Long): Result<User> {
+        return localDataSource.getUser(userId)
+    }
+
     override suspend fun getUserId(userMail: String): Result<Long> {
         return localDataSource.getUserId(userMail)
     }

@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="omega.isaacbenito.saberapp.jocpreguntes.model.JocPreguntesViewModel" />
+            type="omega.isaacbenito.saberapp.jocpreguntes.model.JocPreguntesVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
