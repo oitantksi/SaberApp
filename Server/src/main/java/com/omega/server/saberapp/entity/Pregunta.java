@@ -24,21 +24,23 @@ public class Pregunta implements Serializable {
 	private static final long serialVersionUID = 8725762492951299247L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	Long id;
+	private Long id;
 	@Column
-	String pregunta;
+	private String pregunta;
 	@Column
-	String respuesta1;
+	private String respuesta1;
 	@Column
-	String respuesta2;
+	private String respuesta2;
 	@Column
 	String respuesta3 ;
 	@Column
-	String respuesta4;
+	private String respuesta4;
 	@Column
-	Integer respuesta_correcta;
+	private Integer respuesta_correcta;
 	@Column
-	Timestamp fecha_aparicion;
+	@JoinColumn(name="materia_id")
+	@JoinColumn(name="materia_id")
+	private Timestamp fecha_aparicion;
 	@ManyToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name="materia_id")
 	Materia materia;

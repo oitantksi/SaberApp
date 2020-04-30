@@ -3,12 +3,19 @@ package com.omega.server.saberapp.controller;
 
 
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +23,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.omega.server.consumer.dto.PasswordDto;
 import com.omega.server.consumer.dto.UserDto;
@@ -37,6 +46,7 @@ public class Controller {
 	
 	@Autowired
 	SaberAppServiceI service;
+	
 
 	@GetMapping("/helloworld")
 	public String helloworld(@RequestParam String name) {
@@ -51,8 +61,12 @@ public class Controller {
 		return userObject;
 		
 	}
-	
-	@GetMapping("/user/id/{id}")
+	@GetMapping("/user/all")
+	public List<User> getAllUsers(){
+		
+		return service.getAllUsers();
+	}
+	@GetMapping("/user /id/{id}")
 	public User getUserBy(@PathVariable("id") Long id) {
 		
 		Optional<User> user=service.getUserById(id);
@@ -181,6 +195,35 @@ public class Controller {
 		
 		
 		return service.getPuntuaciones();
+	}
+	
+	@GetMapping(
+			  value = "/user/image/{id}",
+			  produces = MediaType.IMAGE_PNG_VALUE
+			)
+			public @ResponseBody byte[] getImageWithMediaType(@PathVariable("id") Long id) throws IOException {
+			    InputStream in = getClass()
+			      .getResourceAsStream("/images/user_"+id+".png");
+
+			    return IOUtils.toByteArray(in);
+			}
+	
+	@PostMapping(value = "/user/uploadImage/{userId}")
+	public String submit(@RequestParam("file") MultipartFile file,@PathVariable("userId") Long userId) {
+		   try {
+
+	            // Get the file and save it somewhere
+	            byte[] bytes = file.getBytes();
+	      
+	            Path path = Paths.get(System.getProperty("user.dir")+"/src/main/resources/images/user_"+userId+".png");
+	            Files.write(path, bytes);
+
+	        
+
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    return "fileUploadView";
 	}
 	
 	

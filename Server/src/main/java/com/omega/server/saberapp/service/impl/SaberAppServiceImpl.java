@@ -80,6 +80,11 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 		return userRepository.save(user);	
 		
 	}
+	@Override
+	public List<User> getAllUsers(){
+		
+		return userRepository.findAll();
+	}
 
 	@Override
 	public String login(String nickname, String password) {
