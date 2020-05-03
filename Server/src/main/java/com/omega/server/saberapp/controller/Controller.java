@@ -61,11 +61,7 @@ public class Controller {
 		return userObject;
 		
 	}
-	@GetMapping("/user/all")
-	public List<User> getAllUsers(){
-		
-		return service.getAllUsers();
-	}
+
 	@GetMapping("/user /id/{id}")
 	public User getUserBy(@PathVariable("id") Long id) {
 		
@@ -190,11 +186,17 @@ public class Controller {
 		return service.createRespuesta(request);
 	}
 	
-	@GetMapping(path="/puntuacions")
-	public List<Puntuacion> getPuntuaciones(){
+	@GetMapping("/user/all")
+	public List<User> getAllUsers(){
 		
+		return service.getAllUsers();
+	}
+	
+	@GetMapping(path="/puntuacions")
+	public List<Puntuacion> getPuntuaciones(){	
 		
 		return service.getPuntuaciones();
+		
 	}
 	
 	@GetMapping(
@@ -209,7 +211,7 @@ public class Controller {
 			}
 	
 	@PostMapping(value = "/user/uploadImage/{userId}")
-	public String submit(@RequestParam("file") MultipartFile file,@PathVariable("userId") Long userId) {
+	public Boolean submit(@RequestParam("file") MultipartFile file,@PathVariable("userId") Long userId) {
 		   try {
 
 	            // Get the file and save it somewhere
@@ -218,12 +220,12 @@ public class Controller {
 	            Path path = Paths.get(System.getProperty("user.dir")+"/src/main/resources/images/user_"+userId+".png");
 	            Files.write(path, bytes);
 
-	        
 
 	        } catch (IOException e) {
 	            e.printStackTrace();
+	            return false;
 	        }
-	    return "fileUploadView";
+	    return true;
 	}
 	
 	

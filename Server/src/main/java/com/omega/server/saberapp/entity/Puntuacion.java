@@ -18,8 +18,10 @@ public class Puntuacion implements Serializable  {
 	@EmbeddedId
     private PuntuacionId puntuacionId;
 
+	
+
 	@Column(name="puntos")
-	Long puntos;
+	private Long puntos;
 
 	public PuntuacionId getPuntuacionId() {
 		return puntuacionId;
@@ -48,5 +50,34 @@ public class Puntuacion implements Serializable  {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((puntos == null) ? 0 : puntos.hashCode());
+		result = prime * result + ((puntuacionId == null) ? 0 : puntuacionId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Puntuacion other = (Puntuacion) obj;
+		if (puntos == null) {
+			if (other.puntos != null)
+				return false;
+		} else if (!puntos.equals(other.puntos))
+			return false;
+		if (puntuacionId == null) {
+			if (other.puntuacionId != null)
+				return false;
+		} else if (!puntuacionId.equals(other.puntuacionId))
+			return false;
+		return true;
+	}
 }
