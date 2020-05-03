@@ -2,6 +2,7 @@ package com.omega.server.saberapp.service.impl;
 
 import static java.util.Collections.emptyList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,8 +83,13 @@ public class SaberAppServiceImpl implements SaberAppServiceI, UserDetailsService
 	}
 	@Override
 	public List<User> getAllUsers(){
-		
-		return userRepository.findAll();
+		List<User> lista=new ArrayList<User>();
+		for(User user: userRepository.findAll()) {
+			user.setPassword(null);
+			user.setEmail(null);
+			lista.add(user);	
+		};
+		return lista;
 	}
 
 	@Override

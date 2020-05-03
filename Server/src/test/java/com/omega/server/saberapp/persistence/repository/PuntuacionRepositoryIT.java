@@ -30,7 +30,8 @@ public class PuntuacionRepositoryIT {
 	@Test
 	public void getAllPuntuaciones() {
 		List<Puntuacion> lista= puntuacionRepository.findAll();
-		assertTrue(lista.size()==2);
+		Long cantidad=puntuacionRepository.count();
+		assertTrue(lista.size()==cantidad);
 		
 	}
 

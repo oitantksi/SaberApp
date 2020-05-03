@@ -10,9 +10,9 @@ import javax.persistence.Embeddable;
 public class PuntuacionId implements Serializable {
 	
 	@Column(name="alumno_id")
-	Long idAlumno;
+	private Long idAlumno;
 	@Column(name="materia_id")
-	Long idMateria;
+	private Long idMateria;
 	public Long getIdAlumno() {
 		return idAlumno;
 	}
