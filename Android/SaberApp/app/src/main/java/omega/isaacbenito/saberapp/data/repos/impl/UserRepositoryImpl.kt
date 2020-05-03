@@ -28,8 +28,11 @@ import omega.isaacbenito.saberapp.data.Result
 import omega.isaacbenito.saberapp.data.Result.Error
 import omega.isaacbenito.saberapp.data.Result.Success
 import omega.isaacbenito.saberapp.data.di.DataModule
+import omega.isaacbenito.saberapp.data.entities.ProfilePicture
 import omega.isaacbenito.saberapp.data.entities.User
+import omega.isaacbenito.saberapp.data.entities.UserWithPicture
 import omega.isaacbenito.saberapp.data.repos.UserRepository
+import omega.isaacbenito.saberapp.data.repos.Utils
 import omega.isaacbenito.saberapp.data.succeeded
 import omega.isaacbenito.saberapp.data.workers.ProfileEditWorker
 import omega.isaacbenito.saberapp.utils.NetworkUtils
@@ -84,6 +87,36 @@ class UserRepositoryImpl @Inject constructor(
         return localDataSource.getUserId(userMail)
     }
 
+    override suspend fun getUserWithPicture(userMail: String): Result<LiveData<UserWithPicture>> {
+        // Si hi ha connexió a internet actualitzem les dades de l'usuari
+        if (networkUtils.isNetworkConnected()) {
+            refreshUser(userMail)
+
+            when (val userIdResult = localDataSource.getUserId(userMail)) {
+                is Success -> {
+                    val userId = userIdResult.data
+                    when (val remoteResult = remoteDataSource.getUserPicture(userId)) {
+                        is Success -> Utils.saveRemoteImage(
+                            userId, remoteResult.data, context.filesDir, localDataSource
+                        )
+                        is Error -> Timber.w(
+                            "No s'ha pogut recuperar l'usuari $userMail del servidor:\n${remoteResult.exception}"
+                        )
+
+                        else -> throw IllegalStateException()
+                    }
+                }
+                is Error -> Timber.w(
+                    "No s'ha pogut recuperar l'id de l'usuari $userMail:\n${userIdResult.exception}"
+                )
+
+                else -> throw IllegalStateException()
+            }
+        }
+
+        return localDataSource.getUserWithPicture(userMail)
+    }
+
     /**
      * Actualitza l'origen de dades local amb les dades de l'origen remot.
      */
@@ -98,14 +131,13 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-
-    override suspend fun updateUser(userEmail: String, user: User) {
-        val respostaId = localDataSource.saveUser(user)
+    override suspend fun updateUser(userMail: String, user: User) {
+        localDataSource.saveUser(user)
 
         var remoteResult: Result<Unit?>? = null
         if (networkUtils.isNetworkConnected()) {
             remoteResult = withContext(Dispatchers.IO) {
-                return@withContext remoteDataSource.updateUser(userEmail, user)
+                return@withContext remoteDataSource.updateUser(userMail, user)
             }
 
             if (!remoteResult.succeeded) {
@@ -129,7 +161,9 @@ class UserRepositoryImpl @Inject constructor(
                 .setInputData(workDataOf(
                     ProfileEditWorker.PROFILE_EDIT_ACTION to ProfileEditWorker.ACTION_UPDATE_USER_DATA,
                     ProfileEditWorker.USER_DATA_KEY to user.toString(),
-                    ProfileEditWorker.USER_EMAIL_KEY to userEmail))
+                    ProfileEditWorker.USER_EMAIL_KEY to userMail
+                )
+                )
                 .build()
 
             WorkManager.getInstance(context).enqueueUniqueWork(
@@ -137,7 +171,20 @@ class UserRepositoryImpl @Inject constructor(
                 ExistingWorkPolicy.REPLACE,
                 updateWork).result
         }
+    }
 
+    override suspend fun updateUserPicture(picture: ProfilePicture) {
+        localDataSource.savePicture(picture)
+
+        var remoteResult: Result<Unit?>? = null
+        if (networkUtils.isNetworkConnected()) {
+            remoteResult = withContext(Dispatchers.IO) {
+                return@withContext remoteDataSource.updateUserPicture(
+                    picture.userId,
+                    picture.pictureUri
+                )
+            }
+        }
 
     }
 

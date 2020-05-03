@@ -1,6 +1,7 @@
 package omega.isaacbenito.saberapp.jocpreguntes.ui.adapters
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,20 +10,25 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import omega.isaacbenito.saberapp.R
-import omega.isaacbenito.saberapp.data.entities.User
+import omega.isaacbenito.saberapp.data.entities.UserWithPicture
 import omega.isaacbenito.saberapp.databinding.ItemPlayerScoreBinding
+import timber.log.Timber
 
-class ClassificationAdapter :
-    ListAdapter<Triple<User, Int, Int>, ClassificationAdapter.PlayerScoreVH>(
+class ClassificationAdapter(val currentUserId: Long) :
+    ListAdapter<Triple<UserWithPicture, Int, Int>, ClassificationAdapter.PlayerScoreVH>(
         PlayerScoreDiffCallback()
     ) {
     class PlayerScoreVH(
         val binding: ItemPlayerScoreBinding,
+        val currentUserId: Long,
         val context: Context
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(player: User, score: Int, position: Int) {
-            binding.player = player
+        fun bind(player: UserWithPicture, score: Int, position: Int) {
+            binding.player = player.user
+            if (player.profilePicture != null) {
+                binding.playerPicture.setImageURI(player.profilePicture.pictureUri)
+            }
             binding.playerScore.text = score.toString()
 
             if (position in (0..2)) {
@@ -41,12 +47,26 @@ class ClassificationAdapter :
             } else {
                 binding.playerTrophy.visibility = View.INVISIBLE
             }
+
+            if (player.user.id == currentUserId) {
+                val background = binding.root.background
+
+                if (background is GradientDrawable) {
+                    Timber.d("GradientDrawable")
+                    background.mutate()
+                    background.colors = intArrayOf(
+                        ContextCompat.getColor(context, R.color.colorPrimaryLigth),
+                        ContextCompat.getColor(context, R.color.colorAccent)
+                    )
+                }
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerScoreVH {
         return PlayerScoreVH(
             ItemPlayerScoreBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            currentUserId,
             parent.context
         )
     }
@@ -57,17 +77,17 @@ class ClassificationAdapter :
     }
 }
 
-class PlayerScoreDiffCallback : DiffUtil.ItemCallback<Triple<User, Int, Int>>() {
+class PlayerScoreDiffCallback : DiffUtil.ItemCallback<Triple<UserWithPicture, Int, Int>>() {
     override fun areItemsTheSame(
-        oldItem: Triple<User, Int, Int>,
-        newItem: Triple<User, Int, Int>
+        oldItem: Triple<UserWithPicture, Int, Int>,
+        newItem: Triple<UserWithPicture, Int, Int>
     ): Boolean {
-        return oldItem.first == newItem.first
+        return oldItem.first.user.id == newItem.first.user.id
     }
 
     override fun areContentsTheSame(
-        oldItem: Triple<User, Int, Int>,
-        newItem: Triple<User, Int, Int>
+        oldItem: Triple<UserWithPicture, Int, Int>,
+        newItem: Triple<UserWithPicture, Int, Int>
     ): Boolean {
         return oldItem == newItem
     }

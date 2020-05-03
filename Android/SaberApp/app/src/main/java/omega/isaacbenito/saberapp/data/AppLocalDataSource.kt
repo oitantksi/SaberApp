@@ -13,9 +13,17 @@ interface AppLocalDataSource {
 
     suspend fun getUser(id: Long): Result<User>
 
+    suspend fun getUserWithPicture(email: String): Result<LiveData<UserWithPicture>>
+
     suspend fun getUserId(email: String) : Result<Long>
 
     suspend fun saveUser(user: User): Result<Unit>
+
+    suspend fun saveUsers(users: List<User>): Result<Unit>
+
+    suspend fun savePicture(picture: ProfilePicture): Result<Unit>
+
+    suspend fun saveUser(userWithPicture: UserWithPicture): Result<Unit>
 
     suspend fun getMateries() : Result<LiveData<List<Materia>>>
 

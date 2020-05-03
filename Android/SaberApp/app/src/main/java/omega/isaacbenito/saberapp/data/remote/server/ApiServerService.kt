@@ -17,6 +17,8 @@
 
 package omega.isaacbenito.saberapp.data.remote.server
 
+import okhttp3.MultipartBody
+import okhttp3.ResponseBody
 import omega.isaacbenito.saberapp.data.entities.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -40,8 +42,21 @@ interface ApiServerService {
     @GET("/user/email/{email}")
     suspend fun getUser(@Path("email") userMail: String): Response<User>
 
+    @GET("/user/image/{id}")
+    suspend fun getUserPicture(@Path("id") userId: Long): Response<ResponseBody>
+
+    @GET("/user/all")
+    suspend fun getAllUsers(): Response<List<User>>
+
     @PUT("/user/{email}")
     suspend fun updateUser(@Path("email") userMail: String, @Body user: User): Response<Unit>
+
+    @Multipart
+    @POST("/user/uploadImage/{userId}")
+    suspend fun updateUserPicture(
+        @Path("userId") userId: Long,
+        @Part userPicture: MultipartBody.Part
+    ): Response<Unit>
 
     @PUT("/user/password/{email}")
     suspend fun updatePassword(@Path("email") userMail: String, @Body passwordDto: User.UpdatePasswordDto): Response<Unit>

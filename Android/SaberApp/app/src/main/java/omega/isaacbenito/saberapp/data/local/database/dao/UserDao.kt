@@ -19,13 +19,18 @@ package omega.isaacbenito.saberapp.data.local.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import omega.isaacbenito.saberapp.data.entities.ProfilePicture
 import omega.isaacbenito.saberapp.data.entities.User
+import omega.isaacbenito.saberapp.data.entities.UserWithPicture
 
 @Dao
 abstract class UserDao {
 
     @Query("SELECT * FROM users WHERE email=:userMail")
     abstract fun get(userMail: String): LiveData<User>
+
+    @Query("SELECT * FROM users LEFT JOIN profile_pictures ON id=userId WHERE email=:userMail")
+    abstract fun getUserWithPicture(userMail: String): LiveData<UserWithPicture>
 
     @Query("SELECT * FROM users WHERE id=:userId")
     abstract fun get(userId: Long): User
@@ -77,5 +82,30 @@ abstract class UserDao {
             }
         }
         update(updateList)
+    }
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract fun insert(picture: ProfilePicture): Long
+
+    @Update
+    abstract fun update(picture: ProfilePicture)
+
+    @Transaction
+    open fun save(userWithPicture: UserWithPicture) {
+        val user = userWithPicture.user
+        val picture = userWithPicture.profilePicture
+        if (insert(user) == -1L) {
+            update(user)
+        }
+        if (picture != null) {
+            save(picture)
+        }
+    }
+
+    @Transaction
+    open fun save(picture: ProfilePicture) {
+        if (insert(picture) == -1L) {
+            update(picture)
+        }
     }
 }

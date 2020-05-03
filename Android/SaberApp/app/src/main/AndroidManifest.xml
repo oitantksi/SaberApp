@@ -51,6 +51,9 @@
 
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".authentication.ui.AuthActivity"/>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
 
         <service android:name=".authentication.impl.AuthenticatorService">
             <intent-filter>

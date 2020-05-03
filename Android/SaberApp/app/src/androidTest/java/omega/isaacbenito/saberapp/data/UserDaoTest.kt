@@ -1,10 +1,13 @@
 package omega.isaacbenito.saberapp.data
 
 import android.content.Context
+import android.net.Uri
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import omega.isaacbenito.saberapp.data.entities.ProfilePicture
 import omega.isaacbenito.saberapp.data.entities.User
+import omega.isaacbenito.saberapp.data.entities.UserWithPicture
 import omega.isaacbenito.saberapp.data.local.database.SaberAppDatabase
 import omega.isaacbenito.saberapp.data.local.database.dao.UserDao
 import omega.isaacbenito.saberapp.utils.waitForValue
@@ -152,8 +155,36 @@ class UserDaoTest {
 
         userDao.save(users)
         val dbUsers = userDao.getAll().waitForValue()
-        assertThat(dbUsers?.size, equalTo(users.size))
+        assertThat(dbUsers.size, equalTo(users.size))
         assertThat(dbUsers, equalTo(users))
+    }
+
+    @Test
+    fun writeAndReadWithoutPicture() {
+        val user = UserWithPicture(
+            User(
+                1L, "name", "surname", "nickname",
+                "email@email.com", "centre"
+            ),
+            null
+        )
+
+        userDao.save(user)
+        assertThat(userDao.getUserWithPicture(user.user.email).waitForValue(), equalTo(user))
+    }
+
+    @Test
+    fun writeAndReadWithPicture() {
+        val user = UserWithPicture(
+            User(
+                1L, "name", "surname", "nickname",
+                "email@email.com", "centre"
+            ),
+            ProfilePicture(1L, Uri.parse("someUri"))
+        )
+
+        userDao.save(user)
+        assertThat(userDao.getUserWithPicture(user.user.email).waitForValue(), equalTo(user))
     }
 
 }

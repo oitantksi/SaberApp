@@ -67,6 +67,12 @@ class UserMainFragment : DaggerFragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_main, container, false)
 
+        userVM.userProfilePicture.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                binding.userImg.setImageURI(it)
+            }
+        })
+
         userVM.snackbarMessage.observe(viewLifecycleOwner, Observer {
             Snackbar.make(binding.root, resources.getString(it), Snackbar.LENGTH_SHORT).show()
         })

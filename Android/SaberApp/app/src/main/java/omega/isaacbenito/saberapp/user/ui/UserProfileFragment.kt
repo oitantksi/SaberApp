@@ -17,11 +17,13 @@
 
 package omega.isaacbenito.saberapp.user.ui
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -31,6 +33,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import dagger.android.support.DaggerFragment
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.authentication.ui.AuthActivity
@@ -54,12 +58,14 @@ class UserProfileFragment : DaggerFragment(), CentreAdapter.Interaction {
 
     private lateinit var centreAdapter: CentreAdapter
 
+    val addImage = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            userVM.onPictureEdited(CropImage.getActivityResult(it.data).uri)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        userVM.user.observe(this, Observer {
-            binding.user = userVM.user.value
-        })
 
         userVM.logoutEvent.observe(this, Observer {
             if (it) {
@@ -75,6 +81,16 @@ class UserProfileFragment : DaggerFragment(), CentreAdapter.Interaction {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false)
 
+        userVM.user.observe(viewLifecycleOwner, Observer {
+            binding.user = it
+        })
+
+        userVM.userProfilePicture.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                binding.userImg.setImageURI(it)
+            }
+        })
+
         binding.viewModel = userVM
 
         userVM.editEvent.observe(viewLifecycleOwner, Observer {
@@ -87,6 +103,17 @@ class UserProfileFragment : DaggerFragment(), CentreAdapter.Interaction {
                 showEditDialog(it)
             }
         })
+
+        binding.editProfileImage.setOnClickListener {
+            Timber.d("AddImage clicked")
+            addImage.launch(
+                CropImage.activity()
+                    .setCropShape(CropImageView.CropShape.OVAL)
+                    .setAspectRatio(1, 1)
+                    .getIntent(requireContext())
+            )
+        }
+
 
         //TODO Relocate Unregister
 

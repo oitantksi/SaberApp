@@ -198,15 +198,15 @@ public class Controller {
 	}
 	
 	@GetMapping(
-			  value = "/user/image/{id}",
-			  produces = MediaType.IMAGE_PNG_VALUE
-			)
-			public @ResponseBody byte[] getImageWithMediaType(@PathVariable("id") Long id) throws IOException {
-			    InputStream in = getClass()
-			      .getResourceAsStream("/images/user_"+id+".png");
+            value = "/user/image/{id}",
+            produces = MediaType.IMAGE_PNG_VALUE
+          )
+          public @ResponseBody byte[] getImageWithMediaType(@PathVariable("id") Long id) throws IOException {
+              InputStream in = getClass()
+                .getResourceAsStream("/images/user_"+id+".png");
 
-			    return IOUtils.toByteArray(in);
-			}
+              return IOUtils.toByteArray(in);
+          }
 	
 	@PostMapping(value = "/user/uploadImage/{userId}")
 	public String submit(@RequestParam("file") MultipartFile file,@PathVariable("userId") Long userId) {

@@ -17,6 +17,8 @@
 
 package omega.isaacbenito.saberapp.user.model
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import omega.isaacbenito.saberapp.R
@@ -25,13 +27,18 @@ import omega.isaacbenito.saberapp.authentication.AuthResult
 import omega.isaacbenito.saberapp.authentication.AuthenticationManager
 import omega.isaacbenito.saberapp.data.Result
 import omega.isaacbenito.saberapp.data.entities.Centre
+import omega.isaacbenito.saberapp.data.entities.ProfilePicture
 import omega.isaacbenito.saberapp.data.entities.User
 import omega.isaacbenito.saberapp.data.prefs.PrefStorage
 import omega.isaacbenito.saberapp.data.repos.CentreRepository
 import omega.isaacbenito.saberapp.data.repos.JocPreguntesRepository
 import omega.isaacbenito.saberapp.data.repos.UserRepository
 import timber.log.Timber
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.net.ConnectException
+import java.security.MessageDigest
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -41,6 +48,7 @@ class UserViewModel @Inject constructor(
     private val centreRepository: CentreRepository,
     private val jocPreguntesRepository: JocPreguntesRepository,
     private val authManager: AuthenticationManager,
+    val context: Context,
     private val prefs: PrefStorage
 ) : ViewModel() {
 
@@ -58,6 +66,9 @@ class UserViewModel @Inject constructor(
 
     private val _user = MediatorLiveData<User>()
     val user: LiveData<User> = _user
+
+    private val _userProfilePicture = MediatorLiveData<Uri?>()
+    val userProfilePicture: LiveData<Uri?> = _userProfilePicture
 
     private val _userScore = MediatorLiveData<Int>()
     val userScore: LiveData<Int> = _userScore
@@ -98,9 +109,12 @@ class UserViewModel @Inject constructor(
     private fun loadUser(forceUpdate: Boolean) {
         _dataLoading.value = true
         viewModelScope.launch {
-            when (val userLoadResult = userRepository.getUser(userMail, forceUpdate)) {
+            when (val userLoadResult = userRepository.getUserWithPicture(userMail)) {
                 is Result.Success -> {
-                    _user.addSource(userLoadResult.data) { _user.value = it }
+                    _user.addSource(userLoadResult.data) { _user.value = it.user }
+                    _userProfilePicture.addSource(userLoadResult.data) {
+                        _userProfilePicture.value = it.profilePicture?.pictureUri
+                    }
                     _dataLoading.value = false
                 }
                 is Result.Error -> {
@@ -293,5 +307,41 @@ class UserViewModel @Inject constructor(
         _logoutEvent.value = true
     }
 
+    fun onPictureEdited(cacheImgUri: Uri) {
+        viewModelScope.launch {
+            val cacheImage = File(cacheImgUri.path)
+            val inStream = FileInputStream(cacheImage)
 
+            val digest = MessageDigest.getInstance("MD5")
+            val encodedHash = digest.digest(cacheImage.readBytes())
+            val sb = StringBuilder()
+            for (b in encodedHash) {
+                sb.append(String.format("%02x", b))
+            }
+            val md5 = sb.toString()
+
+            val imgFile = File(context.filesDir, "$md5.jpg")
+
+            try {
+                val outStream = FileOutputStream(imgFile)
+
+                try {
+                    val buffer = ByteArray(1024)
+                    var len: Int
+                    while (inStream.read(buffer).also { len = it } > 0) {
+                        outStream.write(buffer, 0, len)
+                    }
+                } finally {
+                    outStream.close()
+                }
+            } finally {
+                inStream.close()
+                cacheImage.delete()
+
+                userRepository.updateUserPicture(
+                    ProfilePicture(_user.value?.id!!, Uri.fromFile(imgFile))
+                )
+            }
+        }
+    }
 }

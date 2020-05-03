@@ -13,6 +13,7 @@ import omega.isaacbenito.saberapp.data.Result
 import omega.isaacbenito.saberapp.data.di.DataModule
 import omega.isaacbenito.saberapp.data.entities.*
 import omega.isaacbenito.saberapp.data.repos.JocPreguntesRepository
+import omega.isaacbenito.saberapp.data.repos.Utils
 import omega.isaacbenito.saberapp.data.workers.JocPreguntesWorker
 import omega.isaacbenito.saberapp.data.workers.JocPreguntesWorker.Companion.PREGUNTA_ID
 import omega.isaacbenito.saberapp.data.workers.JocPreguntesWorker.Companion.USER_ID
@@ -157,12 +158,26 @@ class JocPreguntesRepositoryImpl @Inject constructor (
     }
 
     private suspend fun updateUsers() {
-//        when(val remoteResult = remoteDataSource.g) {
-//            is Result.Success -> localDataSource.updateMateries(remoteResult.data)
-//            is Result.Error -> Timber.d("No s'han pogut recuperar les materies del servidor")
-//            else -> throw IllegalStateException()
-//        }
-        //TODO updateUsers()
+        when (val remoteResult = remoteDataSource.getAllUsers()) {
+            is Result.Success -> {
+                localDataSource.saveUsers(remoteResult.data)
+                for (user in remoteResult.data) {
+                    refreshUserPicture(user.id)
+                }
+            }
+            is Result.Error -> Timber.d("No s'han pogut recuperar els usuaris del servidor")
+            else -> throw IllegalStateException()
+        }
+    }
+
+    private suspend fun refreshUserPicture(userId: Long) {
+        when (val remoteResult = remoteDataSource.getUserPicture(userId)) {
+            is Result.Success -> Utils.saveRemoteImage(
+                userId, remoteResult.data, context.filesDir, localDataSource
+            )
+            is Result.Error -> Timber.d("No s'ha pogut recuperar la imatge de l'usuari $userId del servidor")
+            else -> throw IllegalStateException()
+        }
     }
 
     private suspend fun getUserId(userAccountIdentifier: String): Long {

@@ -1,5 +1,7 @@
 package omega.isaacbenito.saberapp.data
 
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import omega.isaacbenito.saberapp.data.Result.Error
 import omega.isaacbenito.saberapp.data.Result.Success
@@ -26,6 +28,10 @@ interface AppRemoteDataSource {
      */
     suspend fun getUser(userMail: String): Result<User>
 
+    suspend fun getUserPicture(userId: Long): Result<Bitmap>
+
+    suspend fun getAllUsers(): Result<List<User>>
+
     /**
      * Actualitza el [User] a l'origen de dades remot de l'aplicació
      *
@@ -36,6 +42,8 @@ interface AppRemoteDataSource {
      *  Si [Result] és [Error] encapsula l' [Exception] llançada
      */
     suspend fun updateUser(userEmail: String, user: User): Result<Unit?>
+
+    suspend fun updateUserPicture(userId: Long, imageUri: Uri): Result<Unit?>
 
     /**
      * Actualitza la contrassenya a l'origen de dades remot de l'aplicació

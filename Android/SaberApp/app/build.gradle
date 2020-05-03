@@ -129,6 +129,9 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
+    // IMAGE CROPPER
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+
 
     /**
      * DEBUGGING

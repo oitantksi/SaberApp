@@ -26,13 +26,14 @@ import omega.isaacbenito.saberapp.data.local.database.dao.*
 @Database(
     entities = [
         User::class,
+        ProfilePicture::class,
         Centre::class,
         Materia::class,
         Pregunta::class,
         Resposta::class,
         Score::class
     ],
-    version = 16, exportSchema = true
+    version = 18, exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class SaberAppDatabase : RoomDatabase() {

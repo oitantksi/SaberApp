@@ -14,5 +14,5 @@ data class ScoreWithUserAndMateria(
     @Relation(entity = Materia::class, parentColumn = "materiaId", entityColumn = "id")
     val materia: Materia,
     @Relation(entity = User::class, parentColumn = "userId", entityColumn = "id")
-    val user: User
+    val user: UserWithPicture
 )

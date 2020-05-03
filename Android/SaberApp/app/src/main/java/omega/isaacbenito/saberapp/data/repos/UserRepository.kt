@@ -21,7 +21,9 @@ import androidx.lifecycle.LiveData
 import omega.isaacbenito.saberapp.data.Result
 import omega.isaacbenito.saberapp.data.Result.Error
 import omega.isaacbenito.saberapp.data.Result.Success
+import omega.isaacbenito.saberapp.data.entities.ProfilePicture
 import omega.isaacbenito.saberapp.data.entities.User
+import omega.isaacbenito.saberapp.data.entities.UserWithPicture
 
 
 /**
@@ -44,11 +46,15 @@ interface UserRepository {
      */
     suspend fun getUser(userMail: String, forceUpdate: Boolean): Result<LiveData<User>>
 
+    suspend fun getUserWithPicture(userMail: String): Result<LiveData<UserWithPicture>>
+
     suspend fun getUser(userId: Long): Result<User>
 
     suspend fun getUserId(userMail: String): Result<Long>
 
     suspend fun updateUser(userEmail: String, user: User)
+
+    suspend fun updateUserPicture(picture: ProfilePicture)
 
     suspend fun updateUserPassword(userEmail: String, oldPassword: String, newPassword: String)
 }

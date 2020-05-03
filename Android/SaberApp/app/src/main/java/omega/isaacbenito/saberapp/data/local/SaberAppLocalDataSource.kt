@@ -49,10 +49,22 @@ class SaberAppLocalDataSource internal constructor(
 
     override suspend fun getUser(id: Long): Result<User> = dbOperation { userDao.get(id) }
 
+    override suspend fun getUserWithPicture(email: String): Result<LiveData<UserWithPicture>> =
+        dbLiveDataOperation { userDao.getUserWithPicture(email) }
+
     override suspend fun getUserId(email: String): Result<Long> =
         dbOperation { userDao.getUserId(email) }
 
     override suspend fun saveUser(user: User): Result<Unit> = dbOperation { userDao.save(user) }
+
+    override suspend fun savePicture(picture: ProfilePicture): Result<Unit> =
+        dbOperation { userDao.save(picture) }
+
+    override suspend fun saveUser(userWithPicture: UserWithPicture): Result<Unit> =
+        dbOperation { userDao.save(userWithPicture) }
+
+    override suspend fun saveUsers(users: List<User>): Result<Unit> =
+        dbOperation { userDao.save(users) }
 
     override suspend fun getMateries(): Result<LiveData<List<Materia>>> =
         dbLiveDataOperation { materiaDao.getMateries() }

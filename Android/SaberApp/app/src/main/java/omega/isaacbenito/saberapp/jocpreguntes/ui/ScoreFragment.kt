@@ -66,12 +66,18 @@ class ScoreFragment : DaggerFragment() {
         })
 
         jocVM.userPosition.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                binding.classificationList.scrollToPosition(it)
-            }
+            binding.classificationList.smoothScrollToPosition(0)
+//            if (it != null) {
+//                Timber.d("User position: $it")
+//                if (it >= 0) {
+//                    binding.classificationList.smoothScrollToPosition(it)
+//                } else {
+//                    binding.classificationList.smoothScrollToPosition(0)
+//                }
+//            }
         })
 
-        classificationAdapter = ClassificationAdapter()
+        classificationAdapter = ClassificationAdapter(jocVM.currentUserId)
 
         binding.classificationList.let {
             it.setHasFixedSize(true)

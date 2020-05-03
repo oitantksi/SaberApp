@@ -29,7 +29,7 @@ abstract class ScoreDao : BaseDao<Score>() {
     @Query("SELECT * FROM scores WHERE userId IN (SELECT userId FROM users WHERE centre=:centre)")
     abstract fun getAllScoresByCentre(centre: String): LiveData<List<Score>>
 
-    @Query("SELECT * FROM scores LEFT JOIN materies ON materiaId=materies.id LEFT JOIN users ON userId=users.id ORDER BY materiaId, score")
+    @Query("SELECT * FROM scores")
     abstract fun getScores(): LiveData<List<ScoreWithUserAndMateria>>
 
 }

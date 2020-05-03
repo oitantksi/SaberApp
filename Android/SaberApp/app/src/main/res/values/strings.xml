@@ -110,6 +110,7 @@
     <string name="icons">App icon made by Montserrat Camps.\n\nTo create this project we\'ve used many resources from:\n\n\t- <a href="https://www.freepik.es/">Freepik</a>\n\n\t- <a href="https://www.flaticon.com/">Flaticon</a>\n\n\t- <a href="https://material.io/resources/icons/">Android Material Design Icons</a></string>
     <string name="licensing">LICENSE</string>
     <string name="apply">Apply</string>
+    <string name="profile_picture_file">profile</string>
 
 
 </resources>

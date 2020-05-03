@@ -43,6 +43,7 @@ class JocPreguntesVM @Inject constructor(
     }
 
     private val _currentUser = MutableLiveData<User>()
+    val currentUserId = prefs.getCurrentUserId()
 
     private val _action = MutableLiveData<Int>()
 
@@ -130,9 +131,10 @@ class JocPreguntesVM @Inject constructor(
     private val _userPosition = MutableLiveData<Int>()
     val userPosition: LiveData<Int> = _userPosition
 
-    private val _globalClassification = MutableLiveData<List<Pair<User, Int>>>()
-    val classification: LiveData<List<Triple<User, Int, Int>>> =
+    private val _globalClassification = MutableLiveData<List<Pair<UserWithPicture, Int>>>()
+    val classification: LiveData<List<Triple<UserWithPicture, Int, Int>>> =
         Transformations.map(_scores.combine(_materiaClassification, _scopeClassification)) {
+            Timber.d("New scores list: $it")
             if (_scores.value != null) {
                 if (_globalClassification.value == null || _globalClassification.value?.isEmpty()!!) {
                     _globalClassification.value = _scores.value?.groupBy { it.user }
@@ -144,11 +146,11 @@ class JocPreguntesVM @Inject constructor(
 
                 val userCentre = _currentUser.value?.centre ?: throw NullPointerException()
 
-                var classification: List<Pair<User, Int>>? = null
+                var classification: List<Pair<UserWithPicture, Int>>? = null
                 if (_materiaClassification.value == MATERIA_GLOBAL) {
                     if (_scopeClassification.value == _SCOPE_LOCAL) {
                         classification =
-                            _globalClassification.value?.filter { it.first.centre == userCentre }
+                            _globalClassification.value?.filter { it.first.user.centre == userCentre }
                     } else {
                         classification = _globalClassification.value
                     }
@@ -159,7 +161,7 @@ class JocPreguntesVM @Inject constructor(
                                 _SCOPE_GLOBAL -> it.materia.id == _materiaClassification.value
                                 _SCOPE_LOCAL -> {
                                     it.materia.id == _materiaClassification.value
-                                            && it.user.centre == userCentre
+                                            && it.user.user.centre == userCentre
                                 }
                                 else -> false
                             }
@@ -169,7 +171,7 @@ class JocPreguntesVM @Inject constructor(
                         ?.map { it.user to it.score.score }
                 }
                 _userPosition.value =
-                    classification?.indexOfFirst { it.first == _currentUser.value }
+                    classification?.indexOfFirst { it.first.user == _currentUser.value }
                 classification?.map { Triple(it.first, it.second, classification.indexOf(it)) }
             } else {
                 emptyList()
@@ -180,7 +182,8 @@ class JocPreguntesVM @Inject constructor(
         Transformations.map(_scores.combine(_listMateries, _globalClassification)) {
             if (_scores.value != null && _listMateries.value != null) {
                 val userId = _currentUser.value?.id ?: throw NullPointerException()
-                val userScore = _globalClassification.value?.firstOrNull { it.first.id == userId }
+                val userScore =
+                    _globalClassification.value?.firstOrNull { it.first.user.id == userId }
                 val scores = mutableListOf<Triple<Materia, Int, Int>>(
                     Triple(
                         Materia(MATERIA_GLOBAL, "Global"),
@@ -191,7 +194,7 @@ class JocPreguntesVM @Inject constructor(
                 _listMateries.value?.sortedBy { it.name }
                     ?.forEach { materia ->
                         val scoreWithUserAndMateria = _scores.value
-                            ?.firstOrNull { it.materia == materia && it.user.id == userId }
+                            ?.firstOrNull { it.materia == materia && it.user.user.id == userId }
                         val score = scoreWithUserAndMateria?.score?.score ?: 0
                         val position = _scores.value?.filter { it.materia == materia }
                             ?.sortedBy { it.score.score }?.indexOf(scoreWithUserAndMateria) ?: -1

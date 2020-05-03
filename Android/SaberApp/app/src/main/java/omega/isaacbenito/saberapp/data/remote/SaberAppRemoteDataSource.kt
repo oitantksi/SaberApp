@@ -1,8 +1,14 @@
 package omega.isaacbenito.saberapp.data.remote
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import omega.isaacbenito.saberapp.data.AppRemoteDataSource
 import omega.isaacbenito.saberapp.data.Result
 import omega.isaacbenito.saberapp.data.Result.Error
@@ -11,6 +17,7 @@ import omega.isaacbenito.saberapp.data.entities.*
 import omega.isaacbenito.saberapp.data.remote.server.SaberAppServer
 import retrofit2.HttpException
 import retrofit2.Response
+import java.io.File
 import java.net.ConnectException
 
 /**
@@ -72,10 +79,34 @@ class SaberAppRemoteDataSource(
     override suspend fun getUser(email: String): Result<User>
             = getData { server.apiService.getUser(email) }
 
-    //TODO GetAllUsers
+    override suspend fun getUserPicture(userId: Long): Result<Bitmap> = withContext(ioDispatcher) {
+        return@withContext try {
+            val response = server.apiService.getUserPicture(userId)
+            if (response.isSuccessful && response.body() != null) {
+                val bitmap = BitmapFactory.decodeStream(response.body()?.byteStream())
+                Success(bitmap)
+            } else {
+                Error(Exception(response.message()))
+            }
+        } catch (e: ConnectException) {
+            Error(e)
+        }
+    }
+
+    override suspend fun getAllUsers(): Result<List<User>> =
+        getData { server.apiService.getAllUsers() }
 
     override suspend fun updateUser(userEmail: String, user: User): Result<Nothing?>
             = postData { server.apiService.updateUser(userEmail, user) }
+
+    override suspend fun updateUserPicture(userId: Long, imageUri: Uri): Result<Nothing?> {
+        val imageFile = File(imageUri.path)
+        val imageRequestBody =
+            imageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val imageMultipartBody =
+            MultipartBody.Part.createFormData("file", imageFile.name, imageRequestBody)
+        return postData { server.apiService.updateUserPicture(userId, imageMultipartBody) }
+    }
 
     override suspend fun updatePassword(
         userEmail: String,
