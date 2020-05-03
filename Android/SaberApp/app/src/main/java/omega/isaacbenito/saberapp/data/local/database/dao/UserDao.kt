@@ -27,6 +27,9 @@ abstract class UserDao {
     @Query("SELECT * FROM users WHERE email=:userMail")
     abstract fun get(userMail: String): LiveData<User>
 
+    @Query("SELECT * FROM users WHERE id=:userId")
+    abstract fun get(userId: Long): User
+
     @Query("SELECT id FROM users WHERE email=:userMail")
     abstract fun getUserId(userMail: String): Long
 

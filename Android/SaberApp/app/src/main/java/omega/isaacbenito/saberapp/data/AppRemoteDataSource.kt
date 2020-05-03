@@ -57,4 +57,5 @@ interface AppRemoteDataSource {
 
     suspend fun setResposta(resposta: Resposta) : Result<Nothing?>
 
+    suspend fun getPuntuacions(): Result<List<Score.Dto>>
 }

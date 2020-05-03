@@ -72,6 +72,8 @@ class SaberAppRemoteDataSource(
     override suspend fun getUser(email: String): Result<User>
             = getData { server.apiService.getUser(email) }
 
+    //TODO GetAllUsers
+
     override suspend fun updateUser(userEmail: String, user: User): Result<Nothing?>
             = postData { server.apiService.updateUser(userEmail, user) }
 
@@ -94,4 +96,7 @@ class SaberAppRemoteDataSource(
 
     override suspend fun setResposta(resposta: Resposta): Result<Nothing?>
             = postData { server.apiService.postResposta(resposta.getDto()) }
+
+    override suspend fun getPuntuacions(): Result<List<Score.Dto>> =
+        getData { server.apiService.getPuntuacions() }
 }

@@ -70,7 +70,7 @@
             android:clipToPadding="false"
             android:padding="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/reg_centre_item"
+            tools:listitem="@layout/item_reg_centre"
             app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

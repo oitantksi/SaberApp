@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import omega.isaacbenito.saberapp.data.entities.Centre
-import omega.isaacbenito.saberapp.databinding.RegCentreItemBinding
+import omega.isaacbenito.saberapp.databinding.ItemRegCentreBinding
 
 /**
  * @author Isaac Benito
@@ -31,7 +31,7 @@ class CentreAdapter(
      *      un item de la llista.
      */
     class CentreVH(
-        private val binding: RegCentreItemBinding,
+        private val binding: ItemRegCentreBinding,
         private val interaction: Interaction
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -47,7 +47,7 @@ class CentreAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CentreVH {
         return CentreVH(
-            RegCentreItemBinding.inflate(
+            ItemRegCentreBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             ), interaction
         )

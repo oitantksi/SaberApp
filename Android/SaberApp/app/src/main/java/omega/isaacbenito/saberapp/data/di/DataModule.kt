@@ -2,15 +2,20 @@ package omega.isaacbenito.saberapp.data.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import omega.isaacbenito.saberapp.data.AppLocalDataSource
 import omega.isaacbenito.saberapp.data.AppRemoteDataSource
 import omega.isaacbenito.saberapp.data.local.SaberAppLocalDataSource
+import omega.isaacbenito.saberapp.data.local.database.DataPrePopulate
 import omega.isaacbenito.saberapp.data.local.database.SaberAppDatabase
 import omega.isaacbenito.saberapp.data.prefs.PrefStorage
 import omega.isaacbenito.saberapp.data.prefs.PrefStorageImpl
@@ -103,6 +108,7 @@ abstract class DataModule {
                 database.materiaDao(),
                 database.preguntaDao(),
                 database.respostaDao(),
+                database.scoreDao(),
                 ioDispatcher
             )
         }
@@ -118,18 +124,18 @@ abstract class DataModule {
             )
                 .fallbackToDestructiveMigration()
                     // Prepopulate DB only used for testing
-//                .addCallback(object : RoomDatabase.Callback() {
-//                    override fun onCreate(db: SupportSQLiteDatabase) {
-//                        super.onCreate(db)
-//                        CoroutineScope(Dispatchers.IO).launch {
-//                            val database = provideDataBase(context)
-//                            database.userDao().insert(data.getPrepopulateUsers())
-//                            database.materiaDao().insert(data.getPrepopulateMateries())
-//                            database.preguntaDao().insert(data.getPrepopulatePreguntes())
-//                            database.preguntaDao().insertRespostes(data.getPrepopulateAnswers())
-//                        }
-//                    }
-//                })
+                .addCallback(object : RoomDatabase.Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        super.onCreate(db)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val database = provideDataBase(context)
+                            database.userDao().insert(DataPrePopulate.getPrepopulateUsers())
+////                            database.materiaDao().insert(data.getPrepopulateMateries())
+////                            database.preguntaDao().insert(data.getPrepopulatePreguntes())
+////                            database.preguntaDao().insertRespostes(data.getPrepopulateAnswers())
+                        }
+                    }
+                })
                 .build()
         }
 

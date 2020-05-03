@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/shape_item_player">
+
+        <ImageView
+            android:id="@+id/player_trophy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/score_gold" />
+
+        <TextView
+            android:id="@+id/player_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{player.centre}"
+            app:layout_constraintLeft_toLeftOf="@id/player_name"
+            app:layout_constraintTop_toBottomOf="@id/player_name"
+            tools:text="IES JOAN MARAGALL" />
+
+        <TextView
+            android:id="@+id/player_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/player_trophy"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="3000" />
+
+        <TextView
+            android:id="@+id/player_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@{player.name}"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/player_picture_cardView"
+            app:layout_constraintTop_toTopOf="@id/player_picture_cardView"
+            tools:text="Isaac Benito" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/player_picture_cardView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            app:cardCornerRadius="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/unknown_user_profile_picture" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="player"
+            type="omega.isaacbenito.saberapp.data.entities.User" />
+
+    </data>
+</layout>

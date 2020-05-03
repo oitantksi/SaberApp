@@ -17,114 +17,73 @@ class SaberAppLocalDataSource internal constructor(
     private val materiaDao: MateriaDao,
     private val preguntaDao: PreguntaDao,
     private val respostaDao: RespostaDao,
+    private val scoreDao: ScoreDao,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AppLocalDataSource {
 
+    private suspend fun <T : Any> dbOperation(dbOperation: suspend () -> T): Result<out T> =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                Success(dbOperation())
+            } catch (e: Exception) {
+                Error(e)
+            }
+        }
+
+    private suspend fun <T : Any> dbLiveDataOperation(dbOperation: suspend () -> T): Result<out T> {
+        return try {
+            Success(dbOperation())
+        } catch (e: Exception) {
+            Error(e)
+        }
+    }
 
     override suspend fun getAllCentres(): Result<LiveData<List<Centre>>> =
-        withContext(ioDispatcher) {
-            return@withContext try {
-                Success(centreDao.getAllCentres())
-            } catch (e: Exception) {
-                Error(e)
-            }
-        }
+        dbLiveDataOperation { centreDao.getAllCentres() }
 
     override suspend fun updateCentres(centres: List<Centre>): Result<Unit> =
-        withContext(ioDispatcher) {
-            return@withContext try {
-                Success(centreDao.save(centres))
-            } catch (e: Exception) {
-                Error(e)
-            }
-        }
+        dbOperation { centreDao.save(centres) }
 
-    override suspend fun getUser(email: String): Result<LiveData<User>> {
-        return try {
-            val user = userDao.get(email)
-            Success(user)
-        } catch (e: Exception) {
-            Error(e)
-        }
-    }
+    override suspend fun getUser(email: String): Result<LiveData<User>> =
+        dbLiveDataOperation { userDao.get(email) }
 
-    override suspend fun getUserId(email: String): Result<Long> = withContext(ioDispatcher){
-        return@withContext try {
-            Success(userDao.getUserId(email))
-        } catch (e: Exception) {
-            Error(e)
-        }
-    }
+    override suspend fun getUser(id: Long): Result<User> = dbOperation { userDao.get(id) }
 
-    override suspend fun saveUser(user: User): Result<Unit> = withContext(ioDispatcher) {
-        return@withContext try {
-            Success(userDao.save(user))
-        } catch (e: Exception) {
-            Error(e)
-        }
-    }
+    override suspend fun getUserId(email: String): Result<Long> =
+        dbOperation { userDao.getUserId(email) }
 
-    override suspend fun getMateries(): Result<LiveData<List<Materia>>> {
-        return try {
-            Success(materiaDao.getMateries())
-        } catch (e: Exception) {
-            Error(e)
-        }
-    }
+    override suspend fun saveUser(user: User): Result<Unit> = dbOperation { userDao.save(user) }
 
-    override suspend fun updateMateries(materies: List<Materia>): Result<Unit> = withContext(ioDispatcher) {
-        return@withContext try {
-            Success(materiaDao.save(materies))
-        } catch (e: Exception) {
-            Error(e)
-        }
-    }
+    override suspend fun getMateries(): Result<LiveData<List<Materia>>> =
+        dbLiveDataOperation { materiaDao.getMateries() }
 
-    override suspend fun getPreguntesAmbRespostaByUser(userId: Long): Result<LiveData<List<PreguntaAmbResposta>>> {
-        return try {
-            Success(preguntaDao.getPreguntesAmbRespostaByUser(userId))
-        } catch (e: Exception) {
-            Error(e)
-        }
-    }
+    override suspend fun updateMateries(materies: List<Materia>): Result<Unit> =
+        dbOperation { materiaDao.save(materies) }
 
-    override suspend fun getPreguntes(): Result<LiveData<List<Pregunta>>> {
-        return try {
-            Success(preguntaDao.getPreguntes())
-        } catch (e: Exception) {
-            Error(e)
-        }
-    }
+    override suspend fun getPreguntesAmbRespostaByUser(userId: Long): Result<LiveData<List<PreguntaAmbResposta>>> =
+        dbLiveDataOperation { preguntaDao.getPreguntesAmbRespostaByUser(userId) }
 
-    override suspend fun savePreguntes(preguntes: List<Pregunta>): Result<Unit> = withContext(ioDispatcher){
-        return@withContext try {
-            Success(preguntaDao.save(preguntes))
-        } catch (e: Exception) {
-            Error(e)
-        }
-    }
+    override suspend fun getPreguntes(): Result<LiveData<List<Pregunta>>> =
+        dbLiveDataOperation { preguntaDao.getPreguntes() }
 
-    override suspend fun saveRespostes(respostes: List<Resposta>): Result<Unit> = withContext(ioDispatcher){
-        return@withContext try {
-            Success(respostaDao.save(respostes))
-        } catch (e: Exception) {
-            Error(e)
-        }
-    }
+    override suspend fun savePreguntes(preguntes: List<Pregunta>): Result<Unit> =
+        dbOperation { preguntaDao.save(preguntes) }
 
-    override suspend fun saveResposta(resposta: Resposta): Result<Unit> = withContext(ioDispatcher){
-        return@withContext try {
-            Success(respostaDao.save(resposta))
-        } catch (e: Exception) {
-            Error(e)
-        }
-    }
+    override suspend fun saveRespostes(respostes: List<Resposta>): Result<Unit> =
+        dbOperation { respostaDao.save(respostes) }
 
-    override suspend fun getResposta(userId: Long, preguntaId: Long): Result<Resposta> = withContext(ioDispatcher){
-        return@withContext try {
-            Success(respostaDao.getResposta(userId, preguntaId))
-        } catch (e: Exception) {
-            Error(e)
-        }
-    }
+    override suspend fun saveResposta(resposta: Resposta): Result<Unit> =
+        dbOperation { respostaDao.save(resposta) }
+
+    override suspend fun getResposta(userId: Long, preguntaId: Long): Result<Resposta> =
+        dbOperation { respostaDao.getResposta(userId, preguntaId) }
+
+    override suspend fun saveScores(scores: List<Score>): Result<Unit> =
+        dbOperation { scoreDao.save(scores) }
+
+    override suspend fun getUserScore(userId: Long): Result<LiveData<Int>> =
+        dbOperation { scoreDao.getScoreByUser(userId) }
+
+    override suspend fun getScores(): Result<LiveData<List<ScoreWithUserAndMateria>>> =
+        dbLiveDataOperation { scoreDao.getScores() }
 }

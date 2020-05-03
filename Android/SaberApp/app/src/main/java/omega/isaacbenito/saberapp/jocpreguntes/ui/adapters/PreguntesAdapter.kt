@@ -1,4 +1,4 @@
-package omega.isaacbenito.saberapp.jocpreguntes.ui
+package omega.isaacbenito.saberapp.jocpreguntes.ui.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import omega.isaacbenito.saberapp.R
 import omega.isaacbenito.saberapp.data.entities.PreguntaAmbResposta
-import omega.isaacbenito.saberapp.databinding.PreguntaItemBinding
-import omega.isaacbenito.saberapp.jocpreguntes.model.JocPreguntesViewModel
+import omega.isaacbenito.saberapp.databinding.ItemPreguntaBinding
+import omega.isaacbenito.saberapp.jocpreguntes.model.JocPreguntesVM
 
 /**
  * Adaptador del llistat de preguntes per a mostrar en el [PreguntesFragment]
@@ -26,7 +26,7 @@ class PreguntaAdapter(
 
     class PreguntaVH(
         val context: Context,
-        private val binding: PreguntaItemBinding,
+        private val binding: ItemPreguntaBinding,
         private val interaction: Interaction
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -36,20 +36,20 @@ class PreguntaAdapter(
 
             binding.preguntaCardView.setCardBackgroundColor(ContextCompat.getColor(context,
                 when (pregunta.materia) {
-                    JocPreguntesViewModel.MATERIA_GEOGRAFIA -> R.color.materia_geografia
-                    JocPreguntesViewModel.MATERIA_HISTORIA -> R.color.materia_història
-                    JocPreguntesViewModel.MATERIA_ARTS -> R.color.materia_art
-                    JocPreguntesViewModel.MATERIA_MATES -> R.color.materia_matematiques
+                    JocPreguntesVM.MATERIA_GEOGRAFIA -> R.color.materia_geografia
+                    JocPreguntesVM.MATERIA_HISTORIA -> R.color.materia_història
+                    JocPreguntesVM.MATERIA_ARTS -> R.color.materia_art
+                    JocPreguntesVM.MATERIA_MATES -> R.color.materia_matematiques
                     else -> R.color.colorAccent
                 }))
 
             binding.preguntaMateriaIcon.setImageDrawable(
                 ContextCompat.getDrawable(context,
                     when (pregunta.materia) {
-                        JocPreguntesViewModel.MATERIA_GEOGRAFIA -> R.drawable.materia_geografia_icon
-                        JocPreguntesViewModel.MATERIA_HISTORIA -> R.drawable.materia_historia_icon
-                        JocPreguntesViewModel.MATERIA_ARTS -> R.drawable.materia_arts_icon
-                        JocPreguntesViewModel.MATERIA_MATES -> R.drawable.materia_mates_icon
+                        JocPreguntesVM.MATERIA_GEOGRAFIA -> R.drawable.materia_geografia_icon
+                        JocPreguntesVM.MATERIA_HISTORIA -> R.drawable.materia_historia_icon
+                        JocPreguntesVM.MATERIA_ARTS -> R.drawable.materia_arts_icon
+                        JocPreguntesVM.MATERIA_MATES -> R.drawable.materia_mates_icon
                         else -> R.drawable.applogo
                     }))
 
@@ -85,7 +85,7 @@ class PreguntaAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreguntaVH {
         return PreguntaVH(
             parent.context,
-            PreguntaItemBinding.inflate(
+            ItemPreguntaBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             ),
             interaction
